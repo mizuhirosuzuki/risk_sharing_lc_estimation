@@ -1,0 +1,24 @@
+project:
+  type: book
+
+book:
+  title: "quarto"
+  author: "Jane Doe"
+  date: "12/25/2022"
+  chapters:
+    - index.qmd
+    - laczo2015_dataprep.qmd
+    #- laczo2015_full_hom.qmd
+    #- laczo2015_full_het.qmd
+    #- summary.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

@@ -1,0 +1,99 @@
+---
+title: "Full risk-sharing under homogeneous preferences"
+format:
+  html:
+    toc: true
+    html-math-method: katex
+    css: styles.css
+---
+
+# Full risk-sharing with homogeneous preferences
+
+```{r}
+dropbox_folder <- "~/Dropbox/Replication/Laczo2015/"
+```
+
+## "rPrs1me_nog.R":
+
+This R script estimates the full risk sharing model.
+
+```{r}
+set.seed(123)
+Nsim_full <- 50
+
+# village code (=1 for Aurepalle)
+vilcode <- 1
+```
+
+```{r}
+# errors in the model
+eps <- array(
+  rnorm(n = hnum * tnum * Nsim_full * 3), 
+  c(hnum, tnum, Nsim_full, 3))
+```
+
+### Perfect risk sharing with homogeneous preferences
+
+```{r}
+
+# log-likelihood function
+
+gamma_c <- 0.05
+
+ml_full_hom <- function(param, vilcode) {
+  
+  gamma_c <- param
+  hnumv <- village_size[vilcode]
+  
+  sim_density <- array(0, c(hnumv, tnum - 1, Nsim_full))
+  log_mean_density <- matrix(0, nrow = hnumv, ncol = tnum - 1)
+  
+  for (sim in 1:Nsim_full) {
+    # "true" consumption
+    cons_star <- consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)] / 
+      exp(eps[,, sim, 1] * sqrt(gamma_c))[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    
+    # rescaling for removing level differences across years
+    mean_cons_star <- colMeans(cons_star[,1:(tnum - 1)])
+    mean_cons <- colMeans(consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)])
+    cons_star <- cons_star[, 1:(tnum - 1)] * 
+      matrix(mean_cons / mean_cons_star, nrow = hnumv, ncol = tnum - 1, byrow = T)
+  
+    # consumption difference from village mean observed by econometricians
+    lhs <- (log(consdat) - log(vil_mean_cons_tij))[village_mat[, vilcode] == 1, 2:tnum]
+    # actual consumption difference from village mean
+    # (it's assumed that the average observed and "true" consumption of the village
+    # are the same, probably because the average of the measurement error is close to 0
+    # when the village size is sufficiently large and can be ignored)
+    gt <- log(cons_star) - log(vil_mean_cons_tij)[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    # multiplier term of variance of the measurement error
+    seg1 <- ((hnumv - 1) / hnumv)^2 + (hnumv - 1) / hnumv^2
+    
+    sim_density[,, sim] <- dnorm(lhs, mean = gt, sd = sqrt(seg1 * gamma_c))
+  }
+  
+  for (i in 1:hnumv) {
+    for (t in 1:(tnum - 1)) {
+      log_mean_density[i,t] <- log(mean(sim_density[i, t,]))
+    }
+  }
+  logML <- sum(log_mean_density, na.rm = TRUE)
+  return(- logML)
+  
+}
+
+minpar <- 0.02
+maxpar <- 0.2
+sol <- optim(
+  0.1,
+  ml_full_hom,
+  vilcode = vilcode,
+  method = "L-BFGS-B",
+  lower = minpar,
+  upper = maxpar,
+  control = list(trace = 0, maxit = 200),
+  hessian = TRUE)
+
+```
+
+Standard error calculations to be added.

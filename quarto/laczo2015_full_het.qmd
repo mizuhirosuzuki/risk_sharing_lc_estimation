@@ -1,0 +1,537 @@
+# Laczo (2015) R scripts (replication)
+
+```{r}
+dropbox_folder <- "~/Dropbox/Replication/Laczo2015/"
+```
+
+## "IncHbase1.R":
+
+```{r}
+# Global settings ========================
+
+packages <- c("tidyverse")
+pacman::p_load(packages, character.only = TRUE)
+
+## load 6 years of panel data
+load(file.path(dropbox_folder, 'allest'))
+# set seed
+set.seed(81)
+```
+
+```{r}
+# Utility function with normalization for numerical convenience
+util_no_norm <- function(c, sigma) {
+  if (sigma != 1) {
+    output <- (c^(1 - sigma) - 1) / (1 - sigma)
+  } else {
+    output <- log(c)
+  }
+  return(output)
+}
+util_no_norm_prime <- function(c, sigma) c^(-sigma)
+
+util <- function(c, sigma) util_no_norm(c, sigma) / util_no_norm(400, sigma)
+util_prime <- function(c, sigma) util_no_norm_prime(c, sigma) / util_no_norm_prime(400, sigma)
+# util_prime <- function(c, sigma) util_no_norm_prime(c, sigma) / util_no_norm(400, sigma)
+
+time <- seq(1, tnum) # number of periods
+hid <- seq(1, hnum) # number of households
+nv <- max(villagedat) # number of villages
+nn <- hnum * (tnum - 1) # number of observations
+```
+
+```{r}
+
+# matrix of village indicator for each household
+village_mat <- matrix(0, hnum, nv)
+for (vil in seq(nv)) {
+  village_mat[villagedat[,1] == vil, vil] = 1
+}
+# vector of village sizes
+village_size <- sapply(seq(nv), function(x) (villagedat[,1] == x) %>% sum)
+
+# compute village mean of income and consumption =================
+
+# total income of each village in each period
+vil_sum_inc_t <- (village_mat %>% t) %*% incdat
+# mean income of each village in each period
+vil_mean_inc_t <- vil_sum_inc_t / village_size
+# mean income of each village across periods
+vil_mean_inc <- rowMeans(vil_mean_inc_t)
+
+# mean consumption of each village in each period
+vil_sum_cons_t <- (village_mat %>% t) %*% consdat
+# total consumption of each village in each period
+vil_mean_cons_t <- vil_sum_cons_t / village_size
+# mean consumption of each village across periods
+vil_mean_cons <- rowMeans(vil_mean_cons_t)
+
+# reshape to household-time level matrix
+vil_mean_inc_tij <- village_mat %*% vil_mean_inc_t 
+vil_sum_inc_tij <- village_mat %*% vil_sum_inc_t 
+vil_mean_cons_tij <- village_mat %*% vil_mean_cons_t 
+vil_sum_cons_tij <- village_mat %*% vil_sum_cons_t 
+
+# compute differences from the village mean 
+
+## education
+vil_mean_educ <- village_mat %*% as.vector(educdat[,1] %*% village_mat / village_size)
+educ <- educdat[,1] - vil_mean_educ
+
+## proportion of female household members
+vil_mean_propf <- village_mat %*% as.vector(propfdat[,1] %*% village_mat / village_size)
+propf <- propfdat[,1] - vil_mean_propf
+
+## age
+vil_mean_age <- village_mat %*% as.vector(agedat[,1] %*% village_mat / village_size)
+age <- agedat[,1] - vil_mean_age
+
+## land
+vil_mean_land1 <- village_mat %*% as.vector(landdat1[,1] %*% village_mat / village_size)
+land1 <- landdat1[,1] - vil_mean_land1
+
+# thresholds for outliers
+low1   <- quantile(incdat[village_mat[,1] == 1,], 0.025, na.rm = TRUE)
+high1  <- quantile(incdat[village_mat[,1] == 1,], 0.975, na.rm = TRUE)
+clow1  <- quantile(consdat[village_mat[,1] == 1,], 0.025, na.rm = TRUE)
+chigh1 <- quantile(consdat[village_mat[,1] == 1,], 0.975, na.rm = TRUE)
+
+```
+
+```{r}
+# Rescaling income ===================
+# compute ratio of mean consumption to income in the data
+cons_per_inc_vt <- vil_mean_cons_t / vil_mean_inc_t
+
+# rescale income
+inc_data_rescaled <- incdat * (village_mat %*% cons_per_inc_vt)
+vil_mean_inc_t_rescaled <- (village_mat %>% t) %*% inc_data_rescaled / village_size
+
+# update village means of income and consumption
+vil_mean_inc_tij_rescaled <- village_mat %*% vil_mean_inc_t_rescaled
+vil_mean_cons_tij_rescaled <- vil_mean_cons_tij
+
+```
+
+```{r}
+# Estimate income processes ====================
+
+Sh1 <- 8 # number of income states for HH1
+Sh2 <- 5 # number of income states for HH2
+
+S <- Sh1 * Sh2 # total number of income states
+
+# lagged income
+
+lag_inc_data <- array(NA, c(hnum, tnum))
+lag_inc_data[, 2:tnum] <- inc_data_rescaled[,1:(tnum - 1)]
+
+# create 4 groups
+sh1r     <- array(NA, c(nv, 2, 2, Sh1))      # income points in Markov process
+P1r      <- array(NA, c(nv, 2, 2, Sh1, Sh1)) # income transition probability for HH1
+                                             # 2X2 types (low/high income, low/high CV)
+sh2r     <- array(NA, c(nv, Sh2))            # income points in Markov process
+P2r      <- array(NA, c(nv, Sh2, Sh2))       # income transition probability for HH2
+                                             # 2X2 types (low/high income, low/high CV)
+
+```
+
+For estimating the income AR(1) process, unlike other approximation methods like Tauchen's method, @laczo2015risk uses quantiles for discretizing the income process.
+
+```{r}
+
+for (vilcode in 1:nv) {
+  
+  # Estimate AR(1) process and then approximate it by a Markov chain for each of the four group
+  
+  # mean income of households in the village
+  mean_inc_v <- rowMeans(inc_data_rescaled[village_mat[, vilcode] == 1,])
+  # median income in the village
+  med_inc <- median(mean_inc_v, na.rm = TRUE)
+  # indicator for income higher or lower than the median
+  hl_inc <- 1 + (mean_inc_v > med_inc)
+  
+  # coefficient of variance (CV) in income
+  cv_inc_v <- apply(inc_data_rescaled[village_mat[, vilcode] == 1,], 1, sd) / mean_inc_v
+  # median of income CV
+  med_cv_inc <- median(cv_inc_v, na.rm = TRUE)
+  # indicator for income higher or lower than the median
+  hl_cv <- 1 + (cv_inc_v > med_cv_inc)
+  
+  # eigenvalues of income transition probability matrix
+  # this corresponds to the probability of each state at the steady state
+  eig <- array(NA, c(2, 2, Sh1))
+  
+  # low mean, low cv : inc_lev=1, cv_lev=1
+  # low mean, high cv : inc_lev=1, cv_lev=2
+  # high mean, low cv : inc_lev=2, cv_lev=1
+  # high mean, high cv : inc_lev=2, cv_lev=2
+  for (inc_lev in 1:2) {
+    for (cv_lev in 1:2) {
+      
+      # income of relevant observations
+      inc_data_vec <- inc_data_rescaled[village_mat[,vilcode] == 1,][
+        (incdat[village_mat[,vilcode] == 1,] > low1) &
+        (incdat[village_mat[,vilcode] == 1,] < high1) &
+        (hl_inc == inc_lev) &
+        (hl_cv == cv_lev)
+      ]
+      
+      # lagged income of relevant observations
+      lag_inc_data_vec <- lag_inc_data[village_mat[,vilcode] == 1,][
+        (incdat[village_mat[,vilcode] == 1,] > low1) &
+          (incdat[village_mat[,vilcode] == 1,] < high1) &
+          (hl_inc == inc_lev) &
+          (hl_cv == cv_lev)
+      ]
+      
+      mu        <- mean(inc_data_vec, na.rm = TRUE) # mean income
+      rho       <- cor(inc_data_vec, lag_inc_data_vec, use = "complete.obs") # AR(1) auto correlation
+      sigma2_u  <- var(inc_data_vec, na.rm = TRUE) * (1 - rho^2) # variance of error term
+      sigma_u   <- sqrt(sigma2_u) # SD of error term
+      sigma_eps <- sqrt(sigma2_u / (1 - rho^2)) # SD of income
+      a         <- (1 - rho) * mu # constant term in the AR(1) process
+      
+      # Markov chain for income of households
+      
+      ## points
+      jj <- 0
+      sh1 <- numeric(length = Sh1)
+      #  avoiding the case where the first and second points have the same income
+      # (this can happen because of the quantile method for discretizing the income process)
+      sh1[1:2] <- c(1,1)
+      while ((sh1[1] - sh1[2])^2 < 1e-12) {
+        for (i in (jj + 1):(Sh1 + jj)) {
+        	sh1[(i - jj)] <- quantile(inc_data_vec, ((2 * i - 1) / (2 * (Sh1 + jj))), na.rm = TRUE)
+        	}
+      	jj <- jj + 1
+      	}
+      jj <- jj - 1
+      # after finding the appropriate "jj" so that the income points do not coincide,
+      # calculate the income points
+      sh1 <- numeric()
+      for (i in (jj + 1):(Sh1 + jj)) {
+      	sh1[(i - jj)] <- quantile(inc_data_vec, ((2 * i - 1) / (2 * (Sh1 + jj))), na.rm = TRUE)
+      }
+      
+      ## transition probabilities
+      P1 <- array(NA, c(Sh1, Sh1))
+      for (j in 1:Sh1) {
+      	P1[j, 1] <- pnorm(
+      	  (sh1[1] - a - rho * sh1[j] + (sh1[2] - sh1[1]) / 2) / sigma_u)
+        for (k in 2:(Sh1 - 1)) {
+        	P1[j,k] <- pnorm(
+        	  (sh1[k] - a - rho * sh1[j] + (sh1[k + 1] - sh1[k]) / 2) / sigma_u) - pnorm(
+        	    (sh1[k] - a - rho * sh1[j] - (sh1[k] - sh1[k - 1]) / 2) / sigma_u)
+        	}
+      	P1[j, Sh1] <- 1 - pnorm(
+      	  (sh1[Sh1] - a - rho * sh1[j] - (sh1[Sh1] - sh1[Sh1 - 1]) / 2) / sigma_u)
+      	}
+      
+      # rescaling of income process (?)
+      eig[inc_lev, cv_lev,] <- eigen(t(P1))$vector[,1] / sum(eigen(t(P1))$vector[,1])
+      scalerhh <- (mean(inc_data_vec, na.rm = TRUE) / sh1) %*% eig[inc_lev, cv_lev,]
+      sh1 <- as.vector(scalerhh) * sh1
+      
+      sh1r[vilcode, inc_lev, cv_lev,] <- sh1
+      P1r[vilcode, inc_lev, cv_lev,,] <- P1
+  
+    }
+  }
+  
+  # Simulate income process for village ===============
+  
+  Nsim <- 1000
+  
+  hnumv <- village_size[vilcode]
+  income_sim <- array(NA, c(hnumv, Nsim))
+  
+  # for each household in the village, simulate their income realizations
+  # for Nsim periods
+  for (k in 1:hnumv) {
+    # cumulative probability of income realization
+    # steady state probability as the first period income prob
+    cum_inc_prob <- cumsum(as.numeric(eig[hl_inc[k], hl_cv[k],]))
+    # first period income state
+    ran1 <- runif(1)
+    if (ran1 < cum_inc_prob[1]) {
+      jj <- 1
+    }
+    for (i in 2:Sh1) {
+      if ((ran1 < cum_inc_prob[i]) & (ran1 >= cum_inc_prob[i - 1])) {
+        jj <- i
+      }
+    }
+    
+    # second to the last periods income states
+    inc_state <- numeric()
+    inc_state[1] <- jj
+    for (j in 2:Nsim) {
+      # cumulative probability of income realization
+      # (due to AR(1) process, depends on the previous state)
+      cum_inc_prob <- cumsum(P1r[vilcode, hl_inc[k], hl_cv[k], inc_state[j - 1], ])
+      
+      ran1 <- runif(1)
+      if (ran1 < cum_inc_prob[i]) {
+        inc_state[j] <- 1
+      } 
+      for (i in 2:Sh1) {
+        if ((ran1 < cum_inc_prob[i]) & (ran1 >= cum_inc_prob[i - 1])) {
+          inc_state[j] <- i
+        }
+      }
+    }
+    for (i in 1:Nsim) {
+      income_sim[k, i] <- sh1r[vilcode, hl_inc[k], hl_cv[k], inc_state[i]]
+    }
+  }
+  
+  log_mean_inc_sim <- log(colMeans(income_sim[, 101:Nsim]))
+  mean_inc_sim <- colMeans(income_sim[, 101:Nsim])
+  lag_log_mean_inc_sim <- log(colMeans(income_sim[, 100:(Nsim - 1)]))
+  
+  # Estimate AR(1)
+  
+  mu        <- mean(log_mean_inc_sim, na.rm = TRUE)
+  rho       <- cor(log_mean_inc_sim, lag_log_mean_inc_sim, use = "complete.obs")
+  sigma2_u  <- var(log_mean_inc_sim, na.rm = TRUE) * (1 - rho^2)
+  sigma_u   <- sqrt(sigma2_u)
+  sigma_eps <- sqrt(sigma2_u / (1 - rho^2))
+  a         <- (1 - rho) * mu
+  
+  # Markov chain for income of villages
+  # points
+  sh2 <- numeric()
+  for (i in 1:Sh2) {
+  	sh2[i] <- quantile(mean_inc_sim, ((2 * i - 1) / (2 * Sh2)), na.rm = TRUE)
+  	}
+  #transition probabilities
+  P2 <- array(NA, c(Sh2, Sh2))
+  for (j in 1:Sh2) {
+  	P2[j, 1] <- pnorm(
+  	  (log(sh2[1]) - a - rho * log(sh2[j]) + (log(sh2[2]) - log(sh2[1])) / 2) / sigma_u)
+  	P2[j, Sh2] <- 1 - pnorm(
+  	  (log(sh2[Sh2]) - a - rho * log(sh2[j]) - (log(sh2[Sh2]) - log(sh2[(Sh2-1)])) / 2) / sigma_u)
+  	}
+  for (j in 1:Sh2) {
+    for (k in 2:(Sh2-1)) {
+    	P2[j, k] <- pnorm(
+    	  (
+    	    log(sh2[k]) - a - rho * log(sh2[j]) + 
+    	      (log(sh2[(k + 1)]) - log(sh2[k])) / 2) / sigma_u) - pnorm(
+    	    (log(sh2[k]) - a - rho * log(sh2[j]) - (log(sh2[k]) - log(sh2[(k - 1)])) / 2) / sigma_u)
+    	}
+    }
+  eig2 <- eigen(t(P2))$vector[,1] / sum(eigen(t(P2))$vector[,1])
+  scalervil <- mean(vil_mean_inc_t_rescaled[vilcode,]) / sh2 %*% eig2
+  sh2 <- as.vector(scalervil) * sh2
+  
+  sh2r[vilcode,] <- sh2
+  P2r[vilcode,,] <- P2
+}
+
+```
+
+## "rPrs1me_nog.R":
+
+This R script estimates the full risk sharing model.
+
+```{r}
+set.seed(123)
+Nsim_full <- 50
+
+# village code (=1 for Aurepalle)
+vilcode <- 1
+```
+
+```{r}
+# errors in the model
+eps <- array(
+  rnorm(n = hnum * tnum * Nsim_full * 3), 
+  c(hnum, tnum, Nsim_full, 3))
+```
+
+### Perfect risk sharing with homogeneous preferences
+
+```{r}
+
+# log-likelihood function
+
+gamma_c <- 0.05
+
+ml_full_hom <- function(param, vilcode) {
+  
+  gamma_c <- param
+  hnumv <- village_size[vilcode]
+  
+  sim_density <- array(0, c(hnumv, tnum - 1, Nsim_full))
+  log_mean_density <- matrix(0, nrow = hnumv, ncol = tnum - 1)
+  
+  for (sim in 1:Nsim_full) {
+    # "true" consumption
+    cons_star <- consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)] / 
+      exp(eps[,, sim, 1] * sqrt(gamma_c))[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    
+    # rescaling for removing level differences across years
+    mean_cons_star <- colMeans(cons_star[,1:(tnum - 1)])
+    mean_cons <- colMeans(consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)])
+    cons_star <- cons_star[, 1:(tnum - 1)] * 
+      matrix(mean_cons / mean_cons_star, nrow = hnumv, ncol = tnum - 1, byrow = T)
+  
+    # consumption difference from village mean observed by econometricians
+    lhs <- (log(consdat) - log(vil_mean_cons_tij))[village_mat[, vilcode] == 1, 2:tnum]
+    # actual consumption difference from village mean
+    # (it's assumed that the average observed and "true" consumption of the village
+    # are the same, probably because the average of the measurement error is close to 0
+    # when the village size is sufficiently large and can be ignored)
+    gt <- log(cons_star) - log(vil_mean_cons_tij)[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    # multiplier term of variance of the measurement error
+    seg1 <- ((hnumv - 1) / hnumv)^2 + (hnumv - 1) / hnumv^2
+    
+    sim_density[,, sim] <- dnorm(lhs, mean = gt, sd = sqrt(seg1 * gamma_c))
+  }
+  
+  for (i in 1:hnumv) {
+    for (t in 1:(tnum - 1)) {
+      log_mean_density[i,t] <- log(mean(sim_density[i, t,]))
+    }
+  }
+  logML <- sum(log_mean_density, na.rm = TRUE)
+  return(- logML)
+  
+}
+
+minpar <- 0.02
+maxpar <- 0.2
+sol <- optim(
+  0.1,
+  ml_full_hom,
+  vilcode = vilcode,
+  method = "L-BFGS-B",
+  lower = minpar,
+  upper = maxpar,
+  control = list(trace = 0, maxit = 200),
+  hessian = TRUE)
+
+```
+
+Standard error calculations to be added.
+
+### Perfect risk sharing with heterogeneous preferences
+
+```{r}
+# log-likelihood function
+ml_full_het <- function(param, vilcode) {
+  
+  beta_coef <- param[1:4]
+  gamma_c <- param[5]
+  hnumv <- village_size[vilcode]
+  
+  sim_density <- array(0, c(hnumv, tnum - 1, Nsim_full))
+  log_mean_density <- matrix(0, nrow = hnumv, ncol = tnum - 1)
+  
+  # bounds for sigma_i values
+  min_sig <- 0.1
+  max_sig <- 4
+  sigma_i <- pmin(pmax(
+    1 + 
+      beta_coef[1] * educ[village_mat[,vilcode] == 1] +
+      beta_coef[2] * propf[village_mat[,vilcode] == 1] +
+      beta_coef[3] * age[village_mat[,vilcode] == 1] +
+      beta_coef[4] * land1[village_mat[,vilcode] == 1],
+    min_sig), max_sig)
+  
+  # adjustment of sigma_i to prevent strange values of sigma_i
+  sigma_i_2 <- sigma_i
+  sigma_count_1 <- sum(sigma_i == min_sig)
+  sigma_count_2 <- sum(sigma_i == max_sig)
+  sigma_i_2[(sigma_i == min_sig) | (sigma_i == max_sig)] <- NA
+  sigma_count <- sigma_count_1 + sigma_count_2
+  
+  mean_sigma_1 <- mean(sigma_i_2, na.rm = TRUE) * (hnumv - sigma_count) / hnumv +
+    min_sig * sigma_count_1 / hnumv +
+    max_sig * sigma_count_2 / hnumv
+  mean_sigma_2 <- mean(sigma_i_2, na.rm = TRUE) * (hnumv - sigma_count) / hnumv -
+    (mean(sigma_i) - 1) * hnumv / (hnumv - sigma_count)
+    
+  sigma_3 <- sigma_i
+  sigma_3[(sigma_i > min_sig) & (sigma_i < max_sig)] <- sigma_i[(sigma_i > min_sig) & (sigma_i < max_sig)] *
+    mean_sigma_2 / mean(sigma_i_2, na.rm = TRUE)
+  sigma_3 <- pmin(pmax(sigma_3, min_sig), max_sig)
+  
+  sigma_i <- sigma_3 - 1
+  
+  dnorm(-1, -2, 1)
+  
+  for (sim in 1:Nsim_full) {
+    # "true" consumption
+    cons_star <- consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)] / 
+      exp(eps[,, sim, 1] * sqrt(gamma_c))[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    
+    # rescaling for removing level differences across years
+    mean_cons_star <- colMeans(cons_star[,1:(tnum - 1)])
+    mean_cons <- colMeans(consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)])
+    cons_star <- cons_star[, 1:(tnum - 1)] * 
+      matrix(mean_cons / mean_cons_star, nrow = hnumv, ncol = tnum - 1, byrow = T)
+  
+    # consumption difference from village mean observed by econometricians
+    lhs <- (1 + sigma_i) * log(consdat)[village_mat[, vilcode] == 1, 2:tnum] - 
+      log(vil_mean_cons_tij)[village_mat[, vilcode] == 1, 2:tnum]
+    # actual consumption difference from village mean
+    # (it's assumed that the average observed and "true" consumption of the village
+    # are the same, probably because the average of the measurement error is close to 0
+    # when the village size is sufficiently large and can be ignored)
+    gt <- (1 + sigma_i) * log(cons_star) - log(vil_mean_cons_tij)[village_mat[, vilcode] == 1, 1:(tnum - 1)]
+    # multiplier term of variance of the measurement error
+    for (i in 1:hnumv) {
+      seg1 <- ((hnumv - 1) / hnumv + sigma_i[i])^2 + (hnumv - 1) / hnumv^2
+      sim_density[i,, sim] <- dnorm(lhs[i,], mean = gt[i,], sd = sqrt(seg1 * gamma_c))
+    }
+  }
+  
+  for (i in 1:hnumv) {
+    for (t in 1:(tnum - 1)) {
+      log_mean_density[i,t] <- log(mean(sim_density[i, t,]))
+    }
+  }
+  logML <- sum(log_mean_density, na.rm = TRUE)
+  return(- logML)
+  
+}
+
+startpar <- c(
+  0.4242611094730358023419,
+  -0.1132560053156791424200,
+  -0.0030469865039083081013,
+  -0.0177119155358136347311,
+  0.0940451640253737869424)
+minpar <- c(
+  startpar[1] - 0.3,
+  startpar[2] - 0.2,
+  startpar[3] - 0.03,
+  startpar[4] - 0.03,
+  startpar[5] - 0.05)
+maxpar <- c(
+  startpar[1] + 0.1,
+  startpar[2] + 0.2,
+  startpar[3] + 0.03,
+  startpar[4] + 0.03,
+  startpar[5] + 0.02)
+
+sol <- optim(
+  startpar,
+  ml_full_het,
+  vilcode = vilcode,
+  method = "L-BFGS-B",
+  lower = minpar,
+  upper = maxpar,
+  control = list(trace = 0, maxit = 200),
+  hessian = FALSE)
+
+sol$par
+
+```
+
+Standard error calculations to be added.
+
+## rHom1IncHsol.R
