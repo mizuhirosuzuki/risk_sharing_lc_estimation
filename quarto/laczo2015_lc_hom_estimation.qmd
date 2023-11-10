@@ -1,0 +1,10 @@
+---
+title: "Risk sharing with limited commitoment: estimation"
+bibliography: references.bib
+format:
+  html:
+    toc: true
+    html-math-method: katex
+    css: styles.css
+---
+

@@ -187,17 +187,6 @@ calculateConsumption <- function(
   sigma
 ) {
     aggregateIncome / (1 + relativeParetoWeight^(- 1 / sigma))
-    # f = function(w) calculateMarginalUtility(
-    #   aggregateIncome - w, 
-    #   sigma
-    #   ) - relativeParetoWeight * calculateMarginalUtility(w, sigma)
-    # consumption = uniroot(
-    #   f, 
-    #   c(1e-5, aggregateIncome - 1e-5),
-    #   tol = 1e-8,
-    #   maxiter = 100
-    #   )$root
-    # return(consumption)
 }
 
 ```
@@ -327,17 +316,6 @@ calculateDiffLCRiskSharingAndAutarky <- function(
     villageAutarkyValue
     ) {
   
-  # f <- function(w) {(
-  #   calculateMarginalUtility(aggregateIncome - w, sigma) 
-  #   / calculateMarginalUtility(w, sigma) 
-  #   - relativeParetoWeight
-  # )}
-  # householdConsumption <- uniroot(
-  #   f, 
-  #   c(1e-6, (aggregateIncome - 1e-6)), 
-  #   tol = 1e-10, 
-  #   maxiter = 300
-  #   )$root
   householdConsumption <- calculateConsumption(
     aggregateIncome,
     relativeParetoWeight,
