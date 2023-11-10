@@ -79,11 +79,12 @@ vilMeanIncByYear <- createVillageAggregateByYear(incdat, colMeans)
 vilSumIncByYear <- createVillageAggregateByYear(incdat, colSums)
 vilMeanInc <- createVillageAggregate(incdat, mean)
 vilMeanConsByYear <- createVillageAggregateByYear(consdat, colMeans)
+vilMeanLogCons <- createVillageAggregateByYear(log(consdat), colMeans)
 vilSumConsByYear <- createVillageAggregateByYear(consdat, colSums)
 vilMeanCons <- createVillageAggregate(consdat, mean)
 ```
 
-```{r}
+```{r, echo = FALSE}
 vilMeanEduc <- createVillageAggregate(educdat, mean)
 vilMeanWomenShare <- createVillageAggregate(propfdat, mean)
 vilMeanAge <- createVillageAggregate(educdat, mean)
@@ -97,6 +98,9 @@ consLow <- createVillageAggregate(consdat, function(x) quantile(x, 0.025, na.rm 
 consHigh <- createVillageAggregate(consdat, function(x) quantile(x, 0.975, na.rm = TRUE))
 ```
 
+Since there is no saving in the model, the consumption and income should coincide.
+For this, I rescale the income so that the means of consumption and income are identical in each village.
+
 ```{r}
 vilConsPerIncByYear <- vilMeanConsByYear / vilMeanIncByYear
 incdatRescaled <- incdat * (villageIndicatorMatrix %*% vilConsPerIncByYear)
@@ -105,9 +109,13 @@ vilMeanIncByYearRescaled <- createVillageAggregateByYear(incdatRescaled, colMean
 
 ## Estimate income processes
 
-The main step of this data processing is to estimate the income process, first of households and second of the "village" (= average of households in a village). We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and the village so that we can consider one-to-one transfers instead of on-to-n transfers.
+The main step of this data processing is to estimate the income process, first of households and second of the "village" (= average of households in a village).
+We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and the village so that we can consider one-to-one transfers instead of on-to-n transfers.
 
-For this, first I estimate the income process of households by types, where the types are by income's mean and coefficient of variance (CV). Here, in total we have 4 types (high/low mean income X high/low CV income). If there were long enough income data, we would have been able to estimate the income process of each household, but given the 6 observations per household for income in ICRISAT data, the author took this approach.
+For this, first I estimate the income process of households by types, where the types are by income's mean and coefficient of variance (CV).
+Here, in total we have 4 types (high/low mean income X high/low CV income).
+If there were long enough income data, we would have been able to estimate the income process of each household, but given the 6 observations per household for income in ICRISAT data, the author took this approach.
+Also, to mitigate the effect of outliers, income smaller than 2.5 percentile or larger than 97.5 percentile in each village is not used for estimation.
 
 This estimation process is detailed in [the paper's online appendix](https://bf7cb7e7-b25e-4ff4-a178-ceeb7e0cc1cf.filesusr.com/ugd/7fa395_de0f195df4b642cb86930520007484c9.pdf)
 
@@ -198,7 +206,10 @@ calculateAR1Parameters <- function(data, laggedData) {
 
 #### Approximate the AR(1) process with Markov chain for income of households
 
-Given the estimated parameters, I approximate the AR(1) process with discretization. For this, the author used Tauchen's method with a small modification that, instead of assigning the bounds of grid points with a parameter, the quantiles of income distributions are used to determine each grid point.
+Given the estimated parameters, I approximate the AR(1) process with discretization.
+For this, the author used Tauchen's method with a small modification that, instead of assigning the bounds of grid points with a parameter, the quantiles of income distributions are used to determine each grid point.
+To guarantee that the mean income at the steady state of the estimated process coincides with the actual mean income, the grid points are rescaled at the end.
+
 
 ```{r}
 
@@ -266,6 +277,7 @@ rescaleGridPoints <- function(transitionMatrix, gridPoints, data) {
 }
 
 approximateAR1TauchenWithRescaling <- function(numStates, data, mu, rho, sigma) {
+  
   TauchenResult <- approximateAR1Tauchen(numStates, data, mu, rho, sigma)
   transitionMatrix <- TauchenResult$transitionMatrix
   gridPoints <- TauchenResult$gridPoints
@@ -365,10 +377,12 @@ After excluding the first 100 observations to use the income at the steady state
 #### Simulate income process for village
 
 ```{r}
-
 numVillageIncomeSimulations <- 1000
 numVillageIncomeSimulationsPeriodDrop <- 100
+```
 
+
+```{r}
 sample1stPeriodIncomeStateByMeanCVClass <- function(
     meanClass, 
     CVClass, 
@@ -468,16 +482,24 @@ simulateHouseholdIncomeByVillage <- function(
   
 }
 
-simulatedHouseholdIncome <- map(
-  seq(1, numVillages),
-  ~ simulateHouseholdIncomeByVillage(
-    .,
-    householdIncMeanClassVec,
-    householdIncCVClassVec,
-    numIncomeStatesHH,
-    householdAR1EstimationResult
-    ) 
-)
+```
+
+#### Estimate the income process of the village
+
+Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen's method.
+Although the steps are identical to the ones I took above, it should be noted that the village income, $y_{vt}$ is calculated so that:
+
+$$
+  \log (y_{vt}) = \frac{1}{N} \sum_{i} \log(y_{it}),
+$$
+instead of 
+$$
+  y_{vt} = \frac{1}{N} \sum_{i} y_{it},
+$$
+where $y_{it}$ is income of a household $i$ and $N$ is the number of households in a village. 
+This is because the first form is better fit to the theoretical model.
+
+```{r}
 
 estimateVillagencomeTransitionProcessByVillage <- function(
     village,
@@ -499,11 +521,11 @@ estimateVillagencomeTransitionProcessByVillage <- function(
   )
   
   villageSimulatedIncMean <- colMeans(
-    householdIncomeSimulationResult[, .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations]
+    householdIncomeSimulationResult[
+      , .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations
+      ]
   )
-  villageSimulatedIncLogMean <- colMeans(
-    householdIncomeSimulationResult[, .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations]
-  ) %>% log
+  villageSimulatedIncLogMean <- villageSimulatedIncMean %>% log
   villageSimulatedLaggedIncLogMean <- colMeans(
     householdIncomeSimulationResult[
       , (.numVillageIncomeSimulationsPeriodDrop - 1):(.numVillageIncomeSimulations - 1)
@@ -520,11 +542,11 @@ estimateVillagencomeTransitionProcessByVillage <- function(
     villageAR1Parameters$mu, villageAR1Parameters$rho, villageAR1Parameters$sigmau
   )
   
-  villageIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedIncMean)
-
+  villageLogIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedIncLogMean)
+  
   villageIncomeGridPointsRescaled <- rescaleGridPoints(
       villageAR1TauchenApproximation$transitionMatrix, 
-      villageIncomeGridPoints,
+      exp(villageLogIncomeGridPoints),
       villageSimulatedIncMean
       )
   
@@ -533,7 +555,6 @@ estimateVillagencomeTransitionProcessByVillage <- function(
     gridPoints = villageIncomeGridPointsRescaled$gridPointsRescaled
   ))
 }
-
 
 villageAR1EstimationResult <- map(
   seq(1, numVillages),
@@ -546,7 +567,6 @@ villageAR1EstimationResult <- map(
       householdAR1EstimationResult
   )
 )
-
 
 ```
 
@@ -596,3 +616,9 @@ createParameterTableByVillage(1, householdAR1EstimationResult)
 createParameterTableByVillage(2, householdAR1EstimationResult)
 createParameterTableByVillage(3, householdAR1EstimationResult)
 ```
+
+## Save data
+```{r}
+save.image("IntermediateData/allData.RData")
+```
+

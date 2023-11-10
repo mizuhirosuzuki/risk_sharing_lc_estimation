@@ -2,14 +2,15 @@ project:
   type: book
 
 book:
-  title: "quarto"
-  author: "Jane Doe"
-  date: "12/25/2022"
+  title: "Estimation of risk-sharing model with limited commitment"
+  author: "Mizuhiro Suzuki"
+  date: ""
   chapters:
     - index.qmd
     - laczo2015_dataprep.qmd
-    #- laczo2015_full_hom.qmd
-    #- laczo2015_full_het.qmd
+    - laczo2015_full_hom.qmd
+    - laczo2015_lc_hom_model.qmd
+    # - laczo2015_full_het.qmd
     #- summary.qmd
 
 bibliography: references.bib

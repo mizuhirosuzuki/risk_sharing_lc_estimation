@@ -9,91 +9,307 @@ format:
 
 # Full risk-sharing with homogeneous preferences
 
-```{r}
-dropbox_folder <- "~/Dropbox/Replication/Laczo2015/"
-```
+## Theory
 
-## "rPrs1me_nog.R":
+To derive the likelihood function, I review the theoretical result.
+
+### Settings
+
+Suuposed that there are $N$ households in a village.
+Each household maximized its expected lifetime utility: $$
+  E \left[ \sum_{t = 1}^{\infty} \delta^t u (c_{it}) \right],
+$$ where $\delta$ is the discount factor, $u$ is instantaneous preference of households (note that here I assume homogeneous preference), and $c_{it}$ is consumption by household $i$ at time $t$.
+Assume that there is no saving.
+
+For income, let $s^t = (s_1, \dots, s_t)$ the history of income states from time $1$ to $t$, and let $y_{it}(s_t)$ be household $i$'s income at time $t$ and state $s_t$.
+Assume that the income process is a Markov process and is independent across households.
+
+With these, I find the Pareto-optimal allocations.
+For this, a weighted sum of households' expected lifetime utilities is maximized.
+In other words, a social planner solves the following maximization problem:
+
+$$
+  \max_{\{c_{it}(s^t)\}} \quad \sum_i \lambda_i \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) u(c_{it}(s^t))
+$$ subject to the resource constraint $$
+  \sum_i c_{it}(s^t) \le \sum_i y_{it}(s_t) \quad \forall s^t, \forall t,
+$$ where $\lambda_i$ is the Pareto weight of $i$, $\pi(s^t)$ is the probability that the history $s^t$ is realized, and $c_{it}(s^t)$ is $i$'s consumption under the history $s^t$.
+
+### Optimization condition
+
+Solving this maximization problem, we can get a well-known result that, for any two households $i$ and $j$ in the village, the following holds: $$
+  \frac{u'(c_{jt}(s^t))}{u'(c_{it}(s^t))} = \frac{\lambda_i}{\lambda_j} \quad \forall s^t, \forall t.
+$$
+
+If I assume the utility function to take the CRRA form, that is, $$
+  u(c_{it}) = \frac{c_{it}^{1 - \sigma} - 1}{1 - \sigma},
+$$ then $$
+  u'(c_{it}) = c_{it}^{- \sigma},
+$$ and thus I get $$
+  \frac{c_{jt}(s^t)^{-\sigma}}{c_{it}(s^t)^{-\sigma}} = \frac{\lambda_i}{\lambda_j} \quad \forall s^t, \forall t.
+$$ Dropping $s^t$ from the quation for simplicity and taking the logarithms, I obtain $$
+\begin{aligned}
+  -\sigma \log(c_{jt}) + \sigma \log(c_{it}) &= \log(\lambda_i) - \log(\lambda_j) \\
+  \Leftrightarrow \log(c_{it}) &= \frac{1}{\sigma} \left( \log(\lambda_i) - \log(\lambda_j) \right) + \log(c_{jt}) \\
+  \Leftrightarrow N \log(c_{it}) &= \frac{1}{\sigma} \left( N \log(\lambda_i) - \sum_j \log(\lambda_j) \right) + \sum_j \log(c_{jt}) \\
+  \Leftrightarrow \log(c_{it}) &= \frac{1}{\sigma} \left( \log(\lambda_i) - \frac{1}{N} \sum_j \log(\lambda_j) \right) + \frac{1}{N} \sum_j \log(c_{jt}).
+\end{aligned}
+$$ By defining the village-average consumption, $c_{vt}$, as $\log(c_{vt}) = \frac{1}{N} \sum_j \log(c_{jt})$, and taking the first difference from the equation above, I get $$
+  \log(c_{it}) - \log(c_{i, t - 1}) = \log(c_{vt}) - \log(c_{v, t - 1}).
+$$
+
+### Introducing measurement errors
+
+Here I introduce the measurement error in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, $c_{it}^*$ as $c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)$, where $\varepsilon_{it} \sim N(0, \gamma_c^2)$ is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, $c_{vt}^*$ is so that $$
+\begin{aligned}
+  \log(c_{vt}^*) 
+  &= \frac{1}{N} \sum_i \log(c_{it}^*) \\
+  &= \frac{1}{N} \sum_i \log(c_{it}) + \frac{1}{N} \sum_i \varepsilon_{it}^c \\
+  &= \log(c_{vt}) + \frac{1}{N} \sum_i \varepsilon_{it}^c \\
+  &= \log(c_{vt}) + \varepsilon_{vt}^c,
+\end{aligned}
+$$ where the village consumption measurement error is defined as $\varepsilon_{vt}^c \equiv \frac{1}{N} \sum_i \varepsilon_{it}^c$. Substituting these into $\log(c_{it}) - \log(c_{i, t - 1}) = \log(c_{vt}) - \log(c_{v, t - 1})$, I obtain $$
+  \log(c_{it}^*) - \log(c_{i, t - 1}^*) = \log(c_{vt}^*) - \log(c_{v, t - 1}^*) + \left(\varepsilon_{it}^c - \varepsilon_{vt}^c - (\varepsilon_{i, t - 1}^c - \varepsilon_{v, t - 1}^c) \right).
+$$
+
+### Likelihood function
+
+Since $\varepsilon_{it} \sim N(0, \gamma_C^2)$, I get $\varepsilon_{vt} \sim N(0, \frac{\gamma_C^2}{N})$, and note that $Cov(\varepsilon_{it}, \varepsilon_{vt}) = \frac{\gamma_C^2}{N}$. With the independence across periods and households of measurement errors, I obtain $$
+  Var(\varepsilon_{it}^c - \varepsilon_{vt}^c - (\varepsilon_{i, t - 1}^c - \varepsilon_{v, t - 1}^c) ) 
+  = 2\left(\gamma_C^2 + \frac{\gamma_C^2}{N} - 2\frac{\gamma_C^2}{N} \right) 
+  = 2 \gamma_C^2 \left(1 - \frac{1}{N} \right).
+$$
+
+Therefore, the likelihood function is
+
+$$
+  L(\theta) = \prod_{i} \prod_{t = 2}^{T} f \left( \log \left( \frac{c_{it}^*}{c_{i, t - 1}^*} \right) - \log \left( \frac{c_{vt}^*}{c_{v, t - 1}^*} \right), \theta \right) ,
+$$ and the log likelihood function is $$
+  l(\theta) = \sum_{i} \sum_{t = 2}^{T} \log \left(f \left( \log \left( \frac{c_{it}^*}{c_{i, t - 1}^*} \right) - \log \left( \frac{c_{vt}^*}{c_{v, t - 1}^*} \right), \theta\right) \right),
+$$ where $f(x, \theta)$ is the density function of $x \sim N \left(0, \sqrt{ 2 \gamma_C^2 \left(1 - \frac{1}{N} \right)} \right)$, and $\theta$ is a parameter to estimate (here, $\theta = \gamma_C$). In estimation, I find the parameter to maximize $l(\theta)$.
+
+Without assuming that the model is correctly specified but assuming that there is no autocorrelation, the standard error of the parameter is $A(\widehat{\theta})^{-1} B(\widehat{\theta}) A(\widehat{\theta})^{-1}$, where $A(\widehat{\theta})$ is the Hessian matrix of the log-likelihood function and $B(\widehat{\theta})$ is the outer product of scores (= gradient of log likelihood).
+
+#### Notes
+
+-   This model considers that any deviation from the full risk-sharing model is due to measurement errors in consumption.
+-   As the paper points out, this model estimates parameters *under the assumption* that the model follows the full risk-sharing model. This is in contrast to many empirical papers which *test* a full riks-sharing model (such as Townsend (1994)).
+-   I derive the unconditional likelihood function, as opposed to the paper which used a conditional likelihood function with simulation. The author clarifies her choice to use the simulation method in a foortnote as follows: "Note that it is not necessary to use simulation to take into account measurement error in consumption at time t in the perfect risk-sharing case. I do it to be consistent with the LC case."
+-   I do not rescale the "true" consumption (= consumption without measurement errors) as in the original code, since by the log scale, by construction, the means of true and observed consumption should be identical in expectation.
+-   Instead of $\log \left( \frac{1}{N} \sum_i c_{it} \right)$, I use $\frac{1}{N} \log \left( \sum_i c_{it} \right)$ for $\log(c_{vt})$ since this is what the model above implies.
+-   I assume there is no auto correlation when calculating the standard errors since the measurement errors are assumed to be independent across periods.
+
+## Code for estimation
 
 This R script estimates the full risk sharing model.
 
 ```{r}
-set.seed(123)
-Nsim_full <- 50
-
-# village code (=1 for Aurepalle)
-vilcode <- 1
+pacman::p_load(
+  tidyverse,
+  kableExtra,
+  numDeriv
+)
 ```
 
 ```{r}
-# errors in the model
-eps <- array(
-  rnorm(n = hnum * tnum * Nsim_full * 3), 
-  c(hnum, tnum, Nsim_full, 3))
+load('IntermediateData/allData.RData')
 ```
-
-### Perfect risk sharing with homogeneous preferences
 
 ```{r}
 
-# log-likelihood function
-
-gamma_c <- 0.05
-
-ml_full_hom <- function(param, vilcode) {
+calculateLogLikelihoodEachObsFullHom <- function(
+    param, 
+    currentCons,
+    previousCons,
+    currentVilLogCons,
+    previousVilLogCons,
+    numHouseholds
+    ) {
   
-  gamma_c <- param
-  hnumv <- village_size[vilcode]
+  gammaC2 <- param
   
-  sim_density <- array(0, c(hnumv, tnum - 1, Nsim_full))
-  log_mean_density <- matrix(0, nrow = hnumv, ncol = tnum - 1)
-  
-  for (sim in 1:Nsim_full) {
-    # "true" consumption
-    cons_star <- consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)] / 
-      exp(eps[,, sim, 1] * sqrt(gamma_c))[village_mat[, vilcode] == 1, 1:(tnum - 1)]
-    
-    # rescaling for removing level differences across years
-    mean_cons_star <- colMeans(cons_star[,1:(tnum - 1)])
-    mean_cons <- colMeans(consdat[village_mat[, vilcode] == 1, 1:(tnum - 1)])
-    cons_star <- cons_star[, 1:(tnum - 1)] * 
-      matrix(mean_cons / mean_cons_star, nrow = hnumv, ncol = tnum - 1, byrow = T)
-  
-    # consumption difference from village mean observed by econometricians
-    lhs <- (log(consdat) - log(vil_mean_cons_tij))[village_mat[, vilcode] == 1, 2:tnum]
-    # actual consumption difference from village mean
-    # (it's assumed that the average observed and "true" consumption of the village
-    # are the same, probably because the average of the measurement error is close to 0
-    # when the village size is sufficiently large and can be ignored)
-    gt <- log(cons_star) - log(vil_mean_cons_tij)[village_mat[, vilcode] == 1, 1:(tnum - 1)]
-    # multiplier term of variance of the measurement error
-    seg1 <- ((hnumv - 1) / hnumv)^2 + (hnumv - 1) / hnumv^2
-    
-    sim_density[,, sim] <- dnorm(lhs, mean = gt, sd = sqrt(seg1 * gamma_c))
-  }
-  
-  for (i in 1:hnumv) {
-    for (t in 1:(tnum - 1)) {
-      log_mean_density[i,t] <- log(mean(sim_density[i, t,]))
-    }
-  }
-  logML <- sum(log_mean_density, na.rm = TRUE)
-  return(- logML)
-  
+  logLikelihood <- dnorm(
+    (
+      log(currentCons / previousCons)
+      - (currentVilLogCons - previousVilLogCons)
+    ), sd = sqrt(2 * gammaC2 * (1 - 1 / numHouseholds)),
+    log = TRUE
+  )
+  return(logLikelihood)
 }
 
-minpar <- 0.02
-maxpar <- 0.2
-sol <- optim(
-  0.1,
-  ml_full_hom,
-  vilcode = vilcode,
-  method = "L-BFGS-B",
-  lower = minpar,
-  upper = maxpar,
-  control = list(trace = 0, maxit = 200),
-  hessian = TRUE)
+calculateScoreEachObsFullHom <- function(
+    param, 
+    currentCons,
+    previousCons,
+    currentVilLogCons,
+    previousVilLogCons,
+    numHouseholds
+) {
+  grad(
+    calculateLogLikelihoodEachObsFullHom,
+    param,
+    currentCons = currentCons,
+    previousCons = previousCons,
+    currentVilLogCons = currentVilLogCons,
+    previousVilLogCons = previousVilLogCons,
+    numHouseholds = 34
+  )
+}
+
+calculateScoreFullHom <- function(
+    param, 
+    consdatByVillage,
+    vilMeanLogConsByVillage,
+    numHouseholds,
+    .tnum = tnum
+) {
+  
+  numParameters <- length(param)
+  
+  scoreMatrix <- matrix(0, nrow = numParameters, ncol = numParameters)
+  for (householdIndex in seq(1, numHouseholds)) {
+    for (periodIndex in seq(2, .tnum)) {
+      score <- calculateScoreEachObsFullHom(
+          param,
+          consdatByVillage[householdIndex, periodIndex],
+          consdatByVillage[householdIndex, (periodIndex - 1)],
+          vilMeanLogConsByVillage[periodIndex],
+          vilMeanLogConsByVillage[(periodIndex - 1)],
+          numHouseholds
+        )
+      scoreMatrix <- (
+        scoreMatrix
+        + outer(score, score)
+      )
+    }
+  }
+  return(scoreMatrix)
+}
+
+calculateLogLikelihoodFullHom <- function(
+    param, 
+    consdatByVillage,
+    vilMeanLogConsByVillage,
+    numHouseholds,
+    .tnum = tnum
+    ) {
+  
+  logLikelihood <- 0
+  for (householdIndex in seq(1, numHouseholds)) {
+    for (periodIndex in seq(2, .tnum)) {
+      logLikelihood <- (
+        logLikelihood
+        + calculateLogLikelihoodEachObsFullHom(
+          param,
+          consdatByVillage[householdIndex, periodIndex],
+          consdatByVillage[householdIndex, (periodIndex - 1)],
+          vilMeanLogConsByVillage[periodIndex],
+          vilMeanLogConsByVillage[(periodIndex - 1)],
+          numHouseholds
+        )
+      )
+    }
+  }
+    
+  return(- logLikelihood)
+}
+
+calculateStandardErrors <- function(
+    estimationResult,
+    consdatByVillage,
+    vilMeanLogConsByVillage,
+    numHouseholds
+) {
+  (
+    solve(estimationResult$hessian) %*% 
+    calculateScoreFullHom(
+      estimationResult$par,
+      consdatByVillage, 
+      vilMeanLogConsByVillage,
+      numHouseholds
+    ) %*%
+    solve(estimationResult$hessian)
+  ) %>% sqrt %>% diag
+}
+
+estimateMLFullHom <- function(
+    village,
+    consdat,
+    vilMeanLogCons,
+    lowerBound,
+    upperBound,
+    .villageIndicatorMatrix = villageIndicatorMatrix
+) {
+  
+  numHouseholds <- .villageIndicatorMatrix[, village] %>% sum
+  consdatByVillage <- consdat[.villageIndicatorMatrix[, village], ]
+  vilMeanLogConsByVillage <- vilMeanLogCons[village, ]
+  
+  estimationResult <- optim(
+    0.1,
+    calculateLogLikelihoodFullHom,
+    consdatByVillage = consdatByVillage,
+    vilMeanLogConsByVillage = vilMeanLogConsByVillage,
+    numHouseholds = numHouseholds,
+    method = "L-BFGS-B",
+    lower = lowerBound,
+    upper = upperBound,
+    control = list(trace = 0, maxit = 200),
+    hessian = TRUE)
+  
+  standardErrors <- calculateStandardErrors(
+    estimationResult,
+    consdatByVillage,
+    vilMeanLogConsByVillage,
+    numHouseholds
+  )
+  
+  return(list(
+    parameter = estimationResult$par,
+    logLikelihood = - estimationResult$value,
+    standardErrors = standardErrors,
+    optimizationResult = estimationResult$message
+  ))
+}
+
+estimationResultFullHom <- map(
+  seq(1, numVillages),
+  ~ estimateMLFullHom(
+      .,
+      consdat,
+      vilMeanLogCons,
+      1e-3,
+      10
+  )
+)
+
 
 ```
 
-Standard error calculations to be added.
+## Estimation result
+
+```{r}
+estimationFullHomTable <- do.call(
+  cbind,
+  map(
+    seq(1, numVillages),
+    ~ c(
+      formatC(estimationResultFullHom[[.]]$parameter, digits = 3, format = "f"),
+      str_interp('(${formatC(estimationResultFullHom[[.]]$standardErrors, digits = 3, format = "f")})'),
+      formatC(estimationResultFullHom[[.]]$logLikelihood, digits = 3, format = "f")
+    )
+  )
+)
+colnames(estimationFullHomTable) <- c("Aurepalle", "Kanzara", "Shirapur")
+rownames(estimationFullHomTable) <- c(
+  "Variance of consumption measurement errors",
+  "",
+  "Log likelihood"
+  )
+
+estimationFullHomTable %>% 
+  kbl(digits = 3) %>% 
+  kable_classic()
+```
+
+
