@@ -278,14 +278,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>createVillageAggregateByYear <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    data, </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    func, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.numVillages =</span> numVillages, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.villageIndicatorMatrix =</span> villageIndicatorMatrix</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    numVillages,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    villageIndicatorMatrix</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ) {</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    rbind, </span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">seq</span>(<span class="dv">1</span>, .numVillages),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> data[.villageIndicatorMatrix[, .],] <span class="sc">%&gt;%</span> func</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">seq</span>(<span class="dv">1</span>, numVillages),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> data[villageIndicatorMatrix[, .],] <span class="sc">%&gt;%</span> func</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      )</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  }</span>
@@ -293,38 +293,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>createVillageAggregate <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    data, </span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    func, </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">.numVillages =</span> numVillages, </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.villageIndicatorMatrix =</span> villageIndicatorMatrix</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    numVillages,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    villageIndicatorMatrix</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ) {</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map_vec</span>(</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">seq</span>(<span class="dv">1</span>, .numVillages),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> data[.villageIndicatorMatrix[, .],] <span class="sc">%&gt;%</span> func</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">seq</span>(<span class="dv">1</span>, numVillages),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> data[villageIndicatorMatrix[, .],] <span class="sc">%&gt;%</span> func</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vilMeanIncByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(incdat, colMeans)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vilSumIncByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(incdat, colSums)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vilMeanInc <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(incdat, mean)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>vilMeanConsByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(consdat, colMeans)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>vilMeanLogCons <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(<span class="fu">log</span>(consdat), colMeans)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>vilSumConsByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(consdat, colSums)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>vilMeanCons <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(consdat, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vilMeanIncByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(incdat, colMeans, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vilSumIncByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(incdat, colSums, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vilMeanInc <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(incdat, mean, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>vilMeanConsByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(consdat, colMeans, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>vilMeanLogCons <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(<span class="fu">log</span>(consdat), colMeans, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>vilSumConsByYear <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(consdat, colSums, numVillages, villageIndicatorMatrix)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>vilMeanCons <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(consdat, mean, numVillages, villageIndicatorMatrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>incLow <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(incdat, <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.025</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>incHigh <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(incdat, <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.975</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>consLow <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(consdat, <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.025</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>consHigh <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(consdat, <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.975</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>incLow <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  incdat, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.025</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  numVillages, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>incHigh <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  incdat, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.975</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  numVillages, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>consLow <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  consdat, </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.025</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  numVillages, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>consHigh <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  consdat, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">quantile</span>(x, <span class="fl">0.975</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  numVillages, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since there is no saving in the model, the consumption and income should coincide. For this, I rescale the income so that the means of consumption and income are identical in each village.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vilConsPerIncByYear <span class="ot">&lt;-</span> vilMeanConsByYear <span class="sc">/</span> vilMeanIncByYear</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>incdatRescaled <span class="ot">&lt;-</span> incdat <span class="sc">*</span> (villageIndicatorMatrix <span class="sc">%*%</span> vilConsPerIncByYear)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>vilMeanIncByYearRescaled <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(incdatRescaled, colMeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>vilMeanIncByYearRescaled <span class="ot">&lt;-</span> <span class="fu">createVillageAggregateByYear</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  incdatRescaled, colMeans, numVillages, villageIndicatorMatrix</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -346,12 +365,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>vilIncMeanMedian <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(householdIncMean), </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  median</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>vilIncCVMedian <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(householdIncCV), </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  median</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  median,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  numVillages,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>vilIncCVMedian <span class="ot">&lt;-</span> <span class="fu">createVillageAggregate</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(householdIncCV), </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  median,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  numVillages,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  villageIndicatorMatrix</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="estimate-ar1-process" class="level4" data-number="1.4.1.1">
 <h4 data-number="1.4.1.1" class="anchored" data-anchor-id="estimate-ar1-process"><span class="header-section-number">1.4.1.1</span> Estimate AR(1) process</h4>
@@ -653,12 +676,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="estimate-the-income-process-of-the-village" class="level4" data-number="1.4.2.2">
 <h4 data-number="1.4.2.2" class="anchored" data-anchor-id="estimate-the-income-process-of-the-village"><span class="header-section-number">1.4.2.2</span> Estimate the income process of the village</h4>
-<p>Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen’s method. Although the steps are identical to the ones I took above, it should be noted that the village income, <span class="math inline">y_{vt}</span> is calculated so that:</p>
-<p><span class="math display">
-  \log (y_{vt}) = \frac{1}{N} \sum_{i} \log(y_{it}),
-</span> instead of <span class="math display">
-  y_{vt} = \frac{1}{N} \sum_{i} y_{it},
-</span> where <span class="math inline">y_{it}</span> is income of a household <span class="math inline">i</span> and <span class="math inline">N</span> is the number of households in a village. This is because the first form is better fit to the theoretical model.</p>
+<p>Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen’s method.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>estimateVillagencomeTransitionProcessByVillage <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    village,</span>
@@ -684,48 +702,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>      , .numVillageIncomeSimulationsPeriodDrop<span class="sc">:</span>.numVillageIncomeSimulations</span>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      ]</span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  villageSimulatedIncLogMean <span class="ot">&lt;-</span> villageSimulatedIncMean <span class="sc">%&gt;%</span> log</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  villageSimulatedLaggedIncLogMean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    householdIncomeSimulationResult[</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>      , (.numVillageIncomeSimulationsPeriodDrop <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">:</span>(.numVillageIncomeSimulations <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>      ]</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> log</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  villageAR1Parameters <span class="ot">&lt;-</span> <span class="fu">calculateAR1Parameters</span>(</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    villageSimulatedIncLogMean,</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    villageSimulatedLaggedIncLogMean </span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>  villageAR1TauchenApproximation <span class="ot">&lt;-</span> <span class="fu">approximateAR1Tauchen</span>(</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    numStatesVillage, villageSimulatedIncLogMean, </span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    villageAR1Parameters<span class="sc">$</span>mu, villageAR1Parameters<span class="sc">$</span>rho, villageAR1Parameters<span class="sc">$</span>sigmau</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  villageLogIncomeGridPoints <span class="ot">&lt;-</span> <span class="fu">calculateGridPoints</span>(numStatesVillage, villageSimulatedIncLogMean)</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  villageIncomeGridPointsRescaled <span class="ot">&lt;-</span> <span class="fu">rescaleGridPoints</span>(</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>      villageAR1TauchenApproximation<span class="sc">$</span>transitionMatrix, </span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exp</span>(villageLogIncomeGridPoints),</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>      villageSimulatedIncMean</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">transitionMatrix =</span> villageAR1TauchenApproximation<span class="sc">$</span>transitionMatrix,</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">gridPoints =</span> villageIncomeGridPointsRescaled<span class="sc">$</span>gridPointsRescaled</span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>villageAR1EstimationResult <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq</span>(<span class="dv">1</span>, numVillages),</span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">estimateVillagencomeTransitionProcessByVillage</span>(</span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>      .,</span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>      householdIncMeanClassVec,</span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>      householdIncCVClassVec,</span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>      numIncomeStatesHH,</span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>      numIncomeStatesVillage,</span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>      householdAR1EstimationResult</span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  villageSimulatedLaggedIncMean <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    householdIncomeSimulationResult[</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>      , (.numVillageIncomeSimulationsPeriodDrop <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">:</span>(.numVillageIncomeSimulations <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  villageAR1Parameters <span class="ot">&lt;-</span> <span class="fu">calculateAR1Parameters</span>(</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    villageSimulatedIncMean,</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    villageSimulatedLaggedIncMean </span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  villageAR1TauchenApproximation <span class="ot">&lt;-</span> <span class="fu">approximateAR1Tauchen</span>(</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    numStatesVillage, villageSimulatedIncMean, </span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    villageAR1Parameters<span class="sc">$</span>mu, villageAR1Parameters<span class="sc">$</span>rho, villageAR1Parameters<span class="sc">$</span>sigmau</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>  villageIncomeGridPoints <span class="ot">&lt;-</span> <span class="fu">calculateGridPoints</span>(numStatesVillage, villageSimulatedIncMean)</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  villageIncomeGridPointsRescaled <span class="ot">&lt;-</span> <span class="fu">rescaleGridPoints</span>(</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>      villageAR1TauchenApproximation<span class="sc">$</span>transitionMatrix, </span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>      villageIncomeGridPoints,</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>      villageSimulatedIncMean</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">transitionMatrix =</span> villageAR1TauchenApproximation<span class="sc">$</span>transitionMatrix,</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">gridPoints =</span> villageIncomeGridPointsRescaled<span class="sc">$</span>gridPointsRescaled</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>villageAR1EstimationResult <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq</span>(<span class="dv">1</span>, numVillages),</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">estimateVillagencomeTransitionProcessByVillage</span>(</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>      .,</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>      householdIncMeanClassVec,</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>      householdIncCVClassVec,</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>      numIncomeStatesHH,</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>      numIncomeStatesVillage,</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>      householdAR1EstimationResult</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

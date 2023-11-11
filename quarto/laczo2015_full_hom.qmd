@@ -7,26 +7,19 @@ format:
     css: styles.css
 ---
 
-# Full risk-sharing with homogeneous preferences
-
 ## Theory
 
 To derive the likelihood function, I review the theoretical result.
 
 ### Settings
 
-Suuposed that there are $N$ households in a village.
-Each household maximized its expected lifetime utility: $$
+Suuposed that there are $N$ households in a village. Each household maximized its expected lifetime utility: $$
   E \left[ \sum_{t = 1}^{\infty} \delta^t u (c_{it}) \right],
-$$ where $\delta$ is the discount factor, $u$ is instantaneous preference of households (note that here I assume homogeneous preference), and $c_{it}$ is consumption by household $i$ at time $t$.
-Assume that there is no saving.
+$$ where $\delta$ is the discount factor, $u$ is instantaneous preference of households (note that here I assume homogeneous preference), and $c_{it}$ is consumption by household $i$ at time $t$. Assume that there is no saving.
 
-For income, let $s^t = (s_1, \dots, s_t)$ the history of income states from time $1$ to $t$, and let $y_{it}(s_t)$ be household $i$'s income at time $t$ and state $s_t$.
-Assume that the income process is a Markov process and is independent across households.
+For income, let $s^t = (s_1, \dots, s_t)$ the history of income states from time $1$ to $t$, and let $y_{it}(s_t)$ be household $i$'s income at time $t$ and state $s_t$. Assume that the income process is a Markov process and is independent across households.
 
-With these, I find the Pareto-optimal allocations.
-For this, a weighted sum of households' expected lifetime utilities is maximized.
-In other words, a social planner solves the following maximization problem:
+With these, I find the Pareto-optimal allocations. For this, a weighted sum of households' expected lifetime utilities is maximized. In other words, a social planner solves the following maximization problem:
 
 $$
   \max_{\{c_{it}(s^t)\}} \quad \sum_i \lambda_i \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) u(c_{it}(s^t))
@@ -59,7 +52,7 @@ $$
 
 ### Introducing measurement errors
 
-Here I introduce the measurement error in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, $c_{it}^*$ as $c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)$, where $\varepsilon_{it} \sim N(0, \gamma_c^2)$ is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, $c_{vt}^*$ is so that $$
+Here I introduce the measurement error (by econometricians) in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, $c_{it}^*$ as $c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)$, where $\varepsilon_{it} \sim N(0, \gamma_c^2)$ is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, $c_{vt}^*$ is so that $$
 \begin{aligned}
   \log(c_{vt}^*) 
   &= \frac{1}{N} \sum_i \log(c_{it}^*) \\
@@ -311,5 +304,3 @@ estimationFullHomTable %>%
   kbl(digits = 3) %>% 
   kable_classic()
 ```
-
-

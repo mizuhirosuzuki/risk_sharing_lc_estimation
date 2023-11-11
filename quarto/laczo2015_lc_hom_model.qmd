@@ -93,12 +93,6 @@ pacman::p_load(
 )
 ```
 
-### Load data
-
-```{r}
-load("IntermediateData/allData.RData")
-```
-
 ### Utility functions
 
 ```{r}
@@ -113,7 +107,7 @@ calculateUtility <- function(cons, sigma) {
 calculateMarginalUtility <- function(cons, sigma) cons^(- sigma)
 ```
 
-### Value of autarky
+### Value under autarky
 
 ```{r}
 
@@ -249,7 +243,7 @@ calculateValueFullRiskSharing <- function(
 
 ```
 
-### Values under risk-sharing (limited commitment)
+### Calculate values under risk-sharing with limited commitment
 
 Next, I derive the state-dependent intervals of relative Pareto weights and calculate values under the model of limited commitment. To derive the intervals, I use the fact that at the limits of the intervals, the PCs are binding. For instance, to compute the lower limit $\underline{x}^h(s)$, where $h$ indicates $h$'th iteration, the PC of the household 1 is binding:
 
@@ -284,6 +278,15 @@ After deriving these limits of intervals,
 By iterating these steps, we can calculate the value functions of households and limits of intervals.
 
 ```{r}
+calculateValueFullRiskSharing(
+    incomeTransitionMatrix, 
+    aggregateIncomeGridPoints, 
+    delta, 
+    sigma, 
+    autarkyValueMatrix, 
+    consumptionOnRelativeParetoWeightGrid,
+    numRelativeParetoWeights
+    )
 
 interpolateValueFunction <- function(
     relativeParetoWeight,
@@ -451,7 +454,7 @@ calculateValueLCRiskSharing <- function(
             villageAutarkyValue
             )$householdDiffLCRiskSharingAndAutarky}, 
           c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)), 
-          tol = 1e-10, 
+          tol = 1e-6, 
           maxiter = 300
           )$root
         relativeParetoWeightBounds[incomeStateIndex, 1] <- relativeParetoWeightLowerBound
@@ -529,7 +532,7 @@ calculateValueLCRiskSharing <- function(
               villageAutarkyValue
               )$villageDiffLCRiskSharingAndAutarky}, 
             c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)), 
-            tol = 1e-10, 
+            tol = 1e-6, 
             maxiter = 300
             )$root
           relativeParetoWeightBounds[incomeStateIndex, 2] <- relativeParetoWeightUpperBound
@@ -640,7 +643,7 @@ calculateValueLCRiskSharing <- function(
 
 ```{r}
 
-solveLCRiskSharingByVillage <- function(
+solveLCRiskSharing <- function(
     delta,
     sigma,
     punishment,
@@ -737,6 +740,74 @@ solveLCRiskSharingByVillage <- function(
 
 ```
 
+```{r}
+
+solveLCRiskSharingByVillage <- function(
+    village,
+    delta,
+    sigma,
+    punishment,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    numIncomeStates,
+    numRelativeParetoWeights = 200,
+    iterationLimit = 100,
+    diffLimit = 1e-8
+) {
+  
+  relativeParetoWeightBoundsArray <- array(
+    NA,
+    c(2, 2, numIncomeStates, 2)
+  )
+  
+  for (meanClass in seq(1, 2)) {
+    for (CVClass in seq(1, 2)) {
+      householdIncomeTransitionMatrix <- (
+        householdAR1EstimationResult[[village]]$transitionMatrixArray[meanClass, CVClass, ,]
+      )
+      householdIncomeGridPoints <- (
+        householdAR1EstimationResult[[village]]$gridPointsArray[meanClass, CVClass,]
+      )
+      villageIncomeTransitionMatrix <- (
+        villageAR1EstimationResult[[village]]$transitionMatrix
+      )
+      villageIncomeGridPoints <- (
+        villageAR1EstimationResult[[village]]$gridPoints
+      )
+  
+      relativeParetoWeightBoundsArray[meanClass, CVClass, ,] <- solveLCRiskSharing(
+        delta,
+        sigma,
+        punishment,
+        householdIncomeTransitionMatrix,
+        householdIncomeGridPoints,
+        villageIncomeTransitionMatrix,
+        villageIncomeGridPoints
+      )$relativeParetoWeightBounds
+    }
+  }
+  return(relativeParetoWeightBoundsArray)
+}
+
+library(tictoc)
+tic()
+solveLCRiskSharingByVillage(
+    1,
+    delta,
+    sigma,
+    punishment,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    numIncomeStates
+)
+toc()
+
+```
+
+
+```{r}
+save.image("IntermediateData/lc_hom_model_functions.RData")
+```
 
 ### Sanity test: replication of Figure 1 in @Ligon2002
 
@@ -756,7 +827,7 @@ punishmentLTW <- 0.0
 
 incomeTransitionMatrixLTW <- matrix(rep(c(0.1, 0.9), 2), nrow = 2, byrow = TRUE)
 incomeGridPointsLTW <- c(2/3, 4/3)
-numIncomeStates <- length(incomeGridPointsLTW) *  length(incomeGridPointsLTW)
+numIncomeStatesLTW <- length(incomeGridPointsLTW) *  length(incomeGridPointsLTW)
 
 deltaVec <- seq(0.8, 0.999, by = 0.002)
 
@@ -764,22 +835,9 @@ deltaVec <- seq(0.8, 0.999, by = 0.002)
 
 
 ```{r, eval = FALSE}
-solveLCRiskSharingByVillage(
-  0.9,
-  sigmaLTW,
-  punishmentLTW,
-  incomeTransitionMatrixLTW,
-  incomeGridPointsLTW,
-  incomeTransitionMatrixLTW,
-  incomeGridPointsLTW,
-  numRelativeParetoWeights = 400,
-  iterationLimit = 1000,
-  diffLimit = 1e-8
-  )
-
 LCRiskSharingResultLTW <- map(
   deltaVec,
-  ~ solveLCRiskSharingByVillage(
+  ~ solveLCRiskSharing(
     .,
     sigmaLTW,
     punishmentLTW,
@@ -808,16 +866,14 @@ LCRiskSharingResultLTW <- readRDS(
 )
 ```
 
-
-
 ```{r}
-relativeParetoWeightBoundsArray = array(
+relativeParetoWeightBoundsArrayLTW = array(
   NA, 
-  dim = c(numIncomeStates, 2, length(deltaVec))
+  dim = c(numIncomeStatesLTW, 2, length(deltaVec))
   )
 
 for (deltaIndex in seq_along(deltaVec)) {
-  relativeParetoWeightBoundsArray[,,deltaIndex] <- (
+  relativeParetoWeightBoundsArrayLTW[,,deltaIndex] <- (
     LCRiskSharingResultLTW[[deltaIndex]]$relativeParetoWeightBounds
   )
 }
@@ -883,8 +939,5 @@ ggplot() +
   ylab("log of the relative Pareto weights (x)") +
   theme_classic()
   
-
-
-
 ```
 

@@ -223,14 +223,13 @@ div.csl-indent {
   <li><a href="#model" id="toc-model" class="nav-link active" data-scroll-target="#model"><span class="toc-section-number">3.1</span>  Model</a></li>
   <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="toc-section-number">3.2</span>  Code</a>
   <ul class="collapse">
-  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="toc-section-number">3.2.1</span>  Load data</a></li>
-  <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link" data-scroll-target="#utility-functions"><span class="toc-section-number">3.2.2</span>  Utility functions</a></li>
-  <li><a href="#value-of-autarky" id="toc-value-of-autarky" class="nav-link" data-scroll-target="#value-of-autarky"><span class="toc-section-number">3.2.3</span>  Value of autarky</a></li>
-  <li><a href="#create-grid-of-relative-pareto-weights" id="toc-create-grid-of-relative-pareto-weights" class="nav-link" data-scroll-target="#create-grid-of-relative-pareto-weights"><span class="toc-section-number">3.2.4</span>  Create grid of relative Pareto weights</a></li>
-  <li><a href="#calculate-consumption-on-the-grid-points" id="toc-calculate-consumption-on-the-grid-points" class="nav-link" data-scroll-target="#calculate-consumption-on-the-grid-points"><span class="toc-section-number">3.2.5</span>  Calculate consumption on the grid points</a></li>
-  <li><a href="#caclulate-values-under-full-risk-sharing" id="toc-caclulate-values-under-full-risk-sharing" class="nav-link" data-scroll-target="#caclulate-values-under-full-risk-sharing"><span class="toc-section-number">3.2.6</span>  Caclulate values under full risk-sharing</a></li>
-  <li><a href="#values-under-risk-sharing-limited-commitment" id="toc-values-under-risk-sharing-limited-commitment" class="nav-link" data-scroll-target="#values-under-risk-sharing-limited-commitment"><span class="toc-section-number">3.2.7</span>  Values under risk-sharing (limited commitment)</a></li>
-  <li><a href="#sanity-test-replication-of-figure-1-in-ligon2002" id="toc-sanity-test-replication-of-figure-1-in-ligon2002" class="nav-link" data-scroll-target="#sanity-test-replication-of-figure-1-in-ligon2002"><span class="toc-section-number">3.2.8</span>  Sanity test: replication of Figure 1 in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (2002)</span></a></li>
+  <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link" data-scroll-target="#utility-functions"><span class="toc-section-number">3.2.1</span>  Utility functions</a></li>
+  <li><a href="#value-of-autarky" id="toc-value-of-autarky" class="nav-link" data-scroll-target="#value-of-autarky"><span class="toc-section-number">3.2.2</span>  Value of autarky</a></li>
+  <li><a href="#create-grid-of-relative-pareto-weights" id="toc-create-grid-of-relative-pareto-weights" class="nav-link" data-scroll-target="#create-grid-of-relative-pareto-weights"><span class="toc-section-number">3.2.3</span>  Create grid of relative Pareto weights</a></li>
+  <li><a href="#calculate-consumption-on-the-grid-points" id="toc-calculate-consumption-on-the-grid-points" class="nav-link" data-scroll-target="#calculate-consumption-on-the-grid-points"><span class="toc-section-number">3.2.4</span>  Calculate consumption on the grid points</a></li>
+  <li><a href="#caclulate-values-under-full-risk-sharing" id="toc-caclulate-values-under-full-risk-sharing" class="nav-link" data-scroll-target="#caclulate-values-under-full-risk-sharing"><span class="toc-section-number">3.2.5</span>  Caclulate values under full risk-sharing</a></li>
+  <li><a href="#values-under-risk-sharing-limited-commitment" id="toc-values-under-risk-sharing-limited-commitment" class="nav-link" data-scroll-target="#values-under-risk-sharing-limited-commitment"><span class="toc-section-number">3.2.6</span>  Values under risk-sharing (limited commitment)</a></li>
+  <li><a href="#sanity-test-replication-of-figure-1-in-ligon2002" id="toc-sanity-test-replication-of-figure-1-in-ligon2002" class="nav-link" data-scroll-target="#sanity-test-replication-of-figure-1-in-ligon2002"><span class="toc-section-number">3.2.7</span>  Sanity test: replication of Figure 1 in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (2002)</span></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -310,150 +309,144 @@ div.csl-indent {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  latex2exp</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="load-data" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="load-data"><span class="header-section-number">3.2.1</span> Load data</h3>
+<section id="utility-functions" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="utility-functions"><span class="header-section-number">3.2.1</span> Utility functions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"IntermediateData/allData.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>calculateUtility <span class="ot">&lt;-</span> <span class="cf">function</span>(cons, sigma) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sigma <span class="sc">!=</span> <span class="dv">1</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">=</span> (cons<span class="sc">^</span>(<span class="dv">1</span> <span class="sc">-</span> sigma) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> sigma)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (sigma <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">=</span> <span class="fu">log</span>(cons)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(utility)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>calculateMarginalUtility <span class="ot">&lt;-</span> <span class="cf">function</span>(cons, sigma) cons<span class="sc">^</span>(<span class="sc">-</span> sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="utility-functions" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="utility-functions"><span class="header-section-number">3.2.2</span> Utility functions</h3>
+<section id="value-of-autarky" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="value-of-autarky"><span class="header-section-number">3.2.2</span> Value of autarky</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>calculateUtility <span class="ot">&lt;-</span> <span class="cf">function</span>(cons, sigma) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sigma <span class="sc">!=</span> <span class="dv">1</span>) {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">=</span> (cons<span class="sc">^</span>(<span class="dv">1</span> <span class="sc">-</span> sigma) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> sigma)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (sigma <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">=</span> <span class="fu">log</span>(cons)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(utility)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>calculateMarginalUtility <span class="ot">&lt;-</span> <span class="cf">function</span>(cons, sigma) cons<span class="sc">^</span>(<span class="sc">-</span> sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>calculateAutarkyValue <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    incomeGridPoints, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    delta,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  autarkyValue <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="at">length =</span> <span class="fu">length</span>(incomeGridPoints))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (diff <span class="sc">&gt;</span> <span class="fl">1e-12</span>) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    autarkyValueNew <span class="ot">&lt;-</span> (</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(incomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment), sigma) </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> autarkyValue</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(autarkyValueNew <span class="sc">-</span> autarkyValue))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    autarkyValue <span class="ot">&lt;-</span> autarkyValueNew</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(autarkyValue)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="value-of-autarky" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="value-of-autarky"><span class="header-section-number">3.2.3</span> Value of autarky</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calculateAutarkyValue <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    incomeGridPoints, </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    delta,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  autarkyValue <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="at">length =</span> <span class="fu">length</span>(incomeGridPoints))</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (diff <span class="sc">&gt;</span> <span class="fl">1e-12</span>) {</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    autarkyValueNew <span class="ot">&lt;-</span> (</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(incomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment), sigma) </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> autarkyValue</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(autarkyValueNew <span class="sc">-</span> autarkyValue))</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    autarkyValue <span class="ot">&lt;-</span> autarkyValueNew</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(autarkyValue)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="create-grid-of-relative-pareto-weights" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="create-grid-of-relative-pareto-weights"><span class="header-section-number">3.2.4</span> Create grid of relative Pareto weights</h3>
+<section id="create-grid-of-relative-pareto-weights" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="create-grid-of-relative-pareto-weights"><span class="header-section-number">3.2.3</span> Create grid of relative Pareto weights</h3>
 <p>Here, I make the grid of relative Pareto weight of household 1, <span class="math inline">x(s^t)</span>, on which I compute the values (I use the notation <span class="math inline">x(s^t)</span> rather than <span class="math inline">x_i(s^t)</span> since there are only two households).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>getRelativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    villageIncomeGridPoints,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ) {</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  minRelativeParetoWeights <span class="ot">&lt;-</span> (</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateMarginalUtility</span>(<span class="fu">max</span>(villageIncomeGridPoints), sigma) </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span> <span class="fu">calculateMarginalUtility</span>(<span class="fu">min</span>(householdIncomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment)), sigma)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  maxRelativeParetoWeights <span class="ot">&lt;-</span> (</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateMarginalUtility</span>(<span class="fu">min</span>(villageIncomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment)), sigma) </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span> <span class="fu">calculateMarginalUtility</span>(<span class="fu">max</span>(householdIncomeGridPoints), sigma)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="fu">exp</span>(</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">seq</span>(<span class="fu">log</span>(minRelativeParetoWeights), <span class="fu">log</span>(maxRelativeParetoWeights), <span class="at">length.out =</span> numRelativeParetoWeights)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(relativeParetoWeightsGridPoints)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>getRelativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    villageIncomeGridPoints,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  minRelativeParetoWeights <span class="ot">&lt;-</span> (</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateMarginalUtility</span>(<span class="fu">max</span>(villageIncomeGridPoints), sigma) </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span> <span class="fu">calculateMarginalUtility</span>(<span class="fu">min</span>(householdIncomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment)), sigma)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  maxRelativeParetoWeights <span class="ot">&lt;-</span> (</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateMarginalUtility</span>(<span class="fu">min</span>(villageIncomeGridPoints <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> punishment)), sigma) </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="sc">/</span> <span class="fu">calculateMarginalUtility</span>(<span class="fu">max</span>(householdIncomeGridPoints), sigma)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="fu">exp</span>(</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">seq</span>(<span class="fu">log</span>(minRelativeParetoWeights), <span class="fu">log</span>(maxRelativeParetoWeights), <span class="at">length.out =</span> numRelativeParetoWeights)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(relativeParetoWeightsGridPoints)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calculate-consumption-on-the-grid-points" class="level3" data-number="3.2.5">
-<h3 data-number="3.2.5" class="anchored" data-anchor-id="calculate-consumption-on-the-grid-points"><span class="header-section-number">3.2.5</span> Calculate consumption on the grid points</h3>
+<section id="calculate-consumption-on-the-grid-points" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="calculate-consumption-on-the-grid-points"><span class="header-section-number">3.2.4</span> Calculate consumption on the grid points</h3>
 <p>Then, I compute consumptions of the household 1 on these grid points. From the optimality condition and the CRRA utility functions, we obtain</p>
 <p><span class="math display">
   c_{1t} = \frac{y_{1t} + y_{2t}}{1 + x_t^{- 1 / \sigma}}.
 </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>calculateConsumption <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  aggregateIncome,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeight,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  sigma</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    aggregateIncome <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> relativeParetoWeight<span class="sc">^</span>(<span class="sc">-</span> <span class="dv">1</span> <span class="sc">/</span> sigma))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>calculateConsumption <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  aggregateIncome,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeight,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  sigma</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    aggregateIncome <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> relativeParetoWeight<span class="sc">^</span>(<span class="sc">-</span> <span class="dv">1</span> <span class="sc">/</span> sigma))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="caclulate-values-under-full-risk-sharing" class="level3" data-number="3.2.6">
-<h3 data-number="3.2.6" class="anchored" data-anchor-id="caclulate-values-under-full-risk-sharing"><span class="header-section-number">3.2.6</span> Caclulate values under full risk-sharing</h3>
+<section id="caclulate-values-under-full-risk-sharing" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="caclulate-values-under-full-risk-sharing"><span class="header-section-number">3.2.5</span> Caclulate values under full risk-sharing</h3>
 <p>Now, I compute the values under full risk-sharing, which will be used as the initial values in value function iterations under the limited commitment model. Note that, under full risk sharing, the consumption only depends on the aggregate resources and time-invariate relative Pareto weights. Hence, I numerically solve the following Bellman equation:</p>
 <p><span class="math display">
   V_i^{full}(s_t, x) = u_i(c_{it}(s_t, x)) + \delta \sum_{s^{t + 1}} \pi(s_{t + 1} | s_t) V_{i}^{full}(s_{t + 1}, x).
 </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>calculateValueFullRiskSharing <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  delta, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  sigma, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix, </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  numRelativeParetoWeights</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  ) {</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial guess is expected utilities under autarky</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  householdValueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix[, <span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">1</span>, numRelativeParetoWeights)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  villageValueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix[, <span class="dv">2</span>], <span class="fu">rep</span>(<span class="dv">1</span>, numRelativeParetoWeights)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  iteration <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (diff <span class="sc">&gt;</span> <span class="fl">1e-10</span> <span class="sc">&amp;</span> iteration <span class="sc">&lt;</span> <span class="dv">500</span>) {</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    householdValueFullRiskSharingNew <span class="ot">&lt;-</span> (</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(consumptionOnRelativeParetoWeightGrid, sigma) </span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> householdValueFullRiskSharing</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    villageValueFullRiskSharingNew <span class="ot">&lt;-</span> (</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(aggregateIncomeGridPoints <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid, sigma) </span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> villageValueFullRiskSharing</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(householdValueFullRiskSharing <span class="sc">-</span> householdValueFullRiskSharingNew)), </span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(villageValueFullRiskSharing <span class="sc">-</span> villageValueFullRiskSharingNew))</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    householdValueFullRiskSharing <span class="ot">&lt;-</span> householdValueFullRiskSharingNew</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    villageValueFullRiskSharing <span class="ot">&lt;-</span> villageValueFullRiskSharingNew</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    iteration <span class="ot">&lt;-</span> iteration <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdValueFullRiskSharing =</span> householdValueFullRiskSharing, </span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageValueFullRiskSharing =</span> villageValueFullRiskSharing</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>calculateValueFullRiskSharing <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  delta, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  sigma, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  numRelativeParetoWeights</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ) {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial guess is expected utilities under autarky</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  householdValueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix[, <span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">1</span>, numRelativeParetoWeights)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  villageValueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix[, <span class="dv">2</span>], <span class="fu">rep</span>(<span class="dv">1</span>, numRelativeParetoWeights)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  iteration <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (diff <span class="sc">&gt;</span> <span class="fl">1e-10</span> <span class="sc">&amp;</span> iteration <span class="sc">&lt;</span> <span class="dv">500</span>) {</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    householdValueFullRiskSharingNew <span class="ot">&lt;-</span> (</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(consumptionOnRelativeParetoWeightGrid, sigma) </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> householdValueFullRiskSharing</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    villageValueFullRiskSharingNew <span class="ot">&lt;-</span> (</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(aggregateIncomeGridPoints <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid, sigma) </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> villageValueFullRiskSharing</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(householdValueFullRiskSharing <span class="sc">-</span> householdValueFullRiskSharingNew)), </span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(villageValueFullRiskSharing <span class="sc">-</span> villageValueFullRiskSharingNew))</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    householdValueFullRiskSharing <span class="ot">&lt;-</span> householdValueFullRiskSharingNew</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    villageValueFullRiskSharing <span class="ot">&lt;-</span> villageValueFullRiskSharingNew</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    iteration <span class="ot">&lt;-</span> iteration <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdValueFullRiskSharing =</span> householdValueFullRiskSharing, </span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageValueFullRiskSharing =</span> villageValueFullRiskSharing</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="values-under-risk-sharing-limited-commitment" class="level3" data-number="3.2.7">
-<h3 data-number="3.2.7" class="anchored" data-anchor-id="values-under-risk-sharing-limited-commitment"><span class="header-section-number">3.2.7</span> Values under risk-sharing (limited commitment)</h3>
+<section id="values-under-risk-sharing-limited-commitment" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="values-under-risk-sharing-limited-commitment"><span class="header-section-number">3.2.6</span> Values under risk-sharing (limited commitment)</h3>
 <p>Next, I derive the state-dependent intervals of relative Pareto weights and calculate values under the model of limited commitment. To derive the intervals, I use the fact that at the limits of the intervals, the PCs are binding. For instance, to compute the lower limit <span class="math inline">\underline{x}^h(s)</span>, where <span class="math inline">h</span> indicates <span class="math inline">h</span>’th iteration, the PC of the household 1 is binding:</p>
 <p><span class="math display">
   u_1(c_1^h(s)) + \delta \sum_{s'} \pi(s' | s) V_1^{h - i} (s', \underline{x}^h(s)) = U_1^{aut}(s),
@@ -477,456 +470,459 @@ div.csl-indent {
 </ol>
 <p>By iterating these steps, we can calculate the value functions of households and limits of intervals.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>interpolateValueFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    valueFunctionMatrix</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    ) {</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    valueFunctionMatrix,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(y) {</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">approxfun</span>(</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightsGridPoints, </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        y, </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">rule =</span> <span class="dv">2</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        )(relativeParetoWeight)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>calculateDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    delta,</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    aggregateIncome,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing,</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing,</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    incomeTransitionProbVec,</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    householdAutarkyValue,</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    villageAutarkyValue</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    ) {</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  householdConsumption <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    aggregateIncome,</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    sigma</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  householdValueLCRiskSharingAtRelativeParetoWeight <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  villageValueLCRiskSharingAtRelativeParetoWeight <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>  householdDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> (</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateUtility</span>(householdConsumption, sigma) </span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>    <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharingAtRelativeParetoWeight </span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> householdAutarkyValue</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> as.numeric</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>  villageDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> (</span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateUtility</span>(aggregateIncome <span class="sc">-</span> householdConsumption, sigma) </span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharingAtRelativeParetoWeight </span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> villageAutarkyValue</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> as.numeric</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdDiffLCRiskSharingAndAutarky =</span> householdDiffLCRiskSharingAndAutarky,</span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageDiffLCRiskSharingAndAutarky =</span> villageDiffLCRiskSharingAndAutarky</span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>getClosestGridIndex <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>  point,</span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>  gridPoints</span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>  closestGridIndex <span class="ot">&lt;-</span> <span class="fu">which.min</span>(</span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(point <span class="sc">-</span> gridPoints) </span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (</span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>    point </span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>    <span class="sc">&gt;</span> gridPoints[closestGridIndex]</span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>    ) {</span>
-<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>    closestGridIndex <span class="ot">&lt;-</span> closestGridIndex <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(closestGridIndex)</span>
-<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>calculateValueLCRiskSharing <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>  valueFullRiskSharing,</span>
-<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid,</span>
-<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints,</span>
-<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix,</span>
-<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix,</span>
-<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints,</span>
-<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>  numRelativeParetoWeights,</span>
-<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>  delta,</span>
-<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  sigma,</span>
-<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>  numIncomeStates,</span>
-<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>  iterationLimit,</span>
-<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>  diffLimit</span>
-<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial guess is expected utilities under full risk sharing</span></span>
-<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>  householdValueLCRiskSharing <span class="ot">&lt;-</span> valueFullRiskSharing<span class="sc">$</span>householdValueFullRiskSharing</span>
-<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>  villageValueLCRiskSharing <span class="ot">&lt;-</span> valueFullRiskSharing<span class="sc">$</span>villageValueFullRiskSharing</span>
-<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightBounds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> numIncomeStates, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>  iteration <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> ((diff <span class="sc">&gt;</span> diffLimit) <span class="sc">&amp;&amp;</span> (iteration <span class="sc">&lt;=</span> iterationLimit)) {</span>
-<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First, ignore enforceability and just update the value functions</span></span>
-<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># using the values at the previous iteration</span></span>
-<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharingNew <span class="ot">&lt;-</span> (</span>
-<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(consumptionOnRelativeParetoWeightGrid, sigma) </span>
-<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> householdValueLCRiskSharing</span>
-<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharingNew <span class="ot">&lt;-</span> (</span>
-<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(aggregateIncomeGridPoints <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid, sigma) </span>
-<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> villageValueLCRiskSharing</span>
-<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Now check enforceability at each state</span></span>
-<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (incomeStateIndex <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, numIncomeStates)) {</span>
-<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>      aggregateIncome <span class="ot">&lt;-</span> aggregateIncomeGridPoints[incomeStateIndex]</span>
-<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>      incomeTransitionProbVec <span class="ot">&lt;-</span> incomeTransitionMatrix[incomeStateIndex,]</span>
-<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>      householdAutarkyValue <span class="ot">&lt;-</span> autarkyValueMatrix[incomeStateIndex, <span class="dv">1</span>]</span>
-<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>      villageAutarkyValue <span class="ot">&lt;-</span> autarkyValueMatrix[incomeStateIndex, <span class="dv">2</span>]</span>
-<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>      diffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
-<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)),</span>
-<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>        <span class="sc">~</span> <span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
-<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>          .,</span>
-<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints,</span>
-<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>          delta,</span>
-<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>          sigma,</span>
-<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>          aggregateIncome,</span>
-<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharing,</span>
-<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharing,</span>
-<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>          incomeTransitionProbVec,</span>
-<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>          householdAutarkyValue,</span>
-<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>          villageAutarkyValue</span>
-<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>          )   </span>
-<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"minRelativeParetoWeight"</span>, <span class="st">"maxRelativeParetoWeight"</span>))</span>
-<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If the relative Pareto weight is too low and violates the PC, then</span></span>
-<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>      <span class="co"># set the relative Pareto weight to the lower bound of the interval, and</span></span>
-<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>      <span class="co"># HH gets the value under autarky.</span></span>
-<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (</span>
-<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>        (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>         .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>         .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&gt;</span> <span class="dv">0</span>) </span>
-<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>        <span class="sc">&amp;&amp;</span> (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>            .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>            .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&lt;</span> <span class="dv">0</span>)) {</span>
-<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBound <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
-<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a>          <span class="cf">function</span>(x) {<span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
-<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a>            x,</span>
-<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints,</span>
-<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a>            delta,</span>
-<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a>            sigma,</span>
-<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a>            aggregateIncome,</span>
-<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>            householdValueLCRiskSharing,</span>
-<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a>            villageValueLCRiskSharing,</span>
-<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>            incomeTransitionProbVec,</span>
-<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a>            householdAutarkyValue,</span>
-<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>            villageAutarkyValue</span>
-<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a>            )<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky}, </span>
-<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)), </span>
-<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a>          <span class="at">tol =</span> <span class="fl">1e-10</span>, </span>
-<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a>          <span class="at">maxiter =</span> <span class="dv">300</span></span>
-<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a>          )<span class="sc">$</span>root</span>
-<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> relativeParetoWeightLowerBound</span>
-<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> <span class="fu">getClosestGridIndex</span>(</span>
-<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
-<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints</span>
-<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingLowerBound <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
-<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
-<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints,</span>
-<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharing</span>
-<span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a>        householdConsumptionLowerBound <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
-<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a>          aggregateIncome,</span>
-<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
-<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a>          sigma</span>
-<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a>        )       </span>
-<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[</span>
-<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
-<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>          <span class="fu">seq</span>(<span class="dv">1</span>, relativeParetoWeightLowerBoundIndex)</span>
-<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> householdAutarkyValue</span>
-<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[</span>
-<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
-<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>          <span class="fu">seq</span>(<span class="dv">1</span>, relativeParetoWeightLowerBoundIndex)</span>
-<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
-<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>          <span class="fu">calculateUtility</span>(aggregateIncome <span class="sc">-</span> householdConsumptionLowerBound, sigma)</span>
-<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a>          <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharingLowerBound</span>
-<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (</span>
-<span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a>        diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&lt;=</span> <span class="dv">0</span></span>
-<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>        ) {</span>
-<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> householdAutarkyValue</span>
-<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> villageAutarkyValue</span>
-<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">max</span>(relativeParetoWeightsGridPoints)</span>
-<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> numRelativeParetoWeights <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (</span>
-<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a>        diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&gt;=</span> <span class="dv">0</span></span>
-<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>        ) {</span>
-<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">min</span>(relativeParetoWeightsGridPoints)</span>
-<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If the relative Pareto weight is too high and violates the PC, then</span></span>
-<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>      <span class="co"># set the relative Pareto weight to the upper bound of the interval, and</span></span>
-<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>      <span class="co"># village gets the value under autarky.</span></span>
-<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (relativeParetoWeightLowerBoundIndex <span class="sc">&lt;=</span> numRelativeParetoWeights) {</span>
-<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (</span>
-<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>          <span class="sc">&amp;&amp;</span> (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>              .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>              .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
-<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>          ) {</span>
-<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBound <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
-<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>            <span class="cf">function</span>(x) {<span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
-<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>              x,</span>
-<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a>              relativeParetoWeightsGridPoints,</span>
-<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>              delta,</span>
-<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a>              sigma,</span>
-<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a>              aggregateIncome,</span>
-<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>              householdValueLCRiskSharing,</span>
-<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a>              villageValueLCRiskSharing,</span>
-<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a>              incomeTransitionProbVec,</span>
-<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>              householdAutarkyValue,</span>
-<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a>              villageAutarkyValue</span>
-<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a>              )<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky}, </span>
-<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)), </span>
-<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a>            <span class="at">tol =</span> <span class="fl">1e-10</span>, </span>
-<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a>            <span class="at">maxiter =</span> <span class="dv">300</span></span>
-<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>            )<span class="sc">$</span>root</span>
-<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> relativeParetoWeightUpperBound</span>
-<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> <span class="fu">getClosestGridIndex</span>(</span>
-<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
-<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints</span>
-<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a>           </span>
-<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingUpperBound <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
-<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
-<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints,</span>
-<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>            householdValueLCRiskSharing</span>
-<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>          householdConsumptionUpperBound <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
-<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a>            aggregateIncome,</span>
-<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
-<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a>            sigma</span>
-<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a>          )       </span>
-<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingNew[</span>
-<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a>            incomeStateIndex, </span>
-<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a>            <span class="fu">seq</span>(relativeParetoWeightUpperBoundIndex, numRelativeParetoWeights)</span>
-<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a>            ] <span class="ot">&lt;-</span> (</span>
-<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(householdConsumptionUpperBound, sigma)</span>
-<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharingUpperBound</span>
-<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharingNew[</span>
-<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a>            incomeStateIndex, </span>
-<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a>            <span class="fu">seq</span>(relativeParetoWeightUpperBoundIndex, numRelativeParetoWeights)</span>
-<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a>            ] <span class="ot">&lt;-</span> villageAutarkyValue</span>
-<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (</span>
-<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&lt;=</span> <span class="dv">0</span>)</span>
-<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a>          ) {</span>
-<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> householdAutarkyValue</span>
-<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> villageAutarkyValue</span>
-<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">min</span>(relativeParetoWeightsGridPoints)</span>
-<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (</span>
-<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
-<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
-<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
-<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a>          ) {</span>
-<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">max</span>(relativeParetoWeightsGridPoints)</span>
-<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> numRelativeParetoWeights <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a>      <span class="co"># The case where the relative Pareto weight does not violate PC</span></span>
-<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> ((relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">&lt;</span> (relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)) {</span>
-<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[</span>
-<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
-<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a>          (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
-<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(</span>
-<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a>              consumptionOnRelativeParetoWeightGrid[</span>
-<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a>                incomeStateIndex, </span>
-<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a>                (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a>                ], </span>
-<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a>              sigma</span>
-<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a>              ) </span>
-<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharing[</span>
-<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a>              , (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>            ]</span>
-<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[</span>
-<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
-<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>          (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
-<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(</span>
-<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a>              aggregateIncome <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid[</span>
-<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a>                incomeStateIndex, </span>
-<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a>                (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a>                ], </span>
-<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a>              sigma) </span>
-<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharing[</span>
-<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a>              , (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a>              ] </span>
-<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a>      }   </span>
-<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(</span>
-<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(householdValueLCRiskSharingNew <span class="sc">-</span> householdValueLCRiskSharing)),</span>
-<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(villageValueLCRiskSharingNew <span class="sc">-</span> villageValueLCRiskSharing))</span>
-<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing <span class="ot">&lt;-</span> householdValueLCRiskSharingNew</span>
-<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing <span class="ot">&lt;-</span> villageValueLCRiskSharingNew</span>
-<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a>    iteration <span class="ot">&lt;-</span> iteration <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(iteration)</span>
-<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (iteration <span class="sc">==</span> iterationLimit) {</span>
-<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Reached the maximum limit of iterations!"</span>)</span>
-<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
-<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdValueLCRiskSharing =</span> householdValueLCRiskSharing,</span>
-<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageValueLCRiskSharing =</span> villageValueLCRiskSharing,</span>
-<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>    <span class="at">relativeParetoWeightBounds =</span> relativeParetoWeightBounds))</span>
-<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>interpolateValueFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    valueFunctionMatrix</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    valueFunctionMatrix,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(y) {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">approxfun</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightsGridPoints, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        y, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">rule =</span> <span class="dv">2</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        )(relativeParetoWeight)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>calculateDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    delta,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    aggregateIncome,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    incomeTransitionProbVec,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    householdAutarkyValue,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    villageAutarkyValue</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    ) {</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  householdConsumption <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    aggregateIncome,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    sigma</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  householdValueLCRiskSharingAtRelativeParetoWeight <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  villageValueLCRiskSharingAtRelativeParetoWeight <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  householdDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> (</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateUtility</span>(householdConsumption, sigma) </span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharingAtRelativeParetoWeight </span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> householdAutarkyValue</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> as.numeric</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  villageDiffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> (</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateUtility</span>(aggregateIncome <span class="sc">-</span> householdConsumption, sigma) </span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharingAtRelativeParetoWeight </span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> villageAutarkyValue</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> as.numeric</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdDiffLCRiskSharingAndAutarky =</span> householdDiffLCRiskSharingAndAutarky,</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageDiffLCRiskSharingAndAutarky =</span> villageDiffLCRiskSharingAndAutarky</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>getClosestGridIndex <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  point,</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  gridPoints</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  closestGridIndex <span class="ot">&lt;-</span> <span class="fu">which.min</span>(</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(point <span class="sc">-</span> gridPoints) </span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    point </span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="sc">&gt;</span> gridPoints[closestGridIndex]</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    ) {</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    closestGridIndex <span class="ot">&lt;-</span> closestGridIndex <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(closestGridIndex)</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>calculateValueLCRiskSharing <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>  valueFullRiskSharing,</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid,</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints,</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix,</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix,</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints,</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>  numRelativeParetoWeights,</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>  delta,</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  sigma,</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  numIncomeStates,</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  iterationLimit,</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  diffLimit</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial guess is expected utilities under full risk sharing</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>  householdValueLCRiskSharing <span class="ot">&lt;-</span> valueFullRiskSharing<span class="sc">$</span>householdValueFullRiskSharing</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>  villageValueLCRiskSharing <span class="ot">&lt;-</span> valueFullRiskSharing<span class="sc">$</span>villageValueFullRiskSharing</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightBounds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> numIncomeStates, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>  iteration <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> ((diff <span class="sc">&gt;</span> diffLimit) <span class="sc">&amp;&amp;</span> (iteration <span class="sc">&lt;=</span> iterationLimit)) {</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First, ignore enforceability and just update the value functions</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># using the values at the previous iteration</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharingNew <span class="ot">&lt;-</span> (</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(consumptionOnRelativeParetoWeightGrid, sigma) </span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> householdValueLCRiskSharing</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharingNew <span class="ot">&lt;-</span> (</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>      <span class="fu">calculateUtility</span>(aggregateIncomeGridPoints <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid, sigma) </span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>      <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionMatrix <span class="sc">%*%</span> villageValueLCRiskSharing</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Now check enforceability at each state</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (incomeStateIndex <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, numIncomeStates)) {</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>      aggregateIncome <span class="ot">&lt;-</span> aggregateIncomeGridPoints[incomeStateIndex]</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>      incomeTransitionProbVec <span class="ot">&lt;-</span> incomeTransitionMatrix[incomeStateIndex,]</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>      householdAutarkyValue <span class="ot">&lt;-</span> autarkyValueMatrix[incomeStateIndex, <span class="dv">1</span>]</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>      villageAutarkyValue <span class="ot">&lt;-</span> autarkyValueMatrix[incomeStateIndex, <span class="dv">2</span>]</span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>      diffLCRiskSharingAndAutarky <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)),</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>        <span class="sc">~</span> <span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>          .,</span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints,</span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>          delta,</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>          sigma,</span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a>          aggregateIncome,</span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharing,</span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharing,</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a>          incomeTransitionProbVec,</span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>          householdAutarkyValue,</span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>          villageAutarkyValue</span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>          )   </span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"minRelativeParetoWeight"</span>, <span class="st">"maxRelativeParetoWeight"</span>))</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If the relative Pareto weight is too low and violates the PC, then</span></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>      <span class="co"># set the relative Pareto weight to the lower bound of the interval, and</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>      <span class="co"># HH gets the value under autarky.</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (</span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>        (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>         .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>         .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&gt;</span> <span class="dv">0</span>) </span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>        <span class="sc">&amp;&amp;</span> (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>            .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>            .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&lt;</span> <span class="dv">0</span>)) {</span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBound <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>          <span class="cf">function</span>(x) {<span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>            x,</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints,</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>            delta,</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>            sigma,</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>            aggregateIncome,</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>            householdValueLCRiskSharing,</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>            villageValueLCRiskSharing,</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>            incomeTransitionProbVec,</span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>            householdAutarkyValue,</span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>            villageAutarkyValue</span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>            )<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky}, </span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)), </span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>          <span class="at">tol =</span> <span class="fl">1e-10</span>, </span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>          <span class="at">maxiter =</span> <span class="dv">300</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>          )<span class="sc">$</span>root</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> relativeParetoWeightLowerBound</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> <span class="fu">getClosestGridIndex</span>(</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints</span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingLowerBound <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints,</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharing</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>        householdConsumptionLowerBound <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>          aggregateIncome,</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightLowerBound,</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>          sigma</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>        )       </span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>          <span class="fu">seq</span>(<span class="dv">1</span>, relativeParetoWeightLowerBoundIndex)</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> householdAutarkyValue</span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>          <span class="fu">seq</span>(<span class="dv">1</span>, relativeParetoWeightLowerBoundIndex)</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>          <span class="fu">calculateUtility</span>(aggregateIncome <span class="sc">-</span> householdConsumptionLowerBound, sigma)</span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>          <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharingLowerBound</span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>        diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&lt;=</span> <span class="dv">0</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>        ) {</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> householdAutarkyValue</span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> villageAutarkyValue</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">max</span>(relativeParetoWeightsGridPoints)</span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> numRelativeParetoWeights <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (</span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>        diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>        .<span class="sc">$</span>householdDiffLCRiskSharingAndAutarky <span class="sc">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>        ) {</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightBounds[incomeStateIndex, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">min</span>(relativeParetoWeightsGridPoints)</span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightLowerBoundIndex <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If the relative Pareto weight is too high and violates the PC, then</span></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>      <span class="co"># set the relative Pareto weight to the upper bound of the interval, and</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>      <span class="co"># village gets the value under autarky.</span></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (relativeParetoWeightLowerBoundIndex <span class="sc">&lt;=</span> numRelativeParetoWeights) {</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>          <span class="sc">&amp;&amp;</span> (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>              .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>              .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>          ) {</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBound <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>            <span class="cf">function</span>(x) {<span class="fu">calculateDiffLCRiskSharingAndAutarky</span>(</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>              x,</span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>              relativeParetoWeightsGridPoints,</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>              delta,</span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>              sigma,</span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>              aggregateIncome,</span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a>              householdValueLCRiskSharing,</span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>              villageValueLCRiskSharing,</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>              incomeTransitionProbVec,</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>              householdAutarkyValue,</span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>              villageAutarkyValue</span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>              )<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky}, </span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="fu">min</span>(relativeParetoWeightsGridPoints), <span class="fu">max</span>(relativeParetoWeightsGridPoints)), </span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>            <span class="at">tol =</span> <span class="fl">1e-10</span>, </span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>            <span class="at">maxiter =</span> <span class="dv">300</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>            )<span class="sc">$</span>root</span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> relativeParetoWeightUpperBound</span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> <span class="fu">getClosestGridIndex</span>(</span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints</span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>           </span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingUpperBound <span class="ot">&lt;-</span> <span class="fu">interpolateValueFunction</span>(</span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightsGridPoints,</span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a>            householdValueLCRiskSharing</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a>          householdConsumptionUpperBound <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>            aggregateIncome,</span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>            relativeParetoWeightUpperBound,</span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>            sigma</span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>          )       </span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingNew[</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>            incomeStateIndex, </span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>            <span class="fu">seq</span>(relativeParetoWeightUpperBoundIndex, numRelativeParetoWeights)</span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>            ] <span class="ot">&lt;-</span> (</span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(householdConsumptionUpperBound, sigma)</span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharingUpperBound</span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharingNew[</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>            incomeStateIndex, </span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>            <span class="fu">seq</span>(relativeParetoWeightUpperBoundIndex, numRelativeParetoWeights)</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>            ] <span class="ot">&lt;-</span> villageAutarkyValue</span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (</span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>minRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&lt;=</span> <span class="dv">0</span>)</span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a>          ) {</span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>          householdValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> householdAutarkyValue</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>          villageValueLCRiskSharingNew[incomeStateIndex,] <span class="ot">&lt;-</span> villageAutarkyValue</span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">min</span>(relativeParetoWeightsGridPoints)</span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (</span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>          (diffLCRiskSharingAndAutarky <span class="sc">%&gt;%</span> </span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>maxRelativeParetoWeight <span class="sc">%&gt;%</span> </span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a>           .<span class="sc">$</span>villageDiffLCRiskSharingAndAutarky <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>          ) {</span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightBounds[incomeStateIndex, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">max</span>(relativeParetoWeightsGridPoints)</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightUpperBoundIndex <span class="ot">&lt;-</span> numRelativeParetoWeights <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a>      <span class="co"># The case where the relative Pareto weight does not violate PC</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> ((relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">&lt;</span> (relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a>        householdValueLCRiskSharingNew[</span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a>          (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a>              consumptionOnRelativeParetoWeightGrid[</span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>                incomeStateIndex, </span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a>                (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a>                ], </span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a>              sigma</span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a>              ) </span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> householdValueLCRiskSharing[</span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a>              , (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a>        villageValueLCRiskSharingNew[</span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a>          incomeStateIndex, </span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a>          (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a>          ] <span class="ot">&lt;-</span> (</span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateUtility</span>(</span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a>              aggregateIncome <span class="sc">-</span> consumptionOnRelativeParetoWeightGrid[</span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a>                incomeStateIndex, </span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a>                (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a>                ], </span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a>              sigma) </span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a>            <span class="sc">+</span> delta <span class="sc">*</span> incomeTransitionProbVec <span class="sc">%*%</span> villageValueLCRiskSharing[</span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a>              , (relativeParetoWeightLowerBoundIndex <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>(relativeParetoWeightUpperBoundIndex <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a>              ] </span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a>      }   </span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a>    diff <span class="ot">&lt;-</span> <span class="fu">max</span>(</span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(householdValueLCRiskSharingNew <span class="sc">-</span> householdValueLCRiskSharing)),</span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(<span class="fu">abs</span>(villageValueLCRiskSharingNew <span class="sc">-</span> villageValueLCRiskSharing))</span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a>    householdValueLCRiskSharing <span class="ot">&lt;-</span> householdValueLCRiskSharingNew</span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a>    villageValueLCRiskSharing <span class="ot">&lt;-</span> villageValueLCRiskSharingNew</span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>    iteration <span class="ot">&lt;-</span> iteration <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(iteration)</span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (iteration <span class="sc">==</span> iterationLimit) {</span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Reached the maximum limit of iterations!"</span>)</span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a>    <span class="at">householdValueLCRiskSharing =</span> householdValueLCRiskSharing,</span>
+<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a>    <span class="at">villageValueLCRiskSharing =</span> villageValueLCRiskSharing,</span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a>    <span class="at">relativeParetoWeightBounds =</span> relativeParetoWeightBounds))</span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>solveLCRiskSharingByVillage <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    delta,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    householdIncomeTransitionMatrix,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    villageIncomeTransitionMatrix,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    villageIncomeGridPoints,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">numRelativeParetoWeights =</span> <span class="dv">200</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">iterationLimit =</span> <span class="dv">100</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">diffLimit =</span> <span class="fl">1e-8</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>){</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix <span class="ot">&lt;-</span> <span class="fu">kronecker</span>(</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    villageIncomeTransitionMatrix,</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    householdIncomeTransitionMatrix</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  numIncomeStates <span class="ot">&lt;-</span> <span class="fu">length</span>(householdIncomeGridPoints) <span class="sc">*</span> <span class="fu">length</span>(villageIncomeGridPoints)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  incomeGridPointsMatrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">expand.grid</span>(</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints, villageIncomeGridPoints</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(incomeGridPointsMatrix)</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateAutarkyValue</span>(</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>      householdIncomeGridPoints,</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>      delta,</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>      householdIncomeTransitionMatrix</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateAutarkyValue</span>(</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      villageIncomeGridPoints,</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>      delta,</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      villageIncomeTransitionMatrix</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="fu">getRelativeParetoWeightsGridPoints</span>(</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>      householdIncomeGridPoints,</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>      villageIncomeGridPoints,</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>      numRelativeParetoWeights</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>, <span class="at">nrow =</span> numIncomeStates, <span class="at">ncol =</span> numRelativeParetoWeights</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (incomeStateIndex <span class="cf">in</span> <span class="fu">seq_along</span>(aggregateIncomeGridPoints)) {</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (relativeParetoWeightIndex <span class="cf">in</span> <span class="fu">seq_along</span>(relativeParetoWeightsGridPoints)) {</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>      consumptionOnRelativeParetoWeightGrid[</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>        incomeStateIndex, </span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightIndex</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>        ] <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>          aggregateIncomeGridPoints[incomeStateIndex],</span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints[relativeParetoWeightIndex],</span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>          sigma</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>  valueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">calculateValueFullRiskSharing</span>(</span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix, </span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>    aggregateIncomeGridPoints, </span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    delta, </span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>    sigma, </span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix, </span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    consumptionOnRelativeParetoWeightGrid,</span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights</span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>  valueLCRiskSharing <span class="ot">&lt;-</span> <span class="fu">calculateValueLCRiskSharing</span>(</span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>    valueFullRiskSharing,</span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>    consumptionOnRelativeParetoWeightGrid,</span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>    aggregateIncomeGridPoints,</span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix,</span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix,</span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights,</span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>    delta,</span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>    numIncomeStates,</span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>    iterationLimit,</span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>    diffLimit</span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(valueLCRiskSharing)</span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>solveLCRiskSharingByVillage <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    delta,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    punishment,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    householdIncomeTransitionMatrix,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    villageIncomeTransitionMatrix,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    villageIncomeGridPoints,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">numRelativeParetoWeights =</span> <span class="dv">200</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">iterationLimit =</span> <span class="dv">100</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">diffLimit =</span> <span class="fl">1e-8</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>){</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  incomeTransitionMatrix <span class="ot">&lt;-</span> <span class="fu">kronecker</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    villageIncomeTransitionMatrix,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    householdIncomeTransitionMatrix</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  numIncomeStates <span class="ot">&lt;-</span> <span class="fu">length</span>(householdIncomeGridPoints) <span class="sc">*</span> <span class="fu">length</span>(villageIncomeGridPoints)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  incomeGridPointsMatrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">expand.grid</span>(</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    householdIncomeGridPoints, villageIncomeGridPoints</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  aggregateIncomeGridPoints <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(incomeGridPointsMatrix)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  autarkyValueMatrix <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateAutarkyValue</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>      householdIncomeGridPoints,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>      delta,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      householdIncomeTransitionMatrix</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculateAutarkyValue</span>(</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>      villageIncomeGridPoints,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>      delta,</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>      villageIncomeTransitionMatrix</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  relativeParetoWeightsGridPoints <span class="ot">&lt;-</span> <span class="fu">getRelativeParetoWeightsGridPoints</span>(</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>      sigma,</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>      punishment,</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>      householdIncomeGridPoints,</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>      villageIncomeGridPoints,</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>      numRelativeParetoWeights</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>  consumptionOnRelativeParetoWeightGrid <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>, <span class="at">nrow =</span> numIncomeStates, <span class="at">ncol =</span> numRelativeParetoWeights</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (incomeStateIndex <span class="cf">in</span> <span class="fu">seq_along</span>(aggregateIncomeGridPoints)) {</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (relativeParetoWeightIndex <span class="cf">in</span> <span class="fu">seq_along</span>(relativeParetoWeightsGridPoints)) {</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>      consumptionOnRelativeParetoWeightGrid[</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>        incomeStateIndex, </span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>        relativeParetoWeightIndex</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>        ] <span class="ot">&lt;-</span> <span class="fu">calculateConsumption</span>(</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>          aggregateIncomeGridPoints[incomeStateIndex],</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>          relativeParetoWeightsGridPoints[relativeParetoWeightIndex],</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>          sigma</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>  valueFullRiskSharing <span class="ot">&lt;-</span> <span class="fu">calculateValueFullRiskSharing</span>(</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix, </span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>    aggregateIncomeGridPoints, </span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    delta, </span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>    sigma, </span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix, </span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>    consumptionOnRelativeParetoWeightGrid,</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>  valueLCRiskSharing <span class="ot">&lt;-</span> <span class="fu">calculateValueLCRiskSharing</span>(</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    valueFullRiskSharing,</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>    consumptionOnRelativeParetoWeightGrid,</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    aggregateIncomeGridPoints,</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>    incomeTransitionMatrix,</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>    autarkyValueMatrix,</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeightsGridPoints,</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>    numRelativeParetoWeights,</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>    delta,</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>    sigma,</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>    numIncomeStates,</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>    iterationLimit,</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>    diffLimit</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(valueLCRiskSharing)</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(<span class="st">"IntermediateData/lc_hom_model_functions.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sanity-test-replication-of-figure-1-in-ligon2002" class="level3" data-number="3.2.8">
-<h3 data-number="3.2.8" class="anchored" data-anchor-id="sanity-test-replication-of-figure-1-in-ligon2002"><span class="header-section-number">3.2.8</span> Sanity test: replication of Figure 1 in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (<a href="#ref-Ligon2002" role="doc-biblioref">2002</a>)</span></h3>
+<section id="sanity-test-replication-of-figure-1-in-ligon2002" class="level3" data-number="3.2.7">
+<h3 data-number="3.2.7" class="anchored" data-anchor-id="sanity-test-replication-of-figure-1-in-ligon2002"><span class="header-section-number">3.2.7</span> Sanity test: replication of Figure 1 in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (<a href="#ref-Ligon2002" role="doc-biblioref">2002</a>)</span></h3>
 <p>For the sanity test of this function, I use it to replicate the Figure 1 in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (<a href="#ref-Ligon2002" role="doc-biblioref">2002</a>)</span>. Here I use the parameter values in the original paper. I choose the income process <span class="math inline">(y_l, y_h) = (2/3, 4/3)</span> and <span class="math inline">(p_l, p_h) = (0.1, 0.9)</span> for both households so that the mean is <span class="math inline">1</span> and the ratio <span class="math inline">y_l / y_h</span> is 1/2 as in the paper. Also, the penalty under autarky is absent as in the original numerical exercise. Finally, I assume the CRRA utility functions:</p>
 <p><span class="math display">
   u(c_{it}) = \frac{c_{it}^{1 - \sigma} - 1}{1 - \sigma}.

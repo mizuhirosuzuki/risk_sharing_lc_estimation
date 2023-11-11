@@ -8,3 +8,58 @@ format:
     css: styles.css
 ---
 
+## Estimation method
+
+### Model
+
+The main idea in the estimation is to find the parameters that explain the consumption pattern of a household:
+$$
+  c_{it} = \widehat{c}_{it}(y_t, x_{t - 1}; \theta),
+$$
+where $\widehat{c}_{it}$ is consumption predicted by the limited commitment risk sharing model with a given set of parameters, $\theta$.
+To explain the discrepancies from the observed consumption and the predicted consumption, I introduce two factors.
+The first one is the multiplicative measurement error in consumption, as in the full risk-sharing model.
+With this, I get the following relationship:
+$$
+  \log \left(c_{it}^*\right) = \log \left( \widehat{c}_{it}(y_t, x_{t - 1}; \theta) \right) + \varepsilon_{it}^c,
+$$
+where $\varepsilon_{it}^c \sim N(0, \gamma_C^2)$.
+
+Secondly, I introduce measurement errors in income too.
+These measurement errors are also assumed to be multiplicative: $y_{it}^* = y_{it} \exp(\varepsilon_{it}^y)$, where $\varepsilon_{it}^y \sim N(0, \gamma_Y^2).$
+
+The previous-period relative Pareto weight, $x_{t - 1}$, is derived by the ratio of the marginal utilities in the previous period:
+$$
+  x_{t - 1} = \frac{c_{v, t - 1}^{-\sigma}}{c_{i, t - 1}^{-\sigma}} = \frac{c_{v, t - 1}^{*-\sigma} / \exp(\varepsilon_{v, t - 1}^c)}{c_{i, t - 1}^{*-\sigma} / \exp(\varepsilon_{i, t - 1}^c)},
+$$
+where $\varepsilon_{vt}^c = \frac{1}{N} \sum_i \varepsilon_{it}^c$.
+
+Note that both consumption and income measurement errors affect the consumption prediction, $\widehat{c}$: the consumption measurement errors through $x_{t - 1}$ and the income measurement errors through the aggregate income.
+And the effect is non-linear in the measurement errors and does not have an analytical expression.
+Therefore, for estimation, I use the simulated maximum likelihood method.
+
+### Estimation steps
+
+1. Randomly generate measurement errors, and denote their $s$'th simulations for $i$ at $t$ by ($\varepsilon_{s, i, t}^c$, $\varepsilon_{s, i, t}^y$).
+2. Calculate the previous-period relative Pareto weight by $x_{s, t - 1} = \frac{c_{v, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, v, t - 1}^c)}{c_{i, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, i, t - 1}^c)}$ and the aggregate income $y_{s, t} = y_{s, v, t} + y_{s, i, t}$, where $y_{s, v, t} = \frac{1}{N} \sum_j y_{j, t} \exp(\varepsilon_{s, j, t}^y)$.
+3. Predict the consumption given $x_{s, t - 1}$ and $y_{s, v, t}$. For this, get $x_{s, t}$ based on $x_{s, t - 1}$ and the bounds in relative Pareto weights given $\theta$ and the current state. For getting the current state, pick the income grid that is the closest to the $y_{s, i, t}$ and $y_(s, v, t)$.
+4. Calculate the likelihood by $f(\log(c_{it}^*) - \log \left( \widehat{c}_{it}(y_{s, t}, x_{s, t - 1}; \theta) \right), \theta)$, where $f(x, \theta)$ is the density function of $N(0, \gamma_C^2)$.
+5. Take the average of the likelihood across $s$: $\frac{1}{S} \sum_s f(\log(c_{it}^*) - \log \left( \widehat{c}_{it}(y_{s, t}, x_{s, t - 1}; \theta) \right), \theta)$.
+6. Take a logarithm and sum it over $i$ and $t$.
+
+## Estimation code
+
+```{r}
+pacman::p_load(
+  tidyverse,
+  kableExtra
+)
+```
+
+### Load data and functions
+
+```{r}
+load('IntermediateData/allData.RData')
+load('IntermediateData/lc_hom_model_functions.RData')
+```
+

@@ -48,14 +48,14 @@ villageIndicatorMatrix <- do.call(
 createVillageAggregateByYear <- function(
     data, 
     func, 
-    .numVillages = numVillages, 
-    .villageIndicatorMatrix = villageIndicatorMatrix
+    numVillages,
+    villageIndicatorMatrix
     ) {
   do.call(
     rbind, 
     map(
-      seq(1, .numVillages),
-      ~ data[.villageIndicatorMatrix[, .],] %>% func
+      seq(1, numVillages),
+      ~ data[villageIndicatorMatrix[, .],] %>% func
       )
     )
   }
@@ -63,39 +63,52 @@ createVillageAggregateByYear <- function(
 createVillageAggregate <- function(
     data, 
     func, 
-    .numVillages = numVillages, 
-    .villageIndicatorMatrix = villageIndicatorMatrix
+    numVillages,
+    villageIndicatorMatrix
     ) {
     map_vec(
-      seq(1, .numVillages),
-      ~ data[.villageIndicatorMatrix[, .],] %>% func
+      seq(1, numVillages),
+      ~ data[villageIndicatorMatrix[, .],] %>% func
     )
   }
 
 ```
 
 ```{r}
-vilMeanIncByYear <- createVillageAggregateByYear(incdat, colMeans)
-vilSumIncByYear <- createVillageAggregateByYear(incdat, colSums)
-vilMeanInc <- createVillageAggregate(incdat, mean)
-vilMeanConsByYear <- createVillageAggregateByYear(consdat, colMeans)
-vilMeanLogCons <- createVillageAggregateByYear(log(consdat), colMeans)
-vilSumConsByYear <- createVillageAggregateByYear(consdat, colSums)
-vilMeanCons <- createVillageAggregate(consdat, mean)
-```
-
-```{r, echo = FALSE}
-vilMeanEduc <- createVillageAggregate(educdat, mean)
-vilMeanWomenShare <- createVillageAggregate(propfdat, mean)
-vilMeanAge <- createVillageAggregate(educdat, mean)
-vilMeanLand <- createVillageAggregate(educdat, mean)
+vilMeanIncByYear <- createVillageAggregateByYear(incdat, colMeans, numVillages, villageIndicatorMatrix)
+vilSumIncByYear <- createVillageAggregateByYear(incdat, colSums, numVillages, villageIndicatorMatrix)
+vilMeanInc <- createVillageAggregate(incdat, mean, numVillages, villageIndicatorMatrix)
+vilMeanConsByYear <- createVillageAggregateByYear(consdat, colMeans, numVillages, villageIndicatorMatrix)
+vilMeanLogCons <- createVillageAggregateByYear(log(consdat), colMeans, numVillages, villageIndicatorMatrix)
+vilSumConsByYear <- createVillageAggregateByYear(consdat, colSums, numVillages, villageIndicatorMatrix)
+vilMeanCons <- createVillageAggregate(consdat, mean, numVillages, villageIndicatorMatrix)
 ```
 
 ```{r}
-incLow <- createVillageAggregate(incdat, function(x) quantile(x, 0.025, na.rm = TRUE))
-incHigh <- createVillageAggregate(incdat, function(x) quantile(x, 0.975, na.rm = TRUE))
-consLow <- createVillageAggregate(consdat, function(x) quantile(x, 0.025, na.rm = TRUE))
-consHigh <- createVillageAggregate(consdat, function(x) quantile(x, 0.975, na.rm = TRUE))
+incLow <- createVillageAggregate(
+  incdat, 
+  function(x) quantile(x, 0.025, na.rm = TRUE), 
+  numVillages, 
+  villageIndicatorMatrix
+  )
+incHigh <- createVillageAggregate(
+  incdat, 
+  function(x) quantile(x, 0.975, na.rm = TRUE),
+  numVillages, 
+  villageIndicatorMatrix
+  )
+consLow <- createVillageAggregate(
+  consdat, 
+  function(x) quantile(x, 0.025, na.rm = TRUE),
+  numVillages, 
+  villageIndicatorMatrix
+  )
+consHigh <- createVillageAggregate(
+  consdat, 
+  function(x) quantile(x, 0.975, na.rm = TRUE),
+  numVillages, 
+  villageIndicatorMatrix
+  )
 ```
 
 Since there is no saving in the model, the consumption and income should coincide.
@@ -104,7 +117,9 @@ For this, I rescale the income so that the means of consumption and income are i
 ```{r}
 vilConsPerIncByYear <- vilMeanConsByYear / vilMeanIncByYear
 incdatRescaled <- incdat * (villageIndicatorMatrix %*% vilConsPerIncByYear)
-vilMeanIncByYearRescaled <- createVillageAggregateByYear(incdatRescaled, colMeans)
+vilMeanIncByYearRescaled <- createVillageAggregateByYear(
+  incdatRescaled, colMeans, numVillages, villageIndicatorMatrix
+  )
 ```
 
 ## Estimate income processes
@@ -134,11 +149,15 @@ householdIncCV <- householdIncSD / householdIncMean
 
 vilIncMeanMedian <- createVillageAggregate(
   as.matrix(householdIncMean), 
-  median
+  median,
+  numVillages,
+  villageIndicatorMatrix
   )
 vilIncCVMedian <- createVillageAggregate(
   as.matrix(householdIncCV), 
-  median
+  median,
+  numVillages,
+  villageIndicatorMatrix
   )
 ```
 
@@ -487,17 +506,6 @@ simulateHouseholdIncomeByVillage <- function(
 #### Estimate the income process of the village
 
 Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen's method.
-Although the steps are identical to the ones I took above, it should be noted that the village income, $y_{vt}$ is calculated so that:
-
-$$
-  \log (y_{vt}) = \frac{1}{N} \sum_{i} \log(y_{it}),
-$$
-instead of 
-$$
-  y_{vt} = \frac{1}{N} \sum_{i} y_{it},
-$$
-where $y_{it}$ is income of a household $i$ and $N$ is the number of households in a village. 
-This is because the first form is better fit to the theoretical model.
 
 ```{r}
 
@@ -525,28 +533,27 @@ estimateVillagencomeTransitionProcessByVillage <- function(
       , .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations
       ]
   )
-  villageSimulatedIncLogMean <- villageSimulatedIncMean %>% log
-  villageSimulatedLaggedIncLogMean <- colMeans(
+  villageSimulatedLaggedIncMean <- colMeans(
     householdIncomeSimulationResult[
       , (.numVillageIncomeSimulationsPeriodDrop - 1):(.numVillageIncomeSimulations - 1)
       ]
-  ) %>% log
+  )
   
   villageAR1Parameters <- calculateAR1Parameters(
-    villageSimulatedIncLogMean,
-    villageSimulatedLaggedIncLogMean 
+    villageSimulatedIncMean,
+    villageSimulatedLaggedIncMean 
   )
   
   villageAR1TauchenApproximation <- approximateAR1Tauchen(
-    numStatesVillage, villageSimulatedIncLogMean, 
+    numStatesVillage, villageSimulatedIncMean, 
     villageAR1Parameters$mu, villageAR1Parameters$rho, villageAR1Parameters$sigmau
   )
   
-  villageLogIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedIncLogMean)
+  villageIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedIncMean)
   
   villageIncomeGridPointsRescaled <- rescaleGridPoints(
       villageAR1TauchenApproximation$transitionMatrix, 
-      exp(villageLogIncomeGridPoints),
+      villageIncomeGridPoints,
       villageSimulatedIncMean
       )
   

@@ -205,18 +205,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#full-risk-sharing-with-homogeneous-preferences" id="toc-full-risk-sharing-with-homogeneous-preferences" class="nav-link active" data-scroll-target="#full-risk-sharing-with-homogeneous-preferences"><span class="toc-section-number">3</span>  Full risk-sharing with homogeneous preferences</a>
+  <li><a href="#theory" id="toc-theory" class="nav-link active" data-scroll-target="#theory"><span class="toc-section-number">2.1</span>  Theory</a>
   <ul class="collapse">
-  <li><a href="#theory" id="toc-theory" class="nav-link" data-scroll-target="#theory"><span class="toc-section-number">3.1</span>  Theory</a>
-  <ul class="collapse">
-  <li><a href="#settings" id="toc-settings" class="nav-link" data-scroll-target="#settings"><span class="toc-section-number">3.1.1</span>  Settings</a></li>
-  <li><a href="#optimization-condition" id="toc-optimization-condition" class="nav-link" data-scroll-target="#optimization-condition"><span class="toc-section-number">3.1.2</span>  Optimization condition</a></li>
-  <li><a href="#introducing-measurement-errors" id="toc-introducing-measurement-errors" class="nav-link" data-scroll-target="#introducing-measurement-errors"><span class="toc-section-number">3.1.3</span>  Introducing measurement errors</a></li>
-  <li><a href="#likelihood-function" id="toc-likelihood-function" class="nav-link" data-scroll-target="#likelihood-function"><span class="toc-section-number">3.1.4</span>  Likelihood function</a></li>
+  <li><a href="#settings" id="toc-settings" class="nav-link" data-scroll-target="#settings"><span class="toc-section-number">2.1.1</span>  Settings</a></li>
+  <li><a href="#optimization-condition" id="toc-optimization-condition" class="nav-link" data-scroll-target="#optimization-condition"><span class="toc-section-number">2.1.2</span>  Optimization condition</a></li>
+  <li><a href="#introducing-measurement-errors" id="toc-introducing-measurement-errors" class="nav-link" data-scroll-target="#introducing-measurement-errors"><span class="toc-section-number">2.1.3</span>  Introducing measurement errors</a></li>
+  <li><a href="#likelihood-function" id="toc-likelihood-function" class="nav-link" data-scroll-target="#likelihood-function"><span class="toc-section-number">2.1.4</span>  Likelihood function</a></li>
   </ul></li>
-  <li><a href="#code-for-estimation" id="toc-code-for-estimation" class="nav-link" data-scroll-target="#code-for-estimation"><span class="toc-section-number">3.2</span>  Code for estimation</a></li>
-  <li><a href="#estimation-result" id="toc-estimation-result" class="nav-link" data-scroll-target="#estimation-result"><span class="toc-section-number">3.3</span>  Estimation result</a></li>
-  </ul></li>
+  <li><a href="#code-for-estimation" id="toc-code-for-estimation" class="nav-link" data-scroll-target="#code-for-estimation"><span class="toc-section-number">2.2</span>  Code for estimation</a></li>
+  <li><a href="#estimation-result" id="toc-estimation-result" class="nav-link" data-scroll-target="#estimation-result"><span class="toc-section-number">2.3</span>  Estimation result</a></li>
   </ul>
 </nav>
     </div>
@@ -240,13 +237,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="full-risk-sharing-with-homogeneous-preferences" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Full risk-sharing with homogeneous preferences</h1>
-<section id="theory" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="theory"><span class="header-section-number">3.1</span> Theory</h2>
+<section id="theory" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="theory"><span class="header-section-number">2.1</span> Theory</h2>
 <p>To derive the likelihood function, I review the theoretical result.</p>
-<section id="settings" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="settings"><span class="header-section-number">3.1.1</span> Settings</h3>
+<section id="settings" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="settings"><span class="header-section-number">2.1.1</span> Settings</h3>
 <p>Suuposed that there are <span class="math inline">N</span> households in a village. Each household maximized its expected lifetime utility: <span class="math display">
   E \left[ \sum_{t = 1}^{\infty} \delta^t u (c_{it}) \right],
 </span> where <span class="math inline">\delta</span> is the discount factor, <span class="math inline">u</span> is instantaneous preference of households (note that here I assume homogeneous preference), and <span class="math inline">c_{it}</span> is consumption by household <span class="math inline">i</span> at time <span class="math inline">t</span>. Assume that there is no saving.</p>
@@ -258,8 +253,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   \sum_i c_{it}(s^t) \le \sum_i y_{it}(s_t) \quad \forall s^t, \forall t,
 </span> where <span class="math inline">\lambda_i</span> is the Pareto weight of <span class="math inline">i</span>, <span class="math inline">\pi(s^t)</span> is the probability that the history <span class="math inline">s^t</span> is realized, and <span class="math inline">c_{it}(s^t)</span> is <span class="math inline">i</span>’s consumption under the history <span class="math inline">s^t</span>.</p>
 </section>
-<section id="optimization-condition" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="optimization-condition"><span class="header-section-number">3.1.2</span> Optimization condition</h3>
+<section id="optimization-condition" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="optimization-condition"><span class="header-section-number">2.1.2</span> Optimization condition</h3>
 <p>Solving this maximization problem, we can get a well-known result that, for any two households <span class="math inline">i</span> and <span class="math inline">j</span> in the village, the following holds: <span class="math display">
   \frac{u'(c_{jt}(s^t))}{u'(c_{it}(s^t))} = \frac{\lambda_i}{\lambda_j} \quad \forall s^t, \forall t.
 </span></p>
@@ -280,9 +275,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   \log(c_{it}) - \log(c_{i, t - 1}) = \log(c_{vt}) - \log(c_{v, t - 1}).
 </span></p>
 </section>
-<section id="introducing-measurement-errors" class="level3" data-number="3.1.3">
-<h3 data-number="3.1.3" class="anchored" data-anchor-id="introducing-measurement-errors"><span class="header-section-number">3.1.3</span> Introducing measurement errors</h3>
-<p>Here I introduce the measurement error in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, <span class="math inline">c_{it}^*</span> as <span class="math inline">c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)</span>, where <span class="math inline">\varepsilon_{it} \sim N(0, \gamma_c^2)</span> is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, <span class="math inline">c_{vt}^*</span> is so that <span class="math display">
+<section id="introducing-measurement-errors" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="introducing-measurement-errors"><span class="header-section-number">2.1.3</span> Introducing measurement errors</h3>
+<p>Here I introduce the measurement error (by econometricians) in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, <span class="math inline">c_{it}^*</span> as <span class="math inline">c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)</span>, where <span class="math inline">\varepsilon_{it} \sim N(0, \gamma_c^2)</span> is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, <span class="math inline">c_{vt}^*</span> is so that <span class="math display">
 \begin{aligned}
   \log(c_{vt}^*)
   &amp;= \frac{1}{N} \sum_i \log(c_{it}^*) \\
@@ -294,8 +289,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   \log(c_{it}^*) - \log(c_{i, t - 1}^*) = \log(c_{vt}^*) - \log(c_{v, t - 1}^*) + \left(\varepsilon_{it}^c - \varepsilon_{vt}^c - (\varepsilon_{i, t - 1}^c - \varepsilon_{v, t - 1}^c) \right).
 </span></p>
 </section>
-<section id="likelihood-function" class="level3" data-number="3.1.4">
-<h3 data-number="3.1.4" class="anchored" data-anchor-id="likelihood-function"><span class="header-section-number">3.1.4</span> Likelihood function</h3>
+<section id="likelihood-function" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="likelihood-function"><span class="header-section-number">2.1.4</span> Likelihood function</h3>
 <p>Since <span class="math inline">\varepsilon_{it} \sim N(0, \gamma_C^2)</span>, I get <span class="math inline">\varepsilon_{vt} \sim N(0, \frac{\gamma_C^2}{N})</span>, and note that <span class="math inline">Cov(\varepsilon_{it}, \varepsilon_{vt}) = \frac{\gamma_C^2}{N}</span>. With the independence across periods and households of measurement errors, I obtain <span class="math display">
   Var(\varepsilon_{it}^c - \varepsilon_{vt}^c - (\varepsilon_{i, t - 1}^c - \varepsilon_{v, t - 1}^c) )
   = 2\left(\gamma_C^2 + \frac{\gamma_C^2}{N} - 2\frac{\gamma_C^2}{N} \right)
@@ -308,8 +303,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   l(\theta) = \sum_{i} \sum_{t = 2}^{T} \log \left(f \left( \log \left( \frac{c_{it}^*}{c_{i, t - 1}^*} \right) - \log \left( \frac{c_{vt}^*}{c_{v, t - 1}^*} \right), \theta\right) \right),
 </span> where <span class="math inline">f(x, \theta)</span> is the density function of <span class="math inline">x \sim N \left(0, \sqrt{ 2 \gamma_C^2 \left(1 - \frac{1}{N} \right)} \right)</span>, and <span class="math inline">\theta</span> is a parameter to estimate (here, <span class="math inline">\theta = \gamma_C</span>). In estimation, I find the parameter to maximize <span class="math inline">l(\theta)</span>.</p>
 <p>Without assuming that the model is correctly specified but assuming that there is no autocorrelation, the standard error of the parameter is <span class="math inline">A(\widehat{\theta})^{-1} B(\widehat{\theta}) A(\widehat{\theta})^{-1}</span>, where <span class="math inline">A(\widehat{\theta})</span> is the Hessian matrix of the log-likelihood function and <span class="math inline">B(\widehat{\theta})</span> is the outer product of scores (= gradient of log likelihood).</p>
-<section id="notes" class="level4" data-number="3.1.4.1">
-<h4 data-number="3.1.4.1" class="anchored" data-anchor-id="notes"><span class="header-section-number">3.1.4.1</span> Notes</h4>
+<section id="notes" class="level4" data-number="2.1.4.1">
+<h4 data-number="2.1.4.1" class="anchored" data-anchor-id="notes"><span class="header-section-number">2.1.4.1</span> Notes</h4>
 <ul>
 <li>This model considers that any deviation from the full risk-sharing model is due to measurement errors in consumption.</li>
 <li>As the paper points out, this model estimates parameters <em>under the assumption</em> that the model follows the full risk-sharing model. This is in contrast to many empirical papers which <em>test</em> a full riks-sharing model (such as Townsend (1994)).</li>
@@ -321,8 +316,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 </section>
 </section>
-<section id="code-for-estimation" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="code-for-estimation"><span class="header-section-number">3.2</span> Code for estimation</h2>
+<section id="code-for-estimation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="code-for-estimation"><span class="header-section-number">2.2</span> Code for estimation</h2>
 <p>This R script estimates the full risk sharing model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
@@ -503,8 +498,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="estimation-result" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="estimation-result"><span class="header-section-number">3.3</span> Estimation result</h2>
+<section id="estimation-result" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="estimation-result"><span class="header-section-number">2.3</span> Estimation result</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>estimationFullHomTable <span class="ot">&lt;-</span> <span class="fu">do.call</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  cbind,</span>
@@ -564,7 +559,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
