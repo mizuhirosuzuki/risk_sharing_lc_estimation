@@ -41,8 +41,8 @@ Therefore, for estimation, I use the simulated maximum likelihood method.
 ### Estimation steps
 
 1. Randomly generate measurement errors, and denote their $s$'th simulations for $i$ at $t$ by ($\varepsilon_{s, i, t}^c$, $\varepsilon_{s, i, t}^y$).
-2. Calculate the previous-period relative Pareto weight by $x_{s, t - 1} = \frac{c_{v, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, v, t - 1}^c)}{c_{i, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, i, t - 1}^c)}$ and the aggregate income $y_{s, t} = y_{s, v, t} + y_{s, i, t}$, where $y_{s, v, t} = \frac{1}{N} \sum_j y_{j, t} \exp(\varepsilon_{s, j, t}^y)$.
-3. Predict the consumption given $x_{s, t - 1}$ and $y_{s, v, t}$. For this, get $x_{s, t}$ based on $x_{s, t - 1}$ and the bounds in relative Pareto weights given $\theta$ and the current state. For getting the current state, pick the income grid that is the closest to the $y_{s, i, t}$ and $y_(s, v, t)$.
+2. Calculate the previous-period relative Pareto weight by $x_{s, t - 1} = \frac{c_{v, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, v, t - 1}^c)}{c_{i, t - 1}^{*-\sigma} / \exp(\varepsilon_{s, i, t - 1}^c)}$ and the "true" (not observed) aggregate income $y_{s, t} = y_{s, v, t} + y_{s, i, t}$, where $y_{s, v, t} = \frac{1}{N} \sum_j y^*_{j, t} / \exp(\varepsilon_{s, j, t}^y)$.
+3. Predict the consumption given $x_{s, t - 1}$ and $y_{s, t}$. For this, get $x_{s, t}$ based on $x_{s, t - 1}$ and the bounds in relative Pareto weights given $\theta$ and $y_{s, t}$
 4. Calculate the likelihood by $f(\log(c_{it}^*) - \log \left( \widehat{c}_{it}(y_{s, t}, x_{s, t - 1}; \theta) \right), \theta)$, where $f(x, \theta)$ is the density function of $N(0, \gamma_C^2)$.
 5. Take the average of the likelihood across $s$: $\frac{1}{S} \sum_s f(\log(c_{it}^*) - \log \left( \widehat{c}_{it}(y_{s, t}, x_{s, t - 1}; \theta) \right), \theta)$.
 6. Take a logarithm and sum it over $i$ and $t$.
@@ -52,14 +52,382 @@ Therefore, for estimation, I use the simulated maximum likelihood method.
 ```{r}
 pacman::p_load(
   tidyverse,
-  kableExtra
+  kableExtra,
+  pracma
 )
 ```
 
 ### Load data and functions
-
 ```{r}
 load('IntermediateData/allData.RData')
 load('IntermediateData/lc_hom_model_functions.RData')
+
+(
+  householdAR1EstimationResult[[1]]$transitionMatrixArray[2, 2,,] 
+  - P1r[1, 2, 2, ,]
+)
+
+(
+  householdAR1EstimationResult[[1]]$gridPointsArray[1, 2,] 
+  - sh1r[1, 1, 2,]
+)
+
+(
+  villageAR1EstimationResult[[1]]$gridPoints
+  - sh2r[1,]
+)
+
+(
+  villageAR1EstimationResult[[1]]$transitionMatrix
+  - P2r[1, ,]
+)
+
+P2r[1,,]
 ```
+
+### Simulate random measuremente errors
+
+```{r}
+set.seed(123)
+numSimulations <- 50
+measurementErrorArray <- array(
+  rnorm(hnum * tnum * 2 * numSimulations), 
+  dim = c(hnum, tnum, 2, numSimulations)
+  )
+```
+
+```{r}
+
+village <- 1
+
+interpolateRelativeParetoWeightBound <- function(
+    householdIncomeGridPoints,
+    villageIncomeGridPoints,
+    relativeParetoWeightBoundsVec,
+    householdIncomeTrue,
+    villageIncomeTrue
+) {
+  interp2(
+    x = householdIncomeGridPoints,
+    y = villageIncomeGridPoints,
+    Z = matrix(
+      relativeParetoWeightBoundsVec,
+      nrow = length(villageIncomeGridPoints),
+      byrow = TRUE
+      ),
+    xp = householdIncomeTrue %>% 
+      pmax(min(householdIncomeGridPoints)) %>% 
+      pmin(max(householdIncomeGridPoints)),
+    yp = villageIncomeTrue %>% 
+      pmax(min(villageIncomeGridPoints)) %>% 
+      pmin(max(villageIncomeGridPoints)),
+    method = "linear"
+  )
+}
+
+updateRelativeParetoWeight <- function(
+    previousRelativeParetoWeight,
+    relativeParetoWeightLowerBound,
+    relativeParetoWeightUpperBound
+    ) {
+  previousRelativeParetoWeight %>% 
+    pmax(relativeParetoWeightLowerBound) %>% 
+    pmin(relativeParetoWeightUpperBound)
+}
+
+calculateLikelihoodEachObsBySimLCHom <- function(
+    sigma,
+    gammaC2,
+    village,
+    meanClass,
+    CVClass,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    householdCons,
+    householdIncomeTrue,
+    villageIncomeTrue,
+    previousRelativeParetoWeight,
+    relativeParetoWeightBoundsArray
+) {
+  
+    householdIncomeGridPoints <- (
+      householdAR1EstimationResult[[village]]$gridPointsArray[meanClass, CVClass,]
+    )
+    villageIncomeGridPoints <- villageAR1EstimationResult[[village]]$gridPoints
+    
+    aggregateIncomeTrue <- householdIncomeTrue + villageIncomeTrue
+    
+    relativeParetoWeightLowerBound <- interpolateRelativeParetoWeightBound(
+      householdIncomeGridPoints,
+      villageIncomeGridPoints,
+      relativeParetoWeightBoundsArray[meanClass, CVClass, , 1],
+      householdIncomeTrue,
+      villageIncomeTrue
+      )
+    
+    relativeParetoWeightUpperBound <- interpolateRelativeParetoWeightBound(
+      householdIncomeGridPoints,
+      villageIncomeGridPoints,
+      relativeParetoWeightBoundsArray[meanClass, CVClass, , 2],
+      householdIncomeTrue,
+      villageIncomeTrue
+      )
+    
+    currentRelativeParetoWeight <- updateRelativeParetoWeight(
+      previousRelativeParetoWeight,
+      relativeParetoWeightLowerBound,
+      relativeParetoWeightUpperBound
+      )
+    
+    return(
+      dnorm(
+        log(householdCons) -
+        log(calculateConsumption(
+          aggregateIncomeTrue,
+          currentRelativeParetoWeight,
+          sigma
+        )),
+        sd = sqrt(gammaC2)
+      )
+    )
+}
+
+calculateLogLikelihoodLCHom <- function(
+    param,
+    village,
+    consdat,
+    incdatRescaled,
+    householdIncMeanClassVec,
+    villageIncMeanClassVec,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    measurementErrorArray,
+    villageIndicatorMatrix,
+    numIncomeStates,
+    numSimulations
+    ) {
+
+  delta <- param[1]
+  sigma <- param[2]
+  punishment <- param[3]
+  gammaC2 <- param[4]
+  gammaY2 <- param[5]
+  
+  relativeParetoWeightBoundsArray <- solveLCRiskSharingByVillage(
+      village,
+      delta,
+      sigma,
+      punishment,
+      householdAR1EstimationResult,
+      villageAR1EstimationResult,
+      numIncomeStates,
+      numRelativeParetoWeights = 1000,
+      iterationLimit = 100,
+      diffLimit = 1e-8
+  )
+
+  consVillage <- consdat[villageIndicatorMatrix[, village], ]
+  incdatRescaledVillage <- incdatRescaled[villageIndicatorMatrix[, village], ]
+  measurementErrorArrayVillage <- measurementErrorArray[
+    villageIndicatorMatrix[, village], , , 
+    ]
+  numHouseholds <- villageIndicatorMatrix[, village] %>% sum
+  
+  likelihoodArray <- array(NA, dim = c(numHouseholds, tnum - 1, numSimulations))
+  
+  for (simulationIndex in seq(1, numSimulations)) {
+    
+    consTrue <- (
+      consVillage 
+      / exp(measurementErrorArrayVillage[, , 1, simulationIndex] * sqrt(gammaC2))
+      )
+    incTrue <- (
+      incdatRescaledVillage 
+      / exp(measurementErrorArrayVillage[, , 2, simulationIndex] * sqrt(gammaY2))
+      )
+    
+    # Rescale so that the means of consumption and income do not change
+    # due to measurement errors
+    consTrue <- consTrue * (
+      outer(
+        rep(1, numHouseholds),
+        (consVillage %>% colMeans(na.rm = TRUE)) 
+        / (consTrue %>% colMeans(na.rm = TRUE))
+      )
+    )
+    incTrue <- incTrue * (
+      outer(
+        rep(1, numHouseholds),
+        (incTrue %>% colMeans(na.rm = TRUE)) 
+        / (incdatRescaledVillage %>% colMeans(na.rm = TRUE))
+      )
+    )
+    
+    relativeParetoWeightMatrix <- (
+      outer(
+        rep(1, numHouseholds), 
+        calculateMarginalUtility(exp(log(consTrue) %>% colMeans), sigma)
+        ) 
+      / calculateMarginalUtility(consTrue, sigma)
+    )
+    
+    for (householdIndex in seq(1, numHouseholds)) {
+      for (periodIndex in seq(2, tnum)) {
+        
+        meanClass <- householdIncMeanClassVec[villageIndicatorMatrix[, village]][householdIndex]
+        CVClass <- householdIncCVClassVec[villageIndicatorMatrix[, village]][householdIndex]
+          
+        householdIncomeTrue <- incTrue[householdIndex, periodIndex]
+        villageIncomeTrue <- (incTrue %>% colMeans(na.rm = TRUE))[periodIndex]
+        
+        householdCons <- consVillage[householdIndex, periodIndex]
+        previousRelativeParetoWeight <- relativeParetoWeightMatrix[householdIndex, (periodIndex - 1)]
+        
+        if (!is.na(incTrue[householdIndex, periodIndex])) {
+          
+          likelihoodArray[householdIndex, periodIndex - 1, simulationIndex] <- (
+            calculateLikelihoodEachObsBySimLCHom(
+              sigma,
+              gammaC2,
+              village,
+              meanClass,
+              CVClass,
+              householdAR1EstimationResult,
+              villageAR1EstimationResult,
+              householdCons,
+              householdIncomeTrue,
+              villageIncomeTrue,
+              previousRelativeParetoWeight,
+              relativeParetoWeightBoundsArray
+              )
+            ) 
+        }
+      }
+    }
+  }
+  
+  logLikelihood <- 0
+  for (householdIndex in seq(1, numHouseholds)) {
+    for (periodIndex in seq(2, tnum)) {
+      likelihoodSimMean <- likelihoodArray[householdIndex, periodIndex - 1, ] %>% mean(na.rm = TRUE)
+      if (!is.nan(likelihoodSimMean)) {
+        logLikelihood <- (
+          logLikelihood 
+          + log(likelihoodSimMean %>% pmax(1e-16))
+        )
+      }
+    }
+  }
+  
+  return(- logLikelihood)
+}
+
+estimateMLLCHom <- function(
+  initialParam,
+  lowerBounds,
+  upperBounds,
+  village,
+  consdat,
+  incdatRescaled,
+  householdIncMeanClassVec,
+  villageIncMeanClassVec,
+  householdAR1EstimationResult,
+  villageAR1EstimationResult,
+  measurementErrorArray,
+  villageIndicatorMatrix,
+  numIncomeStates,
+  numSimulations
+) {
+  
+  optimRes <- optim(
+    initialParam,
+    calculateLogLikelihoodLCHom,
+    village = village,
+    consdat = consdat,
+    incdatRescaled = incdatRescaled,
+    householdIncMeanClassVec = householdIncMeanClassVec,
+    villageIncMeanClassVec = villageIncMeanClassVec,
+    householdAR1EstimationResult = householdAR1EstimationResult,
+    villageAR1EstimationResult = villageAR1EstimationResult,
+    measurementErrorArray = measurementErrorArray,
+    villageIndicatorMatrix = villageIndicatorMatrix,
+    numIncomeStates = numIncomeStates,
+    numSimulations = numSimulations,
+    method = "L-BFGS-B",
+    lower = lowerBounds,
+    upper = upperBounds,
+    control = list(trace = 5, maxit = 200),
+    hessian = TRUE
+    )
+  
+  return(optimRes)
+}
+
+```
+
+```{r}
+
+library(tictoc)
+tic()
+calculateLogLikelihoodLCHom(
+  c(0.98, 3.38, 0.3, 0.0303, 0.06),
+  # c(0.98, 3.387, 0.338, 0.036, 0.057),
+  1,
+  consdat,
+  incdatRescaled,
+  householdIncMeanClassVec,
+  villageIncMeanClassVec,
+  householdAR1EstimationResult,
+  villageAR1EstimationResult,
+  measurementErrorArray,
+  villageIndicatorMatrix,
+  numIncomeStates,
+  numSimulations
+)
+toc()
+
+tt1 <- solveLCRiskSharingByVillage(
+    1,
+    0.95,
+    3.38,
+    0.3,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    numIncomeStates,
+    numRelativeParetoWeights = 1000,
+    iterationLimit = 100,
+    diffLimit = 1e-8
+)
+tt1[2, 1, ,]
+
+```
+
+```{r}
+
+initialParam <- c(0.95, 3.0, 0.3, 0.03, 0.03)
+lowerBounds <- c(0.9, 2.0, 0.0, 1e-3, 1e-3)
+upperBounds <- c(0.99, 5.0, 0.5, 1.0, 1.0)
+
+tic()
+tmp <- estimateMLLCHom(
+  initialParam,
+  lowerBounds,
+  upperBounds,
+  village,
+  consdat,
+  incdatRescaled,
+  householdIncMeanClassVec,
+  villageIncMeanClassVec,
+  householdAR1EstimationResult,
+  villageAR1EstimationResult,
+  measurementErrorArray,
+  villageIndicatorMatrix,
+  numIncomeStates,
+  numSimulations
+)
+toc()
+
+```
+
+
 

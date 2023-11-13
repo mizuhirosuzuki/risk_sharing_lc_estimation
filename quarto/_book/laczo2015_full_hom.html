@@ -366,7 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">previousCons =</span> previousCons,</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">currentVilLogCons =</span> currentVilLogCons,</span>
 <span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">previousVilLogCons =</span> previousVilLogCons,</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">numHouseholds =</span> <span class="dv">34</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">numHouseholds =</span> numHouseholds</span>
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
@@ -452,11 +452,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    vilMeanLogCons,</span>
 <span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>    lowerBound,</span>
 <span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>    upperBound,</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">.villageIndicatorMatrix =</span> villageIndicatorMatrix</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>    villageIndicatorMatrix</span>
 <span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>) {</span>
 <span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>  numHouseholds <span class="ot">&lt;-</span> .villageIndicatorMatrix[, village] <span class="sc">%&gt;%</span> sum</span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>  consdatByVillage <span class="ot">&lt;-</span> consdat[.villageIndicatorMatrix[, village], ]</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>  numHouseholds <span class="ot">&lt;-</span> villageIndicatorMatrix[, village] <span class="sc">%&gt;%</span> sum</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>  consdatByVillage <span class="ot">&lt;-</span> consdat[villageIndicatorMatrix[, village], ]</span>
 <span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>  vilMeanLogConsByVillage <span class="ot">&lt;-</span> vilMeanLogCons[village, ]</span>
 <span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>  estimationResult <span class="ot">&lt;-</span> <span class="fu">optim</span>(</span>
@@ -493,9 +493,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>      consdat,</span>
 <span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>      vilMeanLogCons,</span>
 <span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1e-3</span>,</span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>      <span class="dv">10</span></span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>      <span class="dv">10</span>,</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>      villageIndicatorMatrix</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="estimation-result" class="level2" data-number="2.3">

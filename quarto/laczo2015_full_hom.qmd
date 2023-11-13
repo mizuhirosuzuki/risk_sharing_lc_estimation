@@ -145,7 +145,7 @@ calculateScoreEachObsFullHom <- function(
     previousCons = previousCons,
     currentVilLogCons = currentVilLogCons,
     previousVilLogCons = previousVilLogCons,
-    numHouseholds = 34
+    numHouseholds = numHouseholds
   )
 }
 
@@ -231,11 +231,11 @@ estimateMLFullHom <- function(
     vilMeanLogCons,
     lowerBound,
     upperBound,
-    .villageIndicatorMatrix = villageIndicatorMatrix
+    villageIndicatorMatrix
 ) {
   
-  numHouseholds <- .villageIndicatorMatrix[, village] %>% sum
-  consdatByVillage <- consdat[.villageIndicatorMatrix[, village], ]
+  numHouseholds <- villageIndicatorMatrix[, village] %>% sum
+  consdatByVillage <- consdat[villageIndicatorMatrix[, village], ]
   vilMeanLogConsByVillage <- vilMeanLogCons[village, ]
   
   estimationResult <- optim(
@@ -272,7 +272,8 @@ estimationResultFullHom <- map(
       consdat,
       vilMeanLogCons,
       1e-3,
-      10
+      10,
+      villageIndicatorMatrix
   )
 )
 

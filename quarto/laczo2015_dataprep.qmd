@@ -76,12 +76,8 @@ createVillageAggregate <- function(
 
 ```{r}
 vilMeanIncByYear <- createVillageAggregateByYear(incdat, colMeans, numVillages, villageIndicatorMatrix)
-vilSumIncByYear <- createVillageAggregateByYear(incdat, colSums, numVillages, villageIndicatorMatrix)
-vilMeanInc <- createVillageAggregate(incdat, mean, numVillages, villageIndicatorMatrix)
 vilMeanConsByYear <- createVillageAggregateByYear(consdat, colMeans, numVillages, villageIndicatorMatrix)
 vilMeanLogCons <- createVillageAggregateByYear(log(consdat), colMeans, numVillages, villageIndicatorMatrix)
-vilSumConsByYear <- createVillageAggregateByYear(consdat, colSums, numVillages, villageIndicatorMatrix)
-vilMeanCons <- createVillageAggregate(consdat, mean, numVillages, villageIndicatorMatrix)
 ```
 
 ```{r}
@@ -137,6 +133,7 @@ This estimation process is detailed in [the paper's online appendix](https://bf7
 ```{r}
 numIncomeStatesHH <- 8
 numIncomeStatesVillage <- 5
+numIncomeStates <- numIncomeStatesHH * numIncomeStatesVillage
 ```
 
 ### Household
@@ -508,6 +505,78 @@ simulateHouseholdIncomeByVillage <- function(
 Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen's method.
 
 ```{r}
+
+estimateVillagencomeTransitionProcessByVillage <- function(
+    village,
+    meanClassVec,
+    CVClassVec,
+    numStatesHH,
+    numStatesVillage,
+    householdAR1EstimationResult,
+    .villageIndicatorMatrix = villageIndicatorMatrix,
+    .numVillageIncomeSimulationsPeriodDrop = numVillageIncomeSimulationsPeriodDrop,
+    .numVillageIncomeSimulations = numVillageIncomeSimulations
+){
+  householdIncomeSimulationResult <- simulateHouseholdIncomeByVillage(
+    village,
+    meanClassVec,
+    CVClassVec,
+    numStatesHH,
+    householdAR1EstimationResult
+  )
+  
+  villageSimulatedIncMean <- colMeans(
+    householdIncomeSimulationResult[
+      , .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations
+      ]
+  )
+  villageSimulatedLogIncMean <- villageSimulatedIncMean %>% log
+  villageSimulatedLaggedLogIncMean <- colMeans(
+    householdIncomeSimulationResult[
+      , (.numVillageIncomeSimulationsPeriodDrop - 1):(.numVillageIncomeSimulations - 1)
+      ]
+  ) %>% log
+
+  
+  villageAR1Parameters <- calculateAR1Parameters(
+    villageSimulatedLogIncMean,
+    villageSimulatedLaggedLogIncMean 
+  )
+  
+  villageAR1TauchenApproximation <- approximateAR1Tauchen(
+    numStatesVillage, villageSimulatedLogIncMean, 
+    villageAR1Parameters$mu, villageAR1Parameters$rho, villageAR1Parameters$sigmau
+  )
+  
+  villageLogIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedLogIncMean)
+  
+  villageIncomeGridPointsRescaled <- rescaleGridPoints(
+      villageAR1TauchenApproximation$transitionMatrix, 
+      exp(villageLogIncomeGridPoints),
+      villageSimulatedIncMean
+      )
+  
+  return(list(
+    transitionMatrix = villageAR1TauchenApproximation$transitionMatrix,
+    gridPoints = villageIncomeGridPointsRescaled$gridPointsRescaled
+  ))
+}
+
+villageAR1EstimationResult <- map(
+  seq(1, numVillages),
+  ~ estimateVillagencomeTransitionProcessByVillage(
+      .,
+      householdIncMeanClassVec,
+      householdIncCVClassVec,
+      numIncomeStatesHH,
+      numIncomeStatesVillage,
+      householdAR1EstimationResult
+  )
+)
+
+```
+
+```{r, echo = FALSE, eval = FALSE}
 
 estimateVillagencomeTransitionProcessByVillage <- function(
     village,
