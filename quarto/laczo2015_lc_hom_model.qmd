@@ -5,7 +5,6 @@ format:
   html:
     toc: true
     html-math-method: katex
-    css: styles.css
 ---
 
 Here I demonstrate how to compute value functions and consumption under risk-sharing with limited commitment.
@@ -13,7 +12,7 @@ First I show the risk-sharing model with limited commitment, and then I show the
 
 ## Model
 
-I consider constrained-efficient consumptioon allocatinos. 
+I consider constrained-efficient consumption allocations. 
 The social planner solves the following problem:
 
 ```{=tex}
@@ -53,7 +52,7 @@ $$
 Taking logarithms and summing over households $j$, I get
 $$
 \begin{aligned}
-  \log \left(u'('c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) = \frac{1}{N} \sum_j \log \left(u'(c_{jt}(s^t)) \right) + \frac{1}{N} \sum_j \log \left(M_j(s^t) \right).
+  \log \left(u'(c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) = \frac{1}{N} \sum_j \log \left(u'(c_{jt}(s^t)) \right) + \frac{1}{N} \sum_j \log \left(M_j(s^t) \right).
 \end{aligned}
 $$
 Defining the village consumption $c_{vt}$ such that $\log \left(u'(c_{vt}(s^t)) \right) = \frac{1}{N} \sum_j \log \left(u'(c_{jt}(s^t)) \right)$ and $M_v(s^t)$ such that $\log \left( M_v(s^t) \right) = \frac{1}{N} \sum_j \log \left(M_j(s^t) \right)$, I obtain
@@ -177,12 +176,13 @@ $$
 $$
 
 ```{r}
-calculateConsumption <- function(
+calculateHouseholdConsumption <- function(
   aggregateIncome,
   relativeParetoWeight,
+  numHouseholds,
   sigma
 ) {
-    aggregateIncome / (1 + relativeParetoWeight^(- 1 / sigma))
+    aggregateIncome / (1 + (numHouseholds - 1) * (relativeParetoWeight^(- 1 / sigma)))
 }
 
 ```
@@ -206,7 +206,8 @@ calculateValueFullRiskSharing <- function(
   sigma, 
   autarkyValueMatrix, 
   consumptionOnRelativeParetoWeightGrid,
-  numRelativeParetoWeights
+  numRelativeParetoWeights,
+  numHouseholds
   ) {
 
   # Initial guess is expected utilities under autarky
@@ -225,9 +226,13 @@ calculateValueFullRiskSharing <- function(
       + delta * incomeTransitionMatrix %*% householdValueFullRiskSharing
     )
     villageValueFullRiskSharingNew <- (
-      calculateUtility(aggregateIncomeGridPoints - consumptionOnRelativeParetoWeightGrid, sigma) 
+      calculateUtility(
+        (aggregateIncomeGridPoints - consumptionOnRelativeParetoWeightGrid) / (numHouseholds - 1), 
+        sigma
+        ) 
       + delta * incomeTransitionMatrix %*% villageValueFullRiskSharing
     )
+    
     diff <- max(
       max(abs(householdValueFullRiskSharing - householdValueFullRiskSharingNew)), 
       max(abs(villageValueFullRiskSharing - villageValueFullRiskSharingNew))
@@ -235,6 +240,7 @@ calculateValueFullRiskSharing <- function(
     householdValueFullRiskSharing <- householdValueFullRiskSharingNew
     villageValueFullRiskSharing <- villageValueFullRiskSharingNew
     iteration <- iteration + 1
+    
   }
 
   return(list(
@@ -309,12 +315,14 @@ calculateDiffLCRiskSharingAndAutarky <- function(
     villageValueLCRiskSharing,
     incomeTransitionProbVec,
     householdAutarkyValue,
-    villageAutarkyValue
+    villageAutarkyValue,
+    numHouseholds
     ) {
   
-  householdConsumption <- calculateConsumption(
+  householdConsumption <- calculateHouseholdConsumption(
     aggregateIncome,
     relativeParetoWeight,
+    numHouseholds,
     sigma
   )
   
@@ -335,7 +343,7 @@ calculateDiffLCRiskSharingAndAutarky <- function(
     - householdAutarkyValue
   ) %>% as.numeric
   villageDiffLCRiskSharingAndAutarky <- (
-    calculateUtility(aggregateIncome - householdConsumption, sigma) 
+    calculateUtility((aggregateIncome - householdConsumption) / (numHouseholds - 1), sigma) 
     + delta * incomeTransitionProbVec %*% villageValueLCRiskSharingAtRelativeParetoWeight 
     - villageAutarkyValue
   ) %>% as.numeric
@@ -373,6 +381,7 @@ calculateValueLCRiskSharing <- function(
   delta,
   sigma,
   numIncomeStates,
+  numHouseholds,
   iterationLimit,
   diffLimit
 ) {
@@ -392,7 +401,10 @@ calculateValueLCRiskSharing <- function(
       + delta * incomeTransitionMatrix %*% householdValueLCRiskSharing
     )
     villageValueLCRiskSharingNew <- (
-      calculateUtility(aggregateIncomeGridPoints - consumptionOnRelativeParetoWeightGrid, sigma) 
+      calculateUtility(
+        (aggregateIncomeGridPoints - consumptionOnRelativeParetoWeightGrid) / (numHouseholds - 1), 
+        sigma
+        )
       + delta * incomeTransitionMatrix %*% villageValueLCRiskSharing
     )
     
@@ -458,7 +470,8 @@ calculateValueLCRiskSharing <- function(
         villageValueLCRiskSharing,
         incomeTransitionProbVec,
         householdAutarkyValue,
-        villageAutarkyValue
+        villageAutarkyValue,
+        numHouseholds
         )$householdDiffLCRiskSharingAndAutarky < 0) {
         relativeParetoWeightLowerBound <- uniroot(
           function(x) {calculateDiffLCRiskSharingAndAutarky(
@@ -471,7 +484,8 @@ calculateValueLCRiskSharing <- function(
           villageValueLCRiskSharing,
           incomeTransitionProbVec,
           householdAutarkyValue,
-          villageAutarkyValue
+          villageAutarkyValue,
+          numHouseholds
           )$householdDiffLCRiskSharingAndAutarky}, 
         c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)), 
         tol = 1e-10, 
@@ -492,7 +506,8 @@ calculateValueLCRiskSharing <- function(
         villageValueLCRiskSharing,
         incomeTransitionProbVec,
         householdAutarkyValue,
-        villageAutarkyValue
+        villageAutarkyValue,
+        numHouseholds
         )$villageDiffLCRiskSharingAndAutarky < 0) {
         relativeParetoWeightUpperBound <- uniroot(
           function(x) {calculateDiffLCRiskSharingAndAutarky(
@@ -505,7 +520,8 @@ calculateValueLCRiskSharing <- function(
           villageValueLCRiskSharing,
           incomeTransitionProbVec,
           householdAutarkyValue,
-          villageAutarkyValue
+          villageAutarkyValue,
+          numHouseholds
           )$villageDiffLCRiskSharingAndAutarky}, 
         c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)), 
         tol = 1e-10, 
@@ -541,6 +557,7 @@ solveLCRiskSharing <- function(
     villageIncomeTransitionMatrix,
     villageIncomeGridPoints,
     numIncomeStates,
+    numHouseholds,
     numRelativeParetoWeights = 2000,
     iterationLimit = 100,
     diffLimit = 1e-8
@@ -555,7 +572,9 @@ solveLCRiskSharing <- function(
     householdIncomeGridPoints, villageIncomeGridPoints
     ))
   
-  aggregateIncomeGridPoints <- rowSums(incomeGridPointsMatrix)
+  aggregateIncomeGridPoints <- (
+    incomeGridPointsMatrix[, 1] + incomeGridPointsMatrix[, 2] * (numHouseholds - 1)
+  )
   
   autarkyValueMatrix <- expand.grid(
     calculateAutarkyValue(
@@ -590,9 +609,10 @@ solveLCRiskSharing <- function(
       consumptionOnRelativeParetoWeightGrid[
         incomeStateIndex, 
         relativeParetoWeightIndex
-        ] <- calculateConsumption(
+        ] <- calculateHouseholdConsumption(
           aggregateIncomeGridPoints[incomeStateIndex],
           relativeParetoWeightsGridPoints[relativeParetoWeightIndex],
+          numHouseholds,
           sigma
         )
       }
@@ -605,7 +625,8 @@ solveLCRiskSharing <- function(
     sigma, 
     autarkyValueMatrix, 
     consumptionOnRelativeParetoWeightGrid,
-    numRelativeParetoWeights
+    numRelativeParetoWeights,
+    numHouseholds
     )
 
   valueLCRiskSharing <- calculateValueLCRiskSharing(
@@ -619,6 +640,7 @@ solveLCRiskSharing <- function(
     delta,
     sigma,
     numIncomeStates,
+    numHouseholds,
     iterationLimit,
     diffLimit
   )
@@ -642,6 +664,8 @@ solveLCRiskSharingByVillage <- function(
     iterationLimit = 100,
     diffLimit = 1e-8
 ) {
+  
+  numHouseholds <- householdAR1EstimationResult[[village]]$numHouseholds
   
   relativeParetoWeightBoundsArray <- array(
     NA,
@@ -672,6 +696,7 @@ solveLCRiskSharingByVillage <- function(
         villageIncomeTransitionMatrix,
         villageIncomeGridPoints,
         numIncomeStates,
+        numHouseholds,
         numRelativeParetoWeights,
         iterationLimit,
         diffLimit
@@ -685,6 +710,11 @@ solveLCRiskSharingByVillage <- function(
 
 ```{r, eval = FALSE, echo = FALSE}
 library(tictoc)
+village <- 2
+delta <- 0.9
+sigma <- 3.0
+punishment <- 0.3
+
 tic()
 tmp <- solveLCRiskSharingByVillage(
     village,
@@ -699,6 +729,10 @@ tmp <- solveLCRiskSharingByVillage(
     diffLimit = 1e-8
 )
 toc()
+
+incdatRescaled[villageIndicatorMatrix[, 1], ] %>% colMeans(na.rm = TRUE)
+consdat[villageIndicatorMatrix[, 1], ] %>% colMeans
+
 ```
 
 
@@ -725,6 +759,7 @@ punishmentLTW <- 0.0
 incomeTransitionMatrixLTW <- matrix(rep(c(0.1, 0.9), 2), nrow = 2, byrow = TRUE)
 incomeGridPointsLTW <- c(2/3, 4/3)
 numIncomeStatesLTW <- length(incomeGridPointsLTW) *  length(incomeGridPointsLTW)
+numHouseholdsLTW <- 2
 
 deltaVec <- seq(0.8, 0.999, by = 0.002)
 
@@ -743,6 +778,7 @@ LCRiskSharingResultLTW <- map(
     incomeTransitionMatrixLTW,
     incomeGridPointsLTW,
     numIncomeStatesLTW,
+    numHouseholdsLTW,
     numRelativeParetoWeights = 10000,
     iterationLimit = 1000,
     diffLimit = 1e-8

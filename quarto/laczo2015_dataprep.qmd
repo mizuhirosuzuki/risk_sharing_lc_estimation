@@ -1,13 +1,14 @@
 ---
 title: "Data preparation"
+bibliography: references.bib
 format:
   html:
     toc: true
     html-math-method: katex
-    css: styles.css
 ---
 
-In this page, I demonstrate the data prep process. The main goal in the data prep is to estimate income processes of households and the "village". For this, I discretize the continuous income transition processes and approximate the autoregressive process.
+In this page, I demonstrate the data prep process.
+The main goal in the data prep is to estimate the discretized income processes of households and the "village" (= average of households in a village).
 
 ## Load packages
 
@@ -93,18 +94,6 @@ incHigh <- createVillageAggregate(
   numVillages, 
   villageIndicatorMatrix
   )
-consLow <- createVillageAggregate(
-  consdat, 
-  function(x) quantile(x, 0.025, na.rm = TRUE),
-  numVillages, 
-  villageIndicatorMatrix
-  )
-consHigh <- createVillageAggregate(
-  consdat, 
-  function(x) quantile(x, 0.975, na.rm = TRUE),
-  numVillages, 
-  villageIndicatorMatrix
-  )
 ```
 
 Since there is no saving in the model, the consumption and income should coincide.
@@ -118,17 +107,37 @@ vilMeanIncByYearRescaled <- createVillageAggregateByYear(
   )
 ```
 
+```{r}
+incRescaledLow <- createVillageAggregate(
+  incdatRescaled, 
+  function(x) quantile(x, 0.025, na.rm = TRUE), 
+  numVillages, 
+  villageIndicatorMatrix
+  )
+incRescaledHigh <- createVillageAggregate(
+  incdatRescaled, 
+  function(x) quantile(x, 0.975, na.rm = TRUE),
+  numVillages, 
+  villageIndicatorMatrix
+  )
+
+incdatRescaledWinsorized <- incdatRescaled %>% 
+  pmax(as.vector(villageIndicatorMatrix %*% incRescaledLow)) %>% 
+  pmin(as.vector(villageIndicatorMatrix %*% incRescaledHigh))
+
+```
+
 ## Estimate income processes
 
 The main step of this data processing is to estimate the income process, first of households and second of the "village" (= average of households in a village).
-We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and the village so that we can consider one-to-one transfers instead of on-to-n transfers.
+We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and the village so that we can consider one-to-one transfers instead of one-to-n transfers.
 
-For this, first I estimate the income process of households by types, where the types are by income's mean and coefficient of variance (CV).
+I follow the estimation process of @Laczo2015, which is detailed in [the paper's online appendix](https://bf7cb7e7-b25e-4ff4-a178-ceeb7e0cc1cf.filesusr.com/ugd/7fa395_de0f195df4b642cb86930520007484c9.pdf)
+First I estimate the income process of households by types, where the types are by income's mean and coefficient of variance (CV).
 Here, in total we have 4 types (high/low mean income X high/low CV income).
-If there were long enough income data, we would have been able to estimate the income process of each household, but given the 6 observations per household for income in ICRISAT data, the author took this approach.
+If there were long enough income data, we would be able to estimate the income process of each household, but given the 6 observations per household for income in ICRISAT data, this is not feasible.
 Also, to mitigate the effect of outliers, income smaller than 2.5 percentile or larger than 97.5 percentile in each village is not used for estimation.
 
-This estimation process is detailed in [the paper's online appendix](https://bf7cb7e7-b25e-4ff4-a178-ceeb7e0cc1cf.filesusr.com/ugd/7fa395_de0f195df4b642cb86930520007484c9.pdf)
 
 ```{r}
 numIncomeStatesHH <- 8
@@ -178,14 +187,23 @@ $$
 
 ```{r}
 
-householdIncMeanClassVec <- (householdIncMean > (villageIndicatorMatrix %*% vilIncMeanMedian)) + 1
-householdIncCVClassVec <- (householdIncCV > (villageIndicatorMatrix %*% vilIncCVMedian)) + 1
+householdIncMeanClassVec <- (
+  householdIncMean > (villageIndicatorMatrix %*% vilIncMeanMedian)
+  ) + 1
+householdIncCVClassVec <- (
+  householdIncCV > (villageIndicatorMatrix %*% vilIncCVMedian)
+  ) + 1
 
-laggedIncdatRescaled <- cbind(NA, incdatRescaled[, seq(1, tnum - 1)])
-incdatRescaled[
+incdatRescaledForAR1Estimation <- incdatRescaled
+laggedIncdatRescaledForAR1Estimation <- cbind(
+  NA, 
+  incdatRescaled[, seq(1, tnum - 1)]
+  )
+
+incdatRescaledForAR1Estimation[
   (incdat <= as.vector(villageIndicatorMatrix %*% incLow)) |
     (incdat >= as.vector(villageIndicatorMatrix %*% incHigh))] <- NA
-laggedIncdatRescaled[
+laggedIncdatRescaledForAR1Estimation[
   (incdat <= as.vector(villageIndicatorMatrix %*% incLow)) |
     (incdat >= as.vector(villageIndicatorMatrix %*% incHigh))] <- NA
 
@@ -194,14 +212,14 @@ getDataByMeanCVClassByVillage <- function(
     data, 
     meanClass, 
     CVClass,
-    meanClassVec = householdIncMeanClassVec,
-    CVClassVec = householdIncCVClassVec,
-    .villageIndicatorMatrix = villageIndicatorMatrix
+    meanClassVec,
+    CVClassVec,
+    villageIndicatorMatrix
     ) {
   data[
     (meanClassVec == meanClass) & 
       (CVClassVec == CVClass) &
-      (.villageIndicatorMatrix[, village])
+      (villageIndicatorMatrix[, village])
   ]
 }
 
@@ -210,7 +228,7 @@ calculateAR1Parameters <- function(data, laggedData) {
   rho <- cor(
     data,
     laggedData,
-    use="complete.obs"
+    use = "complete.obs"
     )
   sigmau <- sqrt(var(data, na.rm = TRUE) * (1 - rho^2))
   
@@ -223,9 +241,8 @@ calculateAR1Parameters <- function(data, laggedData) {
 #### Approximate the AR(1) process with Markov chain for income of households
 
 Given the estimated parameters, I approximate the AR(1) process with discretization.
-For this, the author used Tauchen's method with a small modification that, instead of assigning the bounds of grid points with a parameter, the quantiles of income distributions are used to determine each grid point.
+For this, @Laczo2015 used Tauchen's method with a small modification that, instead of assigning the bounds of grid points with a parameter, the quantiles of income distributions are used to determine each grid point.
 To guarantee that the mean income at the steady state of the estimated process coincides with the actual mean income, the grid points are rescaled at the end.
-
 
 ```{r}
 
@@ -242,6 +259,7 @@ approximateAR1Tauchen <- function(numStates, data, mu, rho, sigma) {
   gridPoints <- calculateGridPoints(numStates, data)
   
   transitionMatrix <- array(NA, c(numStates, numStates))
+  
   for (currentState in 1:numStates) {
   	transitionMatrix[currentState, 1] <- (
   	  pnorm(
@@ -255,7 +273,8 @@ approximateAR1Tauchen <- function(numStates, data, mu, rho, sigma) {
   	   - (1 - rho) * mu - rho * gridPoints[currentState])
   	  / sigma
   	  )
-  	}
+  }
+  
   for (currentState in 1:numStates) {
     for (nextState in 2:(numStates - 1)) {
     	transitionMatrix[currentState, nextState] <- (
@@ -271,7 +290,8 @@ approximateAR1Tauchen <- function(numStates, data, mu, rho, sigma) {
       	  )
     	  )
     	}
-    }
+  }
+  
   return(list(transitionMatrix = transitionMatrix, gridPoints = gridPoints))
 }
 
@@ -289,7 +309,10 @@ rescaleGridPoints <- function(transitionMatrix, gridPoints, data) {
     %*% steadyStateProb
     )
   gridPointsRescaled <- gridPoints * rescaleScalar
-  return(list(gridPointsRescaled = gridPointsRescaled, steadyStateProb = steadyStateProb))
+  return(list(
+    gridPointsRescaled = gridPointsRescaled,
+    steadyStateProb = steadyStateProb
+    ))
 }
 
 approximateAR1TauchenWithRescaling <- function(numStates, data, mu, rho, sigma) {
@@ -314,7 +337,10 @@ estimateHouseholdIncomeTransitionProcessByVillage <- function(
     village,
     numStates,
     data,
-    laggedData
+    laggedData,
+    householdIncMeanClassVec,
+    householdIncCVClassVec,
+    villageIndicatorMatrix
 ) {
   gridPointsArray <- array(NA, c(2, 2, numStates))
   transitionMatrixArray <- array(NA, c(2, 2, numStates, numStates))
@@ -324,10 +350,12 @@ estimateHouseholdIncomeTransitionProcessByVillage <- function(
   for (incomeMeanClass in seq(1, 2)) {
     for (incomeCVClass in seq(1, 2)) {
       incdatRescaledMeanCVClass <- getDataByMeanCVClassByVillage(
-        village, data, incomeMeanClass, incomeCVClass
+        village, data, incomeMeanClass, incomeCVClass, 
+        householdIncMeanClassVec, householdIncCVClassVec, villageIndicatorMatrix
         )
       laggeedIncdatRescaledMeanCVClass <- getDataByMeanCVClassByVillage(
-        village, laggedData, incomeMeanClass, incomeCVClass
+        village, laggedData, incomeMeanClass, incomeCVClass,
+        householdIncMeanClassVec, householdIncCVClassVec, villageIndicatorMatrix
         )
       AR1Parameters <- calculateAR1Parameters(incdatRescaledMeanCVClass, laggeedIncdatRescaledMeanCVClass)
       TauchenResult <- approximateAR1TauchenWithRescaling(
@@ -345,13 +373,22 @@ estimateHouseholdIncomeTransitionProcessByVillage <- function(
     gridPointsArray = gridPointsArray,
     transitionMatrixArray = transitionMatrixArray,
     steadyStateProbArray = steadyStateProbArray,
-    AR1ParametersArray = AR1ParametersArray
+    AR1ParametersArray = AR1ParametersArray,
+    numHouseholds = villageIndicatorMatrix[, village] %>% sum
     ))
 }
   
 householdAR1EstimationResult <- map(
   seq(1, numVillages),
-  ~ estimateHouseholdIncomeTransitionProcessByVillage(., numIncomeStatesHH, incdatRescaled, laggedIncdatRescaled)
+  ~ estimateHouseholdIncomeTransitionProcessByVillage(
+    ., 
+    numIncomeStatesHH, 
+    incdatRescaledForAR1Estimation, 
+    laggedIncdatRescaledForAR1Estimation,
+    householdIncMeanClassVec,
+    householdIncCVClassVec,
+    villageIndicatorMatrix
+    )
 )
 
 ```
@@ -432,16 +469,16 @@ sampleAllIncomeStateByMeanCVClass <- function(
     numStates,
     steadyStateProbArray,
     transitionMatrixArray,
-    numSimulation = numVillageIncomeSimulations
+    numSimulations = numVillageIncomeSimulations
 ) {
-  incomeStateVector <- vector(mode = "integer", length = numSimulation)
+  incomeStateVector <- vector(mode = "integer", length = numSimulations)
   incomeStateVector[1] <- sample1stPeriodIncomeStateByMeanCVClass(
     meanClass, 
     CVClass, 
     numStates, 
     steadyStateProbArray
     )
-  for (period in seq(2, numSimulation)) {
+  for (period in seq(2, numSimulations)) {
     incomeStateVector[period] <- sampleConditionalIncomeStateByMeanCVClass(
       meanClass, 
       CVClass,
@@ -460,7 +497,7 @@ simulateHouseholdIncomeByMeanCVClass <- function(
     steadyStateProbArray,
     transitionMatrixArray,
     gridPointsArray,
-    numSimulation = numVillageIncomeSimulations
+    numSimulations = numVillageIncomeSimulations
 ) {
   incomeStateVec <- sampleAllIncomeStateByMeanCVClass(
     meanClass, 
@@ -477,7 +514,7 @@ simulateHouseholdIncomeByVillage <- function(
     CVClassVec,
     numStates,
     householdAR1EstimationResult,
-    .villageIndicatorMatrix = villageIndicatorMatrix
+    villageIndicatorMatrix
 ) {
   
   meanClassVillage <- meanClassVec[villageIndicatorMatrix[, village]]
@@ -491,7 +528,11 @@ simulateHouseholdIncomeByVillage <- function(
     map2(
       meanClassVillage, CVClassVillage,
       ~ simulateHouseholdIncomeByMeanCVClass(
-        .x, .y, numStates, steadyStateProbArrayVillage, transitionMatrixArrayVillage, gridPointsArrayVillage
+        .x, .y, 
+        numStates, 
+        steadyStateProbArrayVillage, 
+        transitionMatrixArrayVillage,
+        gridPointsArrayVillage
         )
     )
   )
@@ -502,7 +543,7 @@ simulateHouseholdIncomeByVillage <- function(
 
 #### Estimate the income process of the village
 
-Given the simulated income data, I estimate the income process parameters and apprximate the process with Tauchen's method.
+Given the simulated income data, I estimate the income process parameters and approximate the process with Tauchen's method.
 
 ```{r}
 
@@ -513,98 +554,27 @@ estimateVillagencomeTransitionProcessByVillage <- function(
     numStatesHH,
     numStatesVillage,
     householdAR1EstimationResult,
-    .villageIndicatorMatrix = villageIndicatorMatrix,
-    .numVillageIncomeSimulationsPeriodDrop = numVillageIncomeSimulationsPeriodDrop,
-    .numVillageIncomeSimulations = numVillageIncomeSimulations
+    villageIndicatorMatrix,
+    numVillageIncomeSimulationsPeriodDrop,
+    numVillageIncomeSimulations
 ){
   householdIncomeSimulationResult <- simulateHouseholdIncomeByVillage(
     village,
     meanClassVec,
     CVClassVec,
     numStatesHH,
-    householdAR1EstimationResult
-  )
-  
-  villageSimulatedIncMean <- colMeans(
-    householdIncomeSimulationResult[
-      , .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations
-      ]
-  )
-  villageSimulatedLogIncMean <- villageSimulatedIncMean %>% log
-  villageSimulatedLaggedLogIncMean <- colMeans(
-    householdIncomeSimulationResult[
-      , (.numVillageIncomeSimulationsPeriodDrop - 1):(.numVillageIncomeSimulations - 1)
-      ]
-  ) %>% log
-
-  
-  villageAR1Parameters <- calculateAR1Parameters(
-    villageSimulatedLogIncMean,
-    villageSimulatedLaggedLogIncMean 
-  )
-  
-  villageAR1TauchenApproximation <- approximateAR1Tauchen(
-    numStatesVillage, villageSimulatedLogIncMean, 
-    villageAR1Parameters$mu, villageAR1Parameters$rho, villageAR1Parameters$sigmau
-  )
-  
-  villageLogIncomeGridPoints <- calculateGridPoints(numStatesVillage, villageSimulatedLogIncMean)
-  
-  villageIncomeGridPointsRescaled <- rescaleGridPoints(
-      villageAR1TauchenApproximation$transitionMatrix, 
-      exp(villageLogIncomeGridPoints),
-      villageSimulatedIncMean
-      )
-  
-  return(list(
-    transitionMatrix = villageAR1TauchenApproximation$transitionMatrix,
-    gridPoints = villageIncomeGridPointsRescaled$gridPointsRescaled
-  ))
-}
-
-villageAR1EstimationResult <- map(
-  seq(1, numVillages),
-  ~ estimateVillagencomeTransitionProcessByVillage(
-      .,
-      householdIncMeanClassVec,
-      householdIncCVClassVec,
-      numIncomeStatesHH,
-      numIncomeStatesVillage,
-      householdAR1EstimationResult
-  )
-)
-
-```
-
-```{r, echo = FALSE, eval = FALSE}
-
-estimateVillagencomeTransitionProcessByVillage <- function(
-    village,
-    meanClassVec,
-    CVClassVec,
-    numStatesHH,
-    numStatesVillage,
     householdAR1EstimationResult,
-    .villageIndicatorMatrix = villageIndicatorMatrix,
-    .numVillageIncomeSimulationsPeriodDrop = numVillageIncomeSimulationsPeriodDrop,
-    .numVillageIncomeSimulations = numVillageIncomeSimulations
-){
-  householdIncomeSimulationResult <- simulateHouseholdIncomeByVillage(
-    village,
-    meanClassVec,
-    CVClassVec,
-    numStatesHH,
-    householdAR1EstimationResult
+    villageIndicatorMatrix
   )
   
   villageSimulatedIncMean <- colMeans(
     householdIncomeSimulationResult[
-      , .numVillageIncomeSimulationsPeriodDrop:.numVillageIncomeSimulations
+      , numVillageIncomeSimulationsPeriodDrop:numVillageIncomeSimulations
       ]
   )
   villageSimulatedLaggedIncMean <- colMeans(
     householdIncomeSimulationResult[
-      , (.numVillageIncomeSimulationsPeriodDrop - 1):(.numVillageIncomeSimulations - 1)
+      , (numVillageIncomeSimulationsPeriodDrop - 1):(numVillageIncomeSimulations - 1)
       ]
   )
   
@@ -640,16 +610,19 @@ villageAR1EstimationResult <- map(
       householdIncCVClassVec,
       numIncomeStatesHH,
       numIncomeStatesVillage,
-      householdAR1EstimationResult
+      householdAR1EstimationResult,
+      villageIndicatorMatrix,
+      numVillageIncomeSimulationsPeriodDrop,
+      numVillageIncomeSimulations
   )
 )
 
 ```
 
-## Sanity check: compare against the parameters in the original paper
+## Sanity check: compare against the parameters in @Laczo2015
 
-Just for a sanity check of my code, I compare the household AR(1) process parameters I derived against the ones provided in the appendix of the paper.
-The parameters in the tables below coincide to the parameters in the paper appendix, excpet the ones for "Low mean, high risk" in Shirapur.
+Just for a sanity check of my code, I compare the household AR(1) process parameters I derived against the ones provided in the appendix of @Laczo2015.
+The parameters in the tables below coincide to the parameters in the paper appendix, except the ones for "Low mean, high risk" in Shirapur.
 I reran the original R script and confirmed that the correct parameters are the ones that I am showing in the table below.
 
 Since I refactored the origianl R script, I cannot reproduce the village parameters.
