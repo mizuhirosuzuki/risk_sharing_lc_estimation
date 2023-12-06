@@ -51,7 +51,7 @@ $$
 
 ### Introducing measurement errors
 
-Here I introduce the measurement error (by econometricians) in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, $c_{it}^*$ as $c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)$, where $\varepsilon_{it} \sim N(0, \gamma_c^2)$ is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, $c_{vt}^*$ is so that $$
+Here I introduce the measurement error in consumption, which is assumed to be multiplicative and log-normally distributed. In particular, I denote observed consumption, $c_{it}^*$ as $c_{it}^* = c_{it} \exp(\varepsilon_{it}^c)$, where $\varepsilon_{it} \sim N(0, \gamma_c^2)$ is the measurement error which is i.i.d. across households and time. With this, the observed village-average consumption, $c_{vt}^*$ is so that $$
 \begin{aligned}
   \log(c_{vt}^*) 
   &= \frac{1}{N} \sum_i \log(c_{it}^*) \\

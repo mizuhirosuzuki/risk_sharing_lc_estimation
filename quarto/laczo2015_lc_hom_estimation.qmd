@@ -153,63 +153,6 @@ calculateCurrentRelativeParetoWeightEachObsBySimLCHom <- function(
     return(currentRelativeParetoWeight)
 }
 
-# calculateLikelihoodEachObsBySimLCHom <- function(
-#     sigma,
-#     gammaC2,
-#     village,
-#     meanClass,
-#     CVClass,
-#     householdAR1EstimationResult,
-#     villageAR1EstimationResult,
-#     householdCons,
-#     householdIncomeTrue,
-#     villageIncomeTrue,
-#     previousRelativeParetoWeight,
-#     relativeParetoWeightBoundsArray
-# ) {
-#   
-#     householdIncomeGridPoints <- (
-#       householdAR1EstimationResult[[village]]$gridPointsArray[meanClass, CVClass,]
-#     )
-#     villageIncomeGridPoints <- villageAR1EstimationResult[[village]]$gridPoints
-#     
-#     aggregateIncomeTrue <- householdIncomeTrue + villageIncomeTrue
-#     
-#     relativeParetoWeightLowerBound <- interpolateRelativeParetoWeightBound(
-#       householdIncomeGridPoints,
-#       villageIncomeGridPoints,
-#       relativeParetoWeightBoundsArray[meanClass, CVClass, , 1],
-#       householdIncomeTrue,
-#       villageIncomeTrue
-#       )
-#     
-#     relativeParetoWeightUpperBound <- interpolateRelativeParetoWeightBound(
-#       householdIncomeGridPoints,
-#       villageIncomeGridPoints,
-#       relativeParetoWeightBoundsArray[meanClass, CVClass, , 2],
-#       householdIncomeTrue,
-#       villageIncomeTrue
-#       )
-#     
-#     currentRelativeParetoWeight <- updateRelativeParetoWeight(
-#       previousRelativeParetoWeight,
-#       relativeParetoWeightLowerBound,
-#       relativeParetoWeightUpperBound
-#       )
-#     
-#     return(
-#       dnorm(
-#         log(householdCons) -
-#         log(calculateHouseholdConsumption(
-#           aggregateIncomeTrue,
-#           currentRelativeParetoWeight,
-#           sigma
-#         )),
-#         sd = sqrt(gammaC2)
-#       )
-#     )
-# }
-
 calculateLogLikelihoodLCHom <- function(
     param,
     village,
@@ -229,7 +172,6 @@ calculateLogLikelihoodLCHom <- function(
   sigma <- param[2]
   punishment <- param[3]
   gammaC2 <- param[4]
-  gammaY2 <- param[5]
   
   relativeParetoWeightBoundsArray <- solveLCRiskSharingByVillage(
       village,
@@ -259,10 +201,6 @@ calculateLogLikelihoodLCHom <- function(
       consVillage 
       / exp(measurementErrorArrayVillage[, , 1, simulationIndex] * sqrt(gammaC2))
       )
-    incTrue <- (
-      incdatRescaledVillage 
-      / exp(measurementErrorArrayVillage[, , 2, simulationIndex] * sqrt(gammaY2))
-      )
     
     relativeParetoWeightMatrix <- (
       outer(
@@ -278,29 +216,25 @@ calculateLogLikelihoodLCHom <- function(
         meanClass <- householdIncMeanClassVec[villageIndicatorMatrix[, village]][householdIndex]
         CVClass <- householdIncCVClassVec[villageIndicatorMatrix[, village]][householdIndex]
           
-        householdIncomeTrue <- incTrue[householdIndex, periodIndex]
-        # villageIncomeTrue <- exp(log(incTrue) %>% colMeans(na.rm = TRUE))[periodIndex]
-        villageIncomeTrue <- (incTrue %>% colMeans(na.rm = TRUE))[periodIndex]
+        householdIncomeTrue <- incdatRescaled[householdIndex, periodIndex]
+        villageIncomeTrue <- (incdatRescaled %>% colMeans(na.rm = TRUE))[periodIndex]
         
         householdCons <- consVillage[householdIndex, periodIndex]
         previousRelativeParetoWeight <- relativeParetoWeightMatrix[householdIndex, (periodIndex - 1)]
         
-        if (!is.na(incTrue[householdIndex, periodIndex])) {
-          
-          currentRelativeParetoWeightArray[householdIndex, periodIndex - 1, simulationIndex] <- (
-            calculateCurrentRelativeParetoWeightEachObsBySimLCHom(
-              village,
-              meanClass,
-              CVClass,
-              householdAR1EstimationResult,
-              villageAR1EstimationResult,
-              householdIncomeTrue,
-              villageIncomeTrue,
-              previousRelativeParetoWeight,
-              relativeParetoWeightBoundsArray
-              )
-          )
-        }
+        currentRelativeParetoWeightArray[householdIndex, periodIndex - 1, simulationIndex] <- (
+          calculateCurrentRelativeParetoWeightEachObsBySimLCHom(
+            village,
+            meanClass,
+            CVClass,
+            householdAR1EstimationResult,
+            villageAR1EstimationResult,
+            householdIncomeTrue,
+            villageIncomeTrue,
+            previousRelativeParetoWeight,
+            relativeParetoWeightBoundsArray
+            )
+        )
       }
     }
   }
@@ -308,16 +242,11 @@ calculateLogLikelihoodLCHom <- function(
   likelihoodArray <- array(NA, dim = c(numHouseholds, tnum - 1, numSimulations))
   for (simulationIndex in seq(1, numSimulations)) {
     
-    incTrue <- (
-      incdatRescaledVillage 
-      / exp(measurementErrorArrayVillage[, , 2, simulationIndex] * sqrt(gammaY2))
-      )
-    
     for (householdIndex in seq(1, numHouseholds)) {
       for (periodIndex in seq(2, tnum)) {
         logConsPredict <- (
           log(
-            (incTrue[, periodIndex] %>% sum(na.rm = TRUE)) 
+            (incdatRescaled[, periodIndex] %>% sum(na.rm = TRUE)) 
             / (
               (currentRelativeParetoWeightArray[, periodIndex - 1, simulationIndex]^(1 / sigma)) %>% 
                 sum(na.rm = TRUE)
@@ -336,17 +265,14 @@ calculateLogLikelihoodLCHom <- function(
     }
   }
   
-  
   logLikelihood <- 0
   for (householdIndex in seq(1, numHouseholds)) {
     for (periodIndex in seq(2, tnum)) {
       likelihoodSimMean <- likelihoodArray[householdIndex, periodIndex - 1, ] %>% mean(na.rm = TRUE)
-      # if (!is.nan(likelihoodSimMean) & (likelihoodSimMean > 0)) {
       if (!is.nan(likelihoodSimMean)) {
         logLikelihood <- (
           logLikelihood 
-          # + log(likelihoodSimMean %>% pmax(1e-16))
-          + log(likelihoodSimMean)
+          + log(likelihoodSimMean %>% pmax(1e-8))
         )
       }
     }
@@ -407,7 +333,6 @@ calculateLogLikelihoodLCHom(
   2,
   consdat,
   incdatRescaled,
-  # incdatRescaledWinsorized,
   householdIncMeanClassVec,
   householdIncCVClassVec,
   householdAR1EstimationResult,
@@ -427,15 +352,18 @@ initialParam <- c(0.95, 3.0, 0.3, 0.03, 0.03)
 lowerBounds <- c(0.5, 1.0, 0.0, 1e-3, 1e-3)
 upperBounds <- c(0.98, 5.0, 0.99, 1.0, 1.0)
 
+initialParam <- c(0.95, 3.0, 0.3, 0.03)
+lowerBounds <- c(0.5, 1.0, 0.0, 1e-3)
+upperBounds <- c(0.98, 5.0, 0.99, 1.0)
+
 tic()
 tmp2 <- estimateMLLCHom(
   initialParam,
   lowerBounds,
   upperBounds,
-  2,
+  1,
   consdat,
-  # incdatRescaled,
-  incdatRescaledWinsorized,
+  incdatRescaled,
   householdIncMeanClassVec,
   householdIncCVClassVec,
   householdAR1EstimationResult,
@@ -446,6 +374,7 @@ tmp2 <- estimateMLLCHom(
   numSimulations
 )
 toc()
+
 
 ```
 
