@@ -7,7 +7,7 @@ format:
     html-math-method: katex
 ---
 
-In this page, I demonstrate the data prep process.
+In this page, I show the data preparation process.
 The main goal in the data prep is to estimate the discretized income processes of households and the "village" (= average of households in a village).
 
 ## Load packages
@@ -126,13 +126,13 @@ incRescaledHigh <- createVillageAggregate(
 ## Estimate income processes
 
 The main step of this data processing is to estimate the income process, first of households and second of the "village" (= average of households in a village).
-We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and the village so that we can consider one-to-one transfers instead of one-to-n transfers.
+We want the income process of the village since, in estimation, we consider the risk-sharing transfers between a household and "the rest of the village" so that we can consider one-to-one transfers instead of one-to-n transfers.
 
-I follow the estimation process of @Laczo2015, which is detailed in [the paper's online appendix](https://bf7cb7e7-b25e-4ff4-a178-ceeb7e0cc1cf.filesusr.com/ugd/7fa395_de0f195df4b642cb86930520007484c9.pdf)
+I follow the estimation process of @Laczo2015, which is detailed in [the paper's online appendix](https://bf7cb7e7-b25e-4ff4-a178-ceeb7e0cc1cf.filesusr.com/ugd/7fa395_de0f195df4b642cb86930520007484c9.pdf).
 First I estimate the income process of households by types, where the types are by income's mean and coefficient of variance (CV).
 Here, in total we have 4 types (high/low mean income X high/low CV income).
 If there were long enough income data, we would be able to estimate the income process of each household, but given the 6 observations per household for income in ICRISAT data, this is not feasible.
-Also, to mitigate the effect of outliers, income smaller than 2.5 percentile or larger than 97.5 percentile in each village is not used for estimation.
+Also, to mitigate the effect of outliers, income smaller than 2.5 percentile or larger than 97.5 percentile in each village is not used for income process estimation (but they are used for estimation in the risk sharing model).
 
 
 ```{r}

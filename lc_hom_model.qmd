@@ -33,7 +33,8 @@ Letting the multiplier on the PC of $i$ be $\delta^t \pi(s^t) \mu_i(s^t)$ and th
 
 $$
   \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ \lambda_i u(c_{it}(s^t)) + \mu_i(s^t) \left( \sum_{r = t}^{\infty} \sum_{s^r} \delta^{r - t} \pi(s^r | s^t) u (c_{ir} (s^r)) - U_i^{aut}(s_t) \right) \right] + \rho(s^t) \left( \sum_i \left(y_{it} (s_t) - c_{it} (s^t) \right) \right) \right\}
-$$ With the recursive method in @Marcet2019, this Lagrangian can be written as
+$$
+With the recursive method in @Marcet2019, this Lagrangian can be written as
 
 $$
   \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ M_i (s^{t - 1}) u (c_{it} (s^t)) + \mu_i (s^t) (u (c_{it} (s^t)) - U_i^{aut} (s_t)) \right] + \rho(s^t) \left( \sum_i \left( y_{it}(s_t) - c_{it} (s^t) \right) \right) \right\},
@@ -57,7 +58,7 @@ $$
 $$
 
 The pareto weights of $N$-households are intractable and the dimension of the value function becomes too large.
-Hence, I take the "one-versus-the-rest" approach, as in @Laczo2015 and @Ligon2002.
+Hence, I take the "one-versus-the-rest" approach.
 In particular, assume that "the rest of the village" has the same consumption ($c_{vt}(s^t)$) and Pareto weights ($M_v(s^t)$).
 Then the equation above becomes
 
@@ -295,7 +296,7 @@ After deriving these limits of intervals,
 2.  for relative Pareto weights above $\overline{x}^h(s)$, compute consumption of the household based on $\overline{x}^h(s)$ and let the value of village be $U_v^{aut}$;
 3.  for other relative Pareto weights, use them to compute consumption of the household and the values of the household and village.
 
-By iterating these steps, we can calculate the value functions of households and limits of intervals.
+By iterating these steps, we can calculate the value functions and limits of intervals.
 
 ```{r}
 interpolateValueFunction <- function(

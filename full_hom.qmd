@@ -6,13 +6,15 @@ format:
     html-math-method: katex
 ---
 
-## Theory
+Here, first I review the theoretical result and then derive the likelihood function.
+Note that the model here estimates parameters *under the assumption* that the model follows the full risk-sharing model.
+This is in contrast to many empirical papers which *test* a full riks-sharing model (such as @Townsend1994).
 
-To derive the likelihood function, I review the theoretical result.
+## Theory
 
 ### Settings
 
-Suuposed that there are $N$ households in a village. Each household maximized its expected lifetime utility: $$
+Suuposed that there are $N$ households in a village. Each household maximizes its expected lifetime utility: $$
   E \left[ \sum_{t = 1}^{\infty} \delta^t u (c_{it}) \right],
 $$ where $\delta$ is the discount factor, $u$ is instantaneous preference of households (note that here I assume homogeneous preference), and $c_{it}$ is consumption by household $i$ at time $t$. Assume that there is no saving.
 
@@ -84,7 +86,6 @@ Without assuming that the model is correctly specified but assuming that there i
 #### Notes
 
 -   This model considers that any deviation from the full risk-sharing model is due to measurement errors in consumption.
--   This model estimates parameters *under the assumption* that the model follows the full risk-sharing model. This is in contrast to many empirical papers which *test* a full riks-sharing model (such as Townsend (1994)).
 -   I derive the unconditional likelihood function, as opposed to @Laczo2015 who used a conditional likelihood function with simulation. The author clarifies her choice to use the simulation method in a footnote as follows: "Note that it is not necessary to use simulation to take into account measurement error in consumption at time t in the perfect risk-sharing case. I do it to be consistent with the LC case."
 
 ## Code for estimation
