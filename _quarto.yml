@@ -8,10 +8,10 @@ book:
   date: ""
   chapters:
     - index.qmd
-    - laczo2015_dataprep.qmd
-    - laczo2015_full_hom.qmd
-    - laczo2015_lc_hom_model.qmd
-    - laczo2015_lc_hom_estimation.qmd
+    - dataprep.qmd
+    - full_hom.qmd
+    - lc_hom_model.qmd
+    - lc_hom_estimation.qmd
 
 bibliography: references.bib
 
