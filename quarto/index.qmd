@@ -1,7 +1,0 @@
-# Preface {.unnumbered}
-
-In this page, I extensively use the codes by @Laczo2015, which can be downloaded [here](https://academic.oup.com/jeea/article/13/2/265/2319760#supplementary-data).
-Since I am not using her codes directly but rather I used her codes to understand the computational process, our codes look very different and all errors and bugs in the code below are on my own.
-
-
-
