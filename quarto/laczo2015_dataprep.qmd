@@ -121,10 +121,6 @@ incRescaledHigh <- createVillageAggregate(
   villageIndicatorMatrix
   )
 
-incdatRescaledWinsorized <- incdatRescaled %>% 
-  pmax(as.vector(villageIndicatorMatrix %*% incRescaledLow)) %>% 
-  pmin(as.vector(villageIndicatorMatrix %*% incRescaledHigh))
-
 ```
 
 ## Estimate income processes

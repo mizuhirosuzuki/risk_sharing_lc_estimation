@@ -84,11 +84,8 @@ Without assuming that the model is correctly specified but assuming that there i
 #### Notes
 
 -   This model considers that any deviation from the full risk-sharing model is due to measurement errors in consumption.
--   As the paper points out, this model estimates parameters *under the assumption* that the model follows the full risk-sharing model. This is in contrast to many empirical papers which *test* a full riks-sharing model (such as Townsend (1994)).
--   I derive the unconditional likelihood function, as opposed to the paper which used a conditional likelihood function with simulation. The author clarifies her choice to use the simulation method in a foortnote as follows: "Note that it is not necessary to use simulation to take into account measurement error in consumption at time t in the perfect risk-sharing case. I do it to be consistent with the LC case."
--   I do not rescale the "true" consumption (= consumption without measurement errors) as in the original code, since by the log scale, by construction, the means of true and observed consumption should be identical in expectation.
--   Instead of $\log \left( \frac{1}{N} \sum_i c_{it} \right)$, I use $\frac{1}{N} \log \left( \sum_i c_{it} \right)$ for $\log(c_{vt})$ since this is what the model above implies.
--   I assume there is no auto correlation when calculating the standard errors since the measurement errors are assumed to be independent across periods.
+-   This model estimates parameters *under the assumption* that the model follows the full risk-sharing model. This is in contrast to many empirical papers which *test* a full riks-sharing model (such as Townsend (1994)).
+-   I derive the unconditional likelihood function, as opposed to @Laczo2015 who used a conditional likelihood function with simulation. The author clarifies her choice to use the simulation method in a footnote as follows: "Note that it is not necessary to use simulation to take into account measurement error in consumption at time t in the perfect risk-sharing case. I do it to be consistent with the LC case."
 
 ## Code for estimation
 
@@ -223,6 +220,10 @@ calculateStandardErrors <- function(
     solve(estimationResult$hessian)
   ) %>% sqrt %>% diag
 }
+
+```
+
+```{r}
 
 estimateMLFullHom <- function(
     village,

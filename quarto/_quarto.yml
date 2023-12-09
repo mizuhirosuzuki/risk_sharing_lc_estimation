@@ -10,8 +10,7 @@ book:
     - laczo2015_dataprep.qmd
     - laczo2015_full_hom.qmd
     - laczo2015_lc_hom_model.qmd
-    # - laczo2015_full_het.qmd
-    #- summary.qmd
+    - laczo2015_lc_hom_estimation.qmd
 
 bibliography: references.bib
 

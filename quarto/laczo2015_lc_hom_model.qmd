@@ -32,30 +32,35 @@ $$ where $\phi$ is the punishment of renege, which is a fraction of consumption 
 Letting the multiplier on the PC of $i$ be $\delta^t \pi(s^t) \mu_i(s^t)$ and the multiplier on the aggregate resource constraint be $\delta^t \pi(s^t) \rho(s^t)$, the Lagrangian is
 
 $$
-  \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ \lambda_i u_i(c_{it}(s^t)) + \mu_i(s^t) \left( \sum_{r = t}^{\infty} \sum_{s^r} \delta^{r - t} \pi(s^r | s^t) u_i (c_{ir} (s^r)) - U_i^{aut}(s_t) \right) \right] + \rho(s^t) \left( \sum_i \left(y_{it} (s_t) - c_{it} (s^t) \right) \right) \right\}
+  \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ \lambda_i u(c_{it}(s^t)) + \mu_i(s^t) \left( \sum_{r = t}^{\infty} \sum_{s^r} \delta^{r - t} \pi(s^r | s^t) u (c_{ir} (s^r)) - U_i^{aut}(s_t) \right) \right] + \rho(s^t) \left( \sum_i \left(y_{it} (s_t) - c_{it} (s^t) \right) \right) \right\}
 $$ With the recursive method in @Marcet2019, this Lagrangian can be written as
 
 $$
-  \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ M_i (s^{t - 1}) u_i (c_{it} (s^t)) + \mu_i (s^t) (u_i (c_{it} (s^t)) - U_i^{aut} (s_t)) \right] + \rho(s^t) \left( \sum_i \left( y_{it}(s_t) - c_{it} (s^t) \right) \right) \right\},
+  \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) \left\{ \sum_i \left[ M_i (s^{t - 1}) u (c_{it} (s^t)) + \mu_i (s^t) (u (c_{it} (s^t)) - U_i^{aut} (s_t)) \right] + \rho(s^t) \left( \sum_i \left( y_{it}(s_t) - c_{it} (s^t) \right) \right) \right\},
 $$
 
 where $M_i(s^t) = M_i(s^{t - 1}) + \mu_i(s^t)$ and $M_i(s^0) = \lambda$. The variable $M_i(s^t)$ is the current Pareto weight of household $i$ and is equal to its initial Pareto weight plus the sum of the Lagrange mulipliers on its PCs along the history $s^t$.
 
 From the Lagrangian, the optimality condition is
 $$
-  u_i'(c_{it}(s^t)) M_i(s^t) = \frac{\rho(s^t)}{\delta^t \pi(s^t)},
+  u'(c_{it}(s^t)) M_i(s^t) = \frac{\rho(s^t)}{\delta^t \pi(s^t)},
 $$
 and thus, for two households $i$ and $j$ ($i \ne j$),
 $$
-  u_i'(c_{it}(s^t)) M_i(s^t) = u_j'(c_{jt}(s^t)) M_j(s^t).
+  u'(c_{it}(s^t)) M_i(s^t) = u'(c_{jt}(s^t)) M_j(s^t).
 $$
-Taking logarithms and summing over households $j$, I get
+Taking logarithms and summing over households $j \ne i$, I get
 $$
 \begin{aligned}
-  \log \left(u'(c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) = \frac{1}{N} \sum_j \log \left(u'(c_{jt}(s^t)) \right) + \frac{1}{N} \sum_j \log \left(M_j(s^t) \right).
+  \log \left(u'(c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) = \frac{1}{N - 1} \sum_{j \ne i} \log \left(u'(c_{jt}(s^t)) \right) + \frac{1}{N - 1} \sum_{j \ne i} \log \left(M_j(s^t) \right).
 \end{aligned}
 $$
-Defining the village consumption $c_{vt}$ such that $\log \left(u'(c_{vt}(s^t)) \right) = \frac{1}{N} \sum_j \log \left(u'(c_{jt}(s^t)) \right)$ and $M_v(s^t)$ such that $\log \left( M_v(s^t) \right) = \frac{1}{N} \sum_j \log \left(M_j(s^t) \right)$, I obtain
+
+The pareto weights of $N$-households are intractable and the dimension of the value function becomes too large.
+Hence, I take the "one-versus-the-rest" approach, as in @Laczo2015 and @Ligon2002.
+In particular, assume that "the rest of the village" has the same consumption ($c_{vt}(s^t)$) and Pareto weights ($M_v(s^t)$).
+Then the equation above becomes
+
 $$
 \begin{aligned}
   \log \left(u'('c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) &= \log \left(u'(c_{vt}(s^t)) \right) + \log \left( M_v(s^t) \right) \\
@@ -63,20 +68,19 @@ $$
 \end{aligned}
 $$
 Note that this is equivalent to the optimality condition that the ratio of marginal utilities between two "households", $i$ and $v$, equals the ratio of their Pareto weights.
-Therefore, when I consider the one-versus-rest risk-sharing, I can use this optimality condition as if the village is one household.
 
 Let $x_i(s^t) = \frac{M_i(s^t)}{M_v(s^t)}$, the relative Pareto weight of household $i$ under the history $s^t$.
 Then, the vector of relative weights $x(s^t)$ plays as a role as a co-state variable, and the solution consists of policy functions $x_{it}(s_t, x_{t - 1})$ and $c_{it}(s_t, x_{t - 1}).$
 That is, $x_{t - 1}$ is a sufficient statistic for the history up to $t - 1$. The optimality condition is
 
 $$
-  \frac{u_v'(c_{vt}(s_t, x_{t - 1}))}{u_i'(c_{it}(s_t, x_{t - 1}))} = x_{it}(s_t, x_{t - 1}) \quad \forall i.
+  \frac{u'(c_{vt}(s_t, x_{t - 1}))}{u'(c_{it}(s_t, x_{t - 1}))} = x_{it}(s_t, x_{t - 1}) \quad \forall i.
 $$
 
-The value functioon can be written recursively as
+Using the policy functions, the individual value functioon can be written recursively as
 
 $$
-  V_i(s_t, x_{t - 1}) = u_i (c_{it} (s_t, x_{t - 1})) + \delta \sum_{s_{t + 1}} \pi(s_{t + 1} | s_t) V_i (s_{t + 1}, x_t(s_t, x_{t - 1})).
+  V_i(s_t, x_{t - 1}) = u (c_{it} (s_t, x_{t - 1})) + \delta \sum_{s_{t + 1}} \pi(s_{t + 1} | s_t) V_i (s_{t + 1}, x_t(s_t, x_{t - 1})).
 $$
 
 The evolution of relative Pareto weights is fully characterized by state-dependent intervals, which give the weights in the case where PCs are binding (@Ligon2002).
@@ -136,7 +140,7 @@ calculateAutarkyValue <- function(
 
 ### Create grid of relative Pareto weights
 
-Here, I make the grid of relative Pareto weight of household 1, $x(s^t)$, on which I compute the values (I use the notation $x(s^t)$ rather than $x_i(s^t)$ since there are only two households).
+Here, I make the grid of relative Pareto weight of the household, $x(s^t)$, on which I compute the values (I use the notation $x(s^t)$ rather than $x_i(s^t)$ since there are only two households).
 
 ```{r}
 
@@ -169,11 +173,19 @@ getRelativeParetoWeightsGridPoints <- function(
 
 ### Calculate consumption on the grid points
  
-Then, I compute consumptions of the household 1 on these grid points. From the optimality condition and the CRRA utility functions, we obtain
+Then, I compute consumptions of the household on these grid points.
+From the optimality condition and the CRRA utility functions, we obtain
 
 $$
-  c_{1t} = \frac{y_{1t} + y_{2t}}{1 + x_t^{- 1 / \sigma}}.
+\begin{aligned}
+  \frac{c_{vt}^{-\sigma}}{c_{it}^{-\sigma}} &= x_{t} \\
+  \Leftrightarrow c_{vt} &= c_{it} x_t^{-1/\sigma} \\
+  \Leftrightarrow (N - 1) c_{vt} &= (N - 1) c_{it} x_t^{-1/\sigma} \\
+  \Leftrightarrow c_{it} + (N - 1) c_{vt} &= c_{it} \left( 1 + (N - 1) x_t^{-1/\sigma} \right) \\
+  \Leftrightarrow c_{it} &= \frac{y_t}{ \left( 1 + (N - 1) x_t^{-1/\sigma} \right)},
+\end{aligned}
 $$
+where $y_t$ is the village aggregate income and the last transformation used the village wide equals the aggregate income due to the no saving assumption.
 
 ```{r}
 calculateHouseholdConsumption <- function(
@@ -194,7 +206,7 @@ Note that, under full risk sharing, the consumption only depends on the aggregat
 Hence, I numerically solve the following Bellman equation:
 
 $$
-  V_i^{full}(s_t, x) = u_i(c_{it}(s_t, x)) + \delta \sum_{s^{t + 1}} \pi(s_{t + 1} | s_t) V_{i}^{full}(s_{t + 1}, x).
+  V_i^{full}(s_t, x) = u(c_{it}(s_t, x)) + \delta \sum_{s^{t + 1}} \pi(s_{t + 1} | s_t) V_{i}^{full}(s_{t + 1}, x).
 $$
 
 ```{r}
@@ -253,35 +265,35 @@ calculateValueFullRiskSharing <- function(
 
 ### Calculate values under risk-sharing with limited commitment
 
-Next, I derive the state-dependent intervals of relative Pareto weights and calculate values under the model of limited commitment. To derive the intervals, I use the fact that at the limits of the intervals, the PCs are binding. For instance, to compute the lower limit $\underline{x}^h(s)$, where $h$ indicates $h$'th iteration, the PC of the household 1 is binding:
+Next, I derive the state-dependent intervals of relative Pareto weights and calculate values under the model of limited commitment. To derive the intervals, I use the fact that at the limits of the intervals, the PCs are binding. For instance, to compute the lower limit $\underline{x}^h(s)$, where $h$ indicates $h$'th iteration, the PC of the household is binding:
 
 $$
-  u_1(c_1^h(s)) + \delta \sum_{s'} \pi(s' | s) V_1^{h - i} (s', \underline{x}^h(s)) = U_1^{aut}(s),
+  u(c_i^h(s)) + \delta \sum_{s'} \pi(s' | s) V_i^{h - i} (s', \underline{x}^h(s)) = U_i^{aut}(s),
 $$ 
 where the optimality condition is
 
 $$
-  \frac{u_2'(c_{2}^h(s))}{u_1'(c_{1}^h(s))} = \underline{x}^h(s).
+  \frac{u'(c_{2}^h(s))}{u'(c_{1}^h(s))} = \underline{x}^h(s).
 $$
 
-Notice that, once the PC binds, the past history, which is summarized by $x_{t - 1}$, does not matter. This property is called "amnesia" (@Kocherlakota1996) or "forgiveness" (@Ligon2002). Since $\underline{x}^h(s)$ may not be on the grid $q$, linear interpolation is used to compute $V_1^{h - 1}(s', \underline{x}^h(s))$.
+Notice that, once the PC binds, the past history, which is summarized by $x_{t - 1}$, does not matter. This property is called "amnesia" (@Kocherlakota1996) or "forgiveness" (@Ligon2002). Since $\underline{x}^h(s)$ may not be on the grid $q$, linear interpolation is used to compute $V_i^{h - 1}(s', \underline{x}^h(s))$.
 
-Similarly, $\overline{x}^h(s)$ is computed using the binding PC of the household 2
+Similarly, $\overline{x}^h(s)$ is computed using the binding PC of the village:
 
 $$
-  u_2(c_2^h(s)) + \delta \sum_{s'} \pi(s' | s) V_2^{h - i} (s', \overline{x}^h(s)) = U_2^{aut}(s),
+  u(c_v^h(s)) + \delta \sum_{s'} \pi(s' | s) V_v^{h - i} (s', \overline{x}^h(s)) = U_v^{aut}(s),
 $$ 
 where the optimality condition is
 
 $$
-  \frac{u_2'(c_{2}^h(s))}{u_1'(c_{1}^h(s))} = \overline{x}^h(s).
+  \frac{u'(c_{2}^h(s))}{u'(c_{1}^h(s))} = \overline{x}^h(s).
 $$
 
 After deriving these limits of intervals,
 
-1.  for relative Pareto weights below $\underline{x}^h(s)$, compute consumption of HH1 based on $\underline{x}^h(s)$ and let its value be $U_1^{aut}$;
-2.  for relative Pareto weights above $\overline{x}^h(s)$, compute consumption of HH1 based on $\overline{x}^h(s)$ and let the value of HH2 be $U_2^{aut}$;
-3.  for other relative Pareto weights, use them to compute consumption of HH1 and the values of households.
+1.  for relative Pareto weights below $\underline{x}^h(s)$, compute consumption of the household based on $\underline{x}^h(s)$ and let its value be $U_i^{aut}$;
+2.  for relative Pareto weights above $\overline{x}^h(s)$, compute consumption of the household based on $\overline{x}^h(s)$ and let the value of village be $U_v^{aut}$;
+3.  for other relative Pareto weights, use them to compute consumption of the household and the values of the household and village.
 
 By iterating these steps, we can calculate the value functions of households and limits of intervals.
 
