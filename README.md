@@ -1,6 +1,6 @@
-# Preface {.unnumbered}
+# Estimation of risk-sharing model with limited commitment
 
-This website showcases how to conduct a structural estimation of a risk-sharing model with limited commitment.
+This repo creates [a website](https://mizuhirosuzuki.github.io/risk_sharing_lc_estimation/) which showcases how to conduct a structural estimation of a risk-sharing model with limited commitment.
 It contains explanations on both theory and empirics.
 The code is largely based on the replication package of [Laczó (2015)](https://onlinelibrary.wiley.com/doi/abs/10.1111/jeea.12115).
 However, the purpose of this website is *not* to reproduce the paper's results.
