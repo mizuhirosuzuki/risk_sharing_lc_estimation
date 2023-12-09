@@ -290,7 +290,7 @@ div.csl-indent {
   \log \left(u'(c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) = \frac{1}{N - 1} \sum_{j \ne i} \log \left(u'(c_{jt}(s^t)) \right) + \frac{1}{N - 1} \sum_{j \ne i} \log \left(M_j(s^t) \right).
 \end{aligned}
 </span></p>
-<p>The pareto weights of <span class="math inline">N</span>-households are intractable and the dimension of the value function becomes too large. Hence, I take the “one-versus-the-rest” approach, as in <span class="citation" data-cites="Laczo2015">Laczó (<a href="#ref-Laczo2015" role="doc-biblioref">2015</a>)</span> and <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (<a href="#ref-Ligon2002" role="doc-biblioref">2002</a>)</span>. In particular, assume that “the rest of the village” has the same consumption (<span class="math inline">c_{vt}(s^t)</span>) and Pareto weights (<span class="math inline">M_v(s^t)</span>). Then the equation above becomes</p>
+<p>The pareto weights of <span class="math inline">N</span>-households are intractable and the dimension of the value function becomes too large. Hence, I take the “one-versus-the-rest” approach. In particular, assume that “the rest of the village” has the same consumption (<span class="math inline">c_{vt}(s^t)</span>) and Pareto weights (<span class="math inline">M_v(s^t)</span>). Then the equation above becomes</p>
 <p><span class="math display">
 \begin{aligned}
   \log \left(u'('c_{it}(s^t)) \right) + \log \left(M_i(s^t) \right) &amp;= \log \left(u'(c_{vt}(s^t)) \right) + \log \left( M_v(s^t) \right) \\
@@ -491,7 +491,7 @@ div.csl-indent {
 <li>for relative Pareto weights above <span class="math inline">\overline{x}^h(s)</span>, compute consumption of the household based on <span class="math inline">\overline{x}^h(s)</span> and let the value of village be <span class="math inline">U_v^{aut}</span>;</li>
 <li>for other relative Pareto weights, use them to compute consumption of the household and the values of the household and village.</li>
 </ol>
-<p>By iterating these steps, we can calculate the value functions of households and limits of intervals.</p>
+<p>By iterating these steps, we can calculate the value functions and limits of intervals.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>interpolateValueFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    relativeParetoWeight,</span>
@@ -1035,9 +1035,6 @@ div.csl-indent {
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-Kocherlakota1996" class="csl-entry" role="doc-biblioentry">
 Kocherlakota, N. R. 1996. <span>“<span class="nocase">Implications of Efficient Risk Sharing without Commitment</span>.”</span> <em>The Review of Economic Studies</em> 63 (4): 595–609. <a href="https://doi.org/10.2307/2297795">https://doi.org/10.2307/2297795</a>.
-</div>
-<div id="ref-Laczo2015" class="csl-entry" role="doc-biblioentry">
-Laczó, Sarolta. 2015. <span>“Risk Sharing with Limited Commitment and Preference Heterogeneity: Structural Estimation and Testing.”</span> <em>Journal of the European Economic Association</em> 13 (2): 265–92.
 </div>
 <div id="ref-Ligon2002" class="csl-entry" role="doc-biblioentry">
 Ligon, Ethan, Jonathan P. Thomas, and Tim Worrall. 2002. <span>“<span class="nocase">Informal Insurance Arrangements with Limited Commitment: Theory and Evidence from Village Economies</span>.”</span> <em>Review of Economic Studies</em> 69 (1): 209–44. <a href="https://doi.org/10.1111/1467-937X.00204">https://doi.org/10.1111/1467-937X.00204</a>.
