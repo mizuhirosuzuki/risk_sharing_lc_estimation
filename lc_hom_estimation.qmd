@@ -35,7 +35,7 @@ Therefore, for estimation, I use the simulated maximum likelihood method.
 
 ### Estimation steps
 
-1. Randomly generate measurement errors, and denote their $s$'th simulations for $i$ at $t$ by $\varepsilon_{s, i, t}^c$. Then calculate "true" consumption of households and "village", $c_{s, i, t} = c_{i, t}^* / \exp(\varepsilon_{s, i, t})$ and $c_{s, v, t} = \frac{1}{N} \sum_i c_{s, i, t}$.
+1. Randomly generate measurement errors, and denote their $s$'th simulations for $i$ at $t$ by $\varepsilon_{s, i, t}^c$. Then calculate "true" consumption of households and "village", $c_{s, i, t} = c_{i, t}^* / \exp(\varepsilon_{s, i, t})$ and $c_{s, v, t} = \exp \left( \frac{1}{N} \sum_i \log (c_{s, i, t}) \right)$. The latter is calculated this way, instead of $c_{s, v, t} = \frac{1}{N} \sum_i c_{s, i, t}$, to be aligned with how the village consumption is calculated in the full risk-sharing model estimation.
 2. Calculate the previous-period relative Pareto weight by $x_{s, t - 1} = \frac{c_{s, v, t - 1}^{-\sigma}}{c_{s, i, t - 1}^{-\sigma}}$.
 3. Predict the consumption given $x_{s, t - 1}$ and $y_{s, t}$. For this, get $x_{s, t}$ based on $x_{s, t - 1}$ and the bounds in relative Pareto weights given $\theta$ and $y_{s, t}$. Note that this updating rule approximates the $N$-household case by the "one-versus-the-other" approach.
 4. Calculate the likelihood by $f(\log(c_{it}^*) - \log \left( \widehat{c}_{it}(y_{s, t}, x_{s, t - 1}; \theta) \right), \theta)$, where $f(x, \theta)$ is the density function of $N(0, \gamma_C^2)$.
