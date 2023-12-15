@@ -574,7 +574,7 @@ solveLCRiskSharing <- function(
     numRelativeParetoWeights = 2000,
     iterationLimit = 100,
     diffLimit = 1e-8
-){
+) {
   
   incomeTransitionMatrix <- kronecker(
     villageIncomeTransitionMatrix,
@@ -814,6 +814,78 @@ LCRiskSharingResultLTW <- readRDS(
 ```
 
 ```{r}
+createLCFigure <- function(
+    deltaVec,
+    incomeGridPoints,
+    relativeParetoWeightBoundsArray
+) {
+  
+  LCFigure <- ggplot() +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[1,1,]), color = "a")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[1,2,]), color = "b")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[2,1,]), color = "c")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[2,2,]), color = "d")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[3,1,]), color = "e")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[3,2,]), color = "f")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[4,1,]), color = "g")) +
+    geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArray[4,2,]), color = "h")) +
+    coord_cartesian(
+      xlim = c(0.8, 1.0), 
+      ylim = c(
+        log(incomeGridPoints[1] / incomeGridPoints[2]),
+        log(incomeGridPoints[2] / incomeGridPoints[1])
+        )
+      ) +
+    geom_ribbon(aes(x = deltaVec,
+                    ymin = log(relativeParetoWeightBoundsArray[1,1,]),
+                    ymax = log(relativeParetoWeightBoundsArray[1,2,])),
+                    fill = "blue", alpha = 0.2) +
+    geom_ribbon(aes(x = deltaVec,
+                    ymin = log(relativeParetoWeightBoundsArray[2,1,]),
+                    ymax = log(relativeParetoWeightBoundsArray[2,2,])),
+                    fill = "red", alpha = 0.2) +
+    geom_ribbon(aes(x = deltaVec,
+                    ymin = log(relativeParetoWeightBoundsArray[3,1,]),
+                    ymax = log(relativeParetoWeightBoundsArray[3,2,])),
+                    fill = "green", alpha = 0.2) +
+    geom_ribbon(aes(x = deltaVec,
+                    ymin = log(relativeParetoWeightBoundsArray[4,1,]),
+                    ymax = log(relativeParetoWeightBoundsArray[4,2,])),
+                    fill = "yellow", alpha = 0.2) +
+    scale_color_manual(
+      name = "End-points",
+      values = c(
+        "blue",
+        "purple",
+        "brown",
+        "red",
+        "yellow",
+        "green",
+        "orange",
+        "gray"
+        ),
+      labels = unname(TeX(c(
+        "$\\underline{x}_{ll}$",
+        "$\\bar{x}_{ll}$",
+        "$\\underline{x}_{hl}$",
+        "$\\bar{x}_{hl}$",
+        "$\\underline{x}_{lh}$",
+        "$\\bar{x}_{lh}$",
+        "$\\underline{x}_{hh}$",
+        "$\\bar{x}_{hh}$"
+        )))
+      ) +
+    xlab("Discount factor (delta)") +
+    ylab("log of the relative Pareto weights (x)") +
+    theme_classic()
+  
+  return(LCFigure)
+}
+  
+```
+
+
+```{r}
 relativeParetoWeightBoundsArrayLTW = array(
   NA, 
   dim = c(numIncomeStatesLTW, 2, length(deltaVec))
@@ -825,63 +897,30 @@ for (deltaIndex in seq_along(deltaVec)) {
   )
 }
 
-ggplot() +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[1,1,]), color = "a")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[1,2,]), color = "b")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[2,1,]), color = "c")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[2,2,]), color = "d")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[3,1,]), color = "e")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[3,2,]), color = "f")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[4,1,]), color = "g")) +
-  geom_line(aes(deltaVec, log(relativeParetoWeightBoundsArrayLTW[4,2,]), color = "h")) +
-  coord_cartesian(
-    xlim = c(0.8, 1.0), 
-    ylim = c(
-      log(incomeGridPointsLTW[1] / incomeGridPointsLTW[2]),
-      log(incomeGridPointsLTW[2] / incomeGridPointsLTW[1])
-      )
-    ) +
-  geom_ribbon(aes(x = deltaVec,
-                  ymin = log(relativeParetoWeightBoundsArrayLTW[1,1,]),
-                  ymax = log(relativeParetoWeightBoundsArrayLTW[1,2,])),
-                  fill = "blue", alpha = 0.2) +
-  geom_ribbon(aes(x = deltaVec,
-                  ymin = log(relativeParetoWeightBoundsArrayLTW[2,1,]),
-                  ymax = log(relativeParetoWeightBoundsArrayLTW[2,2,])),
-                  fill = "red", alpha = 0.2) +
-  geom_ribbon(aes(x = deltaVec,
-                  ymin = log(relativeParetoWeightBoundsArrayLTW[3,1,]),
-                  ymax = log(relativeParetoWeightBoundsArrayLTW[3,2,])),
-                  fill = "green", alpha = 0.2) +
-  geom_ribbon(aes(x = deltaVec,
-                  ymin = log(relativeParetoWeightBoundsArrayLTW[4,1,]),
-                  ymax = log(relativeParetoWeightBoundsArrayLTW[4,2,])),
-                  fill = "yellow", alpha = 0.2) +
-  scale_color_manual(
-    name = "End-points",
-    values = c(
-      "blue",
-      "purple",
-      "brown",
-      "red",
-      "yellow",
-      "green",
-      "orange",
-      "gray"
-      ),
-    labels = unname(TeX(c(
-      "$\\underline{x}_{ll}$",
-      "$\\bar{x}_{ll}$",
-      "$\\underline{x}_{hl}$",
-      "$\\bar{x}_{hl}$",
-      "$\\underline{x}_{lh}$",
-      "$\\bar{x}_{lh}$",
-      "$\\underline{x}_{hh}$",
-      "$\\bar{x}_{hh}$"
-      )))
-    ) +
-  xlab("Discount factor (delta)") +
-  ylab("log of the relative Pareto weights (x)") +
-  theme_classic()
+LCFigure <- createLCFigure(
+    deltaVec,
+    incomeGridPointsLTW,
+    relativeParetoWeightBoundsArrayLTW
+)
+
+LCFigure
   
 ```
+
+```{r}
+
+saveRDS(
+  relativeParetoWeightBoundsArrayLTW,
+  file.path('IntermediateData/relativeParetoWeightBoundsArrayLTW.rds')
+)
+saveRDS(
+  createLCFigure,
+  file.path('IntermediateData/createLCFigure.rds')
+)
+saveRDS(
+  LCFigure,
+  file.path('IntermediateData/LCFigure.rds')
+)
+
+```
+
