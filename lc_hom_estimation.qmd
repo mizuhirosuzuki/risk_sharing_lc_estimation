@@ -413,6 +413,31 @@ toc()
 
 ```
 
+```{r, eval = FALSE, echo = FALSE}
+initialParam <- c(0.95, 3.0, 0.3, 0.03)
+lowerBounds <- c(0.5, 1.0, 0.0, 1e-3)
+upperBounds <- c(0.98, 5.0, 0.99, 1.0)
+
+res <- estimateMLLCHom(
+    initialParam,
+    lowerBounds,
+    upperBounds,
+    2,
+    consdat,
+    incdatRescaled,
+    householdIncMeanClassVec,
+    householdIncCVClassVec,
+    householdAR1EstimationResult,
+    villageAR1EstimationResult,
+    measurementErrorArray,
+    villageIndicatorMatrix,
+    numIncomeStates,
+    numSimulations
+)
+
+```
+
+
 ## Estimation result
 
 ```{r, eval = FALSE}
