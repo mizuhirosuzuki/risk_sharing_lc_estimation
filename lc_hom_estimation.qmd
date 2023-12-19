@@ -396,8 +396,8 @@ estimateMLLCHom <- function(
 library(tictoc)
 tic()
 calculateLogLikelihoodLCHom(
-  c(0.98, 3.5, 0.3, 0.05),
-  1,
+  c(0.748, 2.905, 0.347, 0.028),
+  2,
   consdat,
   incdatRescaled,
   householdIncMeanClassVec,
@@ -414,10 +414,10 @@ toc()
 ```
 
 ```{r, eval = FALSE, echo = FALSE}
-initialParam <- c(0.95, 3.0, 0.3, 0.03)
+initialParam <- c(0.80, 3.0, 0.3, 0.03)
 lowerBounds <- c(0.5, 1.0, 0.0, 1e-3)
 upperBounds <- c(0.98, 5.0, 0.99, 1.0)
-
+tic()
 res <- estimateMLLCHom(
     initialParam,
     lowerBounds,
@@ -434,6 +434,7 @@ res <- estimateMLLCHom(
     numIncomeStates,
     numSimulations
 )
+toc()
 
 ```
 
@@ -441,7 +442,6 @@ res <- estimateMLLCHom(
 ## Estimation result
 
 ```{r, eval = FALSE}
-
 initialParam <- c(0.95, 3.0, 0.3, 0.03)
 lowerBounds <- c(0.5, 1.0, 0.0, 1e-3)
 upperBounds <- c(0.98, 5.0, 0.99, 1.0)
