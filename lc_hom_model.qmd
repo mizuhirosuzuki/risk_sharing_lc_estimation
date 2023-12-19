@@ -367,22 +367,6 @@ calculateDiffLCRiskSharingAndAutarky <- function(
   ))
 }
 
-getClosestGridIndex <- function(
-  point,
-  gridPoints
-) {
-  closestGridIndex <- which.min(
-    abs(point - gridPoints) 
-  )
-  if (
-    point 
-    > gridPoints[closestGridIndex]
-    ) {
-    closestGridIndex <- closestGridIndex + 1
-  }
-  return(closestGridIndex)
-}
-
 calculateValueLCRiskSharing <- function(
   valueFullRiskSharing,
   consumptionOnRelativeParetoWeightGrid,
