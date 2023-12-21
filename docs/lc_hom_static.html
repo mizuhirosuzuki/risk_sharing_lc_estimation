@@ -244,6 +244,7 @@ div.csl-indent {
   <li><a href="#results-with-dynamic-limited-commitment-1" id="toc-results-with-dynamic-limited-commitment-1" class="nav-link" data-scroll-target="#results-with-dynamic-limited-commitment-1"><span class="toc-section-number">4.2.2</span>  Results with dynamic limited commitment</a></li>
   <li><a href="#consumption-volatility-in-the-two-models" id="toc-consumption-volatility-in-the-two-models" class="nav-link" data-scroll-target="#consumption-volatility-in-the-two-models"><span class="toc-section-number">4.2.3</span>  Consumption volatility in the two models</a></li>
   </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">4.3</span>  References</a></li>
   </ul>
 </nav>
     </div>
@@ -289,11 +290,11 @@ div.csl-indent {
   c_1(s, \underline{x}) = u^{-1} \left(U_1^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_1(s') \right)
 </span> and <span class="math display">
   c_1(s, \underline{x}) = y(s) - u^{-1} \left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right)
-</span> When <span class="math inline">u</span> is a CRRA utility function, <span class="math inline">c_1(s, x) = \frac{y}{1 + x^{- \sigma}}</span> and <span class="math inline">u^{-1}(u) = \left(u (1 - \sigma) \right)^{1 / (1 - \sigma)}</span>. With this, I get <span class="math display">
+</span> When <span class="math inline">u</span> is a CRRA utility function, <span class="math inline">c_1(s, x) = \frac{y}{1 + x^{- \sigma}}</span> and <span class="math inline">u^{-1}(u) = \left(u (1 - \sigma) \right)^{1 / (1 - \sigma)}</span> if <span class="math inline">\sigma \ne 1</span> and <span class="math inline">u^{-1}(u) = \exp(u)</span> if <span class="math inline">\sigma = 1</span>. With this, I get <span class="math display">
   \underline{x}(s) = \left( \frac{y(s)}{\left( \left(U_1^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_1(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}
 </span> and <span class="math display">
-  \overline{x}(s) = \left( \frac{y(s)}{ y(s) - \left(\left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}.
-</span></p>
+  \overline{x}(s) = \left( \frac{y(s)}{ y(s) - \left(\left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}
+</span> if <span class="math inline">\sigma \ne 1</span>. The case where <span class="math inline">\sigma = 1</span> is similar.</p>
 <section id="code-for-creating-a-diagram-for-a-static-limited-commitment-model" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="code-for-creating-a-diagram-for-a-static-limited-commitment-model"><span class="header-section-number">4.1</span> Code for creating a diagram for a static limited commitment model</h2>
 <div class="cell">
@@ -892,7 +893,7 @@ div.csl-indent {
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> -0.04 </td>
    <td style="text-align:left;"> Low, High </td>
-   <td style="text-align:right;"> -0.314 </td>
+   <td style="text-align:right;"> -0.313 </td>
    <td style="text-align:right;"> 0.980 </td>
    <td style="text-align:right;"> 1.020 </td>
    <td style="text-align:right;"> 0.667 </td>
@@ -922,7 +923,7 @@ div.csl-indent {
    <td style="text-align:right;"> 4 </td>
    <td style="text-align:right;"> 0.04 </td>
    <td style="text-align:left;"> High, Low </td>
-   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.313 </td>
    <td style="text-align:right;"> 1.020 </td>
    <td style="text-align:right;"> 0.980 </td>
    <td style="text-align:right;"> 1.333 </td>
@@ -982,7 +983,7 @@ div.csl-indent {
    <td style="text-align:right;"> 10 </td>
    <td style="text-align:right;"> 0.04 </td>
    <td style="text-align:left;"> High, Low </td>
-   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.313 </td>
    <td style="text-align:right;"> 1.020 </td>
    <td style="text-align:right;"> 0.980 </td>
    <td style="text-align:right;"> 1.333 </td>
@@ -1202,6 +1203,10 @@ div.csl-indent {
 
 </div>
 </div>
+</section>
+</section>
+<section id="references" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="references"><span class="header-section-number">4.3</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
@@ -1221,7 +1226,6 @@ Ligon, Ethan, Jonathan P. Thomas, and Tim Worrall. 2002. <span>“<span class="n
 Udry, Christopher. 1994. <span>“<span class="nocase">Risk and Insurance in a Rural Credit Market: An Empirical Investigation in North Nigeria</span>.”</span> <em>Review of Economic Studies</em> 61 (3): 495–526.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
