@@ -45,15 +45,17 @@ and
 $$
   c_1(s, \underline{x}) = y(s) - u^{-1} \left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right)
 $$
-When $u$ is a CRRA utility function, $c_1(s, x) = \frac{y}{1 + x^{- \sigma}}$ and $u^{-1}(u) = \left(u (1 - \sigma) \right)^{1 / (1 - \sigma)}$.
+When $u$ is a CRRA utility function, $c_1(s, x) = \frac{y}{1 + x^{- \sigma}}$ and $u^{-1}(u) = \left(u (1 - \sigma) \right)^{1 / (1 - \sigma)}$ if $\sigma \ne 1$ and $u^{-1}(u) = \exp(u)$ if $\sigma = 1$.
 With this, I get
 $$
   \underline{x}(s) = \left( \frac{y(s)}{\left( \left(U_1^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_1(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}
 $$
 and
 $$
-  \overline{x}(s) = \left( \frac{y(s)}{ y(s) - \left(\left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}.
+  \overline{x}(s) = \left( \frac{y(s)}{ y(s) - \left(\left(U_2^{aut}(s) - \delta \sum_{s'} Pr(s' | s) V_2(s') \right) (1 - \sigma) \right)^{1 / (1 - \sigma)}} \right)^{- \frac{1}{\sigma}}
 $$
+if $\sigma \ne 1$.
+The case where $\sigma = 1$ is similar.
 
 ## Code for creating a diagram for a static limited commitment model
 
@@ -153,16 +155,12 @@ calculateValueStaticLCRiskSharing <- function(
 ) {
   
   # Initial guess is expected utilities under full risk sharing
-  householdValueLCRiskSharing <- interpolateValueFunction(
-      initialRelativeParetoweight,
-      relativeParetoWeightsGridPoints,
-      valueFullRiskSharing$householdValueFullRiskSharing
-      )
-  villageValueLCRiskSharing <- interpolateValueFunction(
-      initialRelativeParetoweight,
-      relativeParetoWeightsGridPoints,
-      valueFullRiskSharing$villageValueFullRiskSharing
-      )
+  householdValueLCRiskSharing <- valueFullRiskSharing$householdValueFullRiskSharing[
+    , which.min(abs(initialRelativeParetoweight - relativeParetoWeightsGridPoints))
+    ]
+  villageValueLCRiskSharing <- valueFullRiskSharing$villageValueFullRiskSharing[
+    , which.min(abs(initialRelativeParetoweight - relativeParetoWeightsGridPoints))
+    ]
   
   householdConsumptionAtInitialRelativeParetoWeight <- calculateHouseholdConsumption(
       aggregateIncomeGridPoints,
@@ -226,123 +224,6 @@ calculateValueStaticLCRiskSharing <- function(
           + delta * incomeTransitionProbVec %*% householdValueLCRiskSharing
         )
       }
-      
-      
-      # if (
-      #   calculateDiffStaticLCRiskSharingAndAutarky(
-      #     min(relativeParetoWeightsGridPoints),
-      #     delta,
-      #     sigma,
-      #     aggregateIncome,
-      #     householdValueLCRiskSharing,
-      #     villageValueLCRiskSharing,
-      #     incomeTransitionProbVec,
-      #     householdAutarkyValue,
-      #     villageAutarkyValue,
-      #     numHouseholds
-      #     )$householdDiffLCRiskSharingAndAutarky < 0) {
-      #     relativeParetoWeightLowerBound <- tryCatch({
-      #       uniroot(
-      #         function(x) {calculateDiffStaticLCRiskSharingAndAutarky(
-      #         x,
-      #         delta,
-      #         sigma,
-      #         aggregateIncome,
-      #         householdValueLCRiskSharing,
-      #         villageValueLCRiskSharing,
-      #         incomeTransitionProbVec,
-      #         householdAutarkyValue,
-      #         villageAutarkyValue,
-      #         numHouseholds
-      #         )$householdDiffLCRiskSharingAndAutarky},
-      #       c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)),
-      #       tol = 1e-10,
-      #       maxiter = 300
-      #       )$root
-      #       }, error = function(e) {
-      #         relativeParetoWeightLowerBound <- max(relativeParetoWeightsGridPoints)
-      #       })
-      #     } else {
-      #       relativeParetoWeightLowerBound <- min(relativeParetoWeightsGridPoints)
-      #     }
-      # 
-      # if (
-      #   calculateDiffStaticLCRiskSharingAndAutarky(
-      #     max(relativeParetoWeightsGridPoints),
-      #     delta,
-      #     sigma,
-      #     aggregateIncome,
-      #     householdValueLCRiskSharing,
-      #     villageValueLCRiskSharing,
-      #     incomeTransitionProbVec,
-      #     householdAutarkyValue,
-      #     villageAutarkyValue,
-      #     numHouseholds
-      #     )$villageDiffLCRiskSharingAndAutarky < 0) {
-      #     relativeParetoWeightUpperBound <- tryCatch({
-      #       uniroot(
-      #         function(x) {calculateDiffStaticLCRiskSharingAndAutarky(
-      #         x,
-      #         delta,
-      #         sigma,
-      #         aggregateIncome,
-      #         householdValueLCRiskSharing,
-      #         villageValueLCRiskSharing,
-      #         incomeTransitionProbVec,
-      #         householdAutarkyValue,
-      #         villageAutarkyValue,
-      #         numHouseholds
-      #         )$villageDiffLCRiskSharingAndAutarky},
-      #       c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints)),
-      #       tol = 1e-10,
-      #       maxiter = 300
-      #       )$root
-      #       }, error = function(e) {
-      #         relativeParetoWeightUpperBound <- min(relativeParetoWeightsGridPoints)
-      #       })
-      #     } else {
-      #       relativeParetoWeightUpperBound <- max(relativeParetoWeightsGridPoints)
-      #     }
-      # 
-      # relativeParetoWeightBounds[incomeStateIndex, 1] <- relativeParetoWeightLowerBound
-      # relativeParetoWeightBounds[incomeStateIndex, 2] <- relativeParetoWeightUpperBound
-      # 
-      # householdConsumptionAtLowerBound <- calculateHouseholdConsumption(
-      #     aggregateIncome,
-      #     relativeParetoWeightLowerBound,
-      #     numHouseholds,
-      #     sigma
-      #   )
-      # householdConsumptionAtUpperBound <- calculateHouseholdConsumption(
-      #     aggregateIncome,
-      #     relativeParetoWeightUpperBound,
-      #     numHouseholds,
-      #     sigma
-      #   )
-      #     
-      # if (householdValueLCRiskSharingNew[incomeStateIndex] < householdAutarkyValue) {
-      #   householdValueLCRiskSharingNew[incomeStateIndex] <- householdAutarkyValue
-      #   villageValueLCRiskSharingNew[incomeStateIndex] <- max(
-      #     calculateUtility(
-      #       (aggregateIncome - householdConsumptionAtLowerBound) / (numHouseholds - 1), 
-      #       sigma
-      #       )
-      #     + delta * incomeTransitionProbVec %*% villageValueLCRiskSharing,
-      #     villageAutarkyValue
-      #   )
-      # }
-      # if (villageValueLCRiskSharingNew[incomeStateIndex] < villageAutarkyValue) {
-      #   villageValueLCRiskSharingNew[incomeStateIndex] <- villageAutarkyValue
-      #   householdValueLCRiskSharingNew[incomeStateIndex] <- max(
-      #     calculateUtility(
-      #       householdConsumptionAtUpperBound,
-      #       sigma
-      #       )
-      #     + delta * incomeTransitionProbVec %*% householdValueLCRiskSharing,
-      #     householdAutarkyValue
-      #   )
-      # }
-      # 
     }
     
     diff <- max(
@@ -398,7 +279,6 @@ calculateValueStaticLCRiskSharing <- function(
 }
 
 ```
-
 
 ```{r}
 solveStaticLCRiskSharing <- function(
@@ -832,3 +712,4 @@ tableCompare %>%
 
 ```
 
+## References

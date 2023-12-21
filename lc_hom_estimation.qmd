@@ -52,7 +52,8 @@ Here, $A(\widehat{\theta})$ is the Hessian matrix of the log-likelihood function
 pacman::p_load(
   tidyverse,
   kableExtra,
-  pracma
+  pracma,
+  tictoc
 )
 ```
 
@@ -333,6 +334,7 @@ estimateMLLCHom <- function(
   numSimulations
 ) {
   
+  tic()
   optimRes <- optim(
     initialParam,
     calculateLogLikelihoodLCHom,
@@ -385,6 +387,7 @@ estimateMLLCHom <- function(
     %*% (optimRes$hessian %>% solve) 
   ) %>% diag %>% sqrt
   
+  toc()
   return(list(optimRes = optimRes, standardErrors = standardErrors))
 }
 
@@ -417,7 +420,7 @@ toc()
 
 ```{r, eval = FALSE}
 
-initialParam <- c(0.95, 3.0, 0.3, 0.03)
+initialParam <- c(0.90, 3.0, 0.3, 0.03)
 lowerBounds <- c(0.5, 1.0, 0.0, 1e-3)
 upperBounds <- c(0.98, 5.0, 0.99, 1.0)
 
@@ -504,3 +507,5 @@ estimationLCHomTable %>%
   kable_classic()
 
 ```
+
+## References
