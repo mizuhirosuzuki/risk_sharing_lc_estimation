@@ -537,33 +537,6 @@ calculateValueLCRiskSharing <- function(
         relativeParetoWeightBounds[incomeStateIndex, 2] <- relativeParetoWeightUpperBound
         }
 
-  # for (incomeStateIndex in seq(1, numIncomeStates)) {
-  #   aggregateIncome <- aggregateIncomeGridPoints[incomeStateIndex]
-  #   incomeTransitionProbVec <- incomeTransitionMatrix[incomeStateIndex,]
-  #   householdAutarkyValue <- autarkyValueMatrix[incomeStateIndex, 1]
-  #   villageAutarkyValue <- autarkyValueMatrix[incomeStateIndex, 2]
-  # 
-  #   if (householdValueLCRiskSharing[incomeStateIndex, 1] <= householdAutarkyValue) {
-  #     relativeParetoWeightBounds[incomeStateIndex, 1] <- max(
-  #       relativeParetoWeightsGridPoints[
-  #         householdValueLCRiskSharing[incomeStateIndex, ] <= householdAutarkyValue
-  #       ]
-  #     )
-  #   } else {
-  #     relativeParetoWeightBounds[incomeStateIndex, 1] <- min(relativeParetoWeightsGridPoints)
-  #   }
-  # 
-  #   if (villageValueLCRiskSharing[incomeStateIndex, numRelativeParetoWeights] <= villageAutarkyValue) {
-  #     relativeParetoWeightBounds[incomeStateIndex, 2] <- min(
-  #       relativeParetoWeightsGridPoints[
-  #         villageValueLCRiskSharing[incomeStateIndex, ] <= villageAutarkyValue
-  #       ]
-  #     )
-  #   } else {
-  #     relativeParetoWeightBounds[incomeStateIndex, 2] <- max(relativeParetoWeightsGridPoints)
-  #   }
-  # }
-
   if (iteration == iterationLimit) {
     print("Reached the maximum limit of iterations!")
   }
